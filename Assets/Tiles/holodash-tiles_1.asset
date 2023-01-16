@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Artboard 1 copy 7
+  m_Name: holodash-tiles_1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 6ab6e62896db84f4ab3807d6dfbb1235, type: 3}
+  m_Sprite: {fileID: -1030572818, guid: ca87eacae751ea744bdbb0c58b7721eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
