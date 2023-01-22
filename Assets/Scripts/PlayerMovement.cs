@@ -11,19 +11,35 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing;
     private float dashTime = 0.2f;
     private float dashCD = 1f;
+    private KeyCode dashButton = KeyCode.LeftShift;
+
     private int jumpsLeft;
 
-    [SerializeField] private int numJumps;
+    private float coyoteTime = 0.1f;
+    private float coyoteTimeCounter;
+
+    private float jumpBufferTime = 0.1f;
+    private float jumpBufferCounter;
+
+    [SerializeField] private Ability dash;
+    [SerializeField] private ParticleSystem dashEffect;
+    [SerializeField] private TrailRenderer tr;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private int extraJumps;
     [SerializeField] private int horizontalSpeed;
     [SerializeField] private float jumpVelocity;
     [SerializeField] private float dashVelocity;
-    [SerializeField] private LayerMask groundLayer;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-        jumpsLeft = numJumps;
+        jumpsLeft = extraJumps;
+        dashTime = dash.castTime;
+        dashCD = dash.castCooldown;
+        dashButton = dash.keyPress;
     }
 
     // Update is called once per frame
@@ -35,21 +51,53 @@ public class PlayerMovement : MonoBehaviour
         }
         
         float horizontal = Input.GetAxisRaw("Horizontal");
-        bool jump = Input.GetButtonDown("Jump");
-        bool dash = Input.GetButtonDown("Fire3");
+        bool jumpPress = Input.GetButtonDown("Jump");
+        bool jumpRelease = Input.GetButtonUp("Jump");
+        bool dash = Input.GetKeyDown    (dashButton);
         rb.velocity = new Vector2(horizontal * horizontalSpeed, rb.velocity.y);
-        if(IsGrounded() && rb.velocity.y <= 0)
+        if(IsGrounded())
         {
-            jumpsLeft = numJumps;
+            if(rb.velocity.y <= 0f)
+            {
+                jumpsLeft = extraJumps;
+            }
+            coyoteTimeCounter = coyoteTime;
         }
-        if (jump && jumpsLeft > 0)
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (jumpPress)
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+        
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
-            jumpsLeft -= 1;
+        } 
+        else if (jumpPress && jumpsLeft > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+            jumpsLeft--;
+        }
+        
+        if (jumpRelease && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            coyoteTimeCounter = 0f;
+            jumpBufferCounter = 0f;
         }
         if (dash && canDash)
         {
-            StartCoroutine(Dash());
+            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            float aimAngle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x);
+            StartCoroutine(Dash(aimAngle));
         }
     }
 
@@ -68,14 +116,23 @@ public class PlayerMovement : MonoBehaviour
         return raycastHit2D.collider != null;
     }
     
-    IEnumerator Dash()
+    IEnumerator Dash(float angle)
     {
+        ParticleSystem.EmissionModule em = dashEffect.emission;
+        ParticleSystem.ShapeModule sm = dashEffect.shape;
+        sm.rotation = new Vector3(0f, -1f * angle * Mathf.Rad2Deg - 90f, 0f);
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
+        em.rateOverTime = 100;
         rb.gravityScale = 0f;
-        rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * dashVelocity, 0f);
+        
+        rb.velocity = new Vector2(Mathf.Cos(angle) * dashVelocity, Mathf.Sin(angle) * dashVelocity);
+        tr.emitting = true;
         yield return new WaitForSeconds(dashTime);
+        tr.emitting = false;
+        em.rateOverTime = 0;
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashCD);
