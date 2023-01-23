@@ -36,6 +36,9 @@ public class ShootScript : MonoBehaviour
                 Shoot();
             }
             Shoot();
+            void OnTriggerEnter(Collider collider){
+            Destroy(collider.gameObject);
+            }
         }
     }
 
@@ -47,9 +50,6 @@ public class ShootScript : MonoBehaviour
     void Shoot() {
         GameObject BulletInstance = Instantiate(Bullet, ShootPoint.position, ShootPoint.rotation);
         BulletInstance.GetComponent<Rigidbody2D>().AddForce(BulletInstance.transform.right * BulletSpeed);
-        if (BulletInstance.tag == "Cell") 
-         {
-             Destroy(BulletInstance);
-         }
+        Destroy(collider.gameObject);
     }
 }
