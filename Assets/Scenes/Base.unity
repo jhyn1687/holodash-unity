@@ -519,6 +519,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809d66fe9fe434921956e91b682b8a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Gun: {fileID: 1783445270}
+  Bullet: {fileID: 6257472744926558581, guid: ba0699a0f98cd4a88ae5c4e1f237e2dc, type: 3}
+  BulletSpeed: 1200
+  ShootPoint: {fileID: 2139830470}
+  fireRate: 2
 --- !u!1 &942337264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,7 +1585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1783445270}
   m_Layer: 0
-  m_Name: GunHolder
+  m_Name: Gun Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1612,7 +1617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1810012015}
   m_Layer: 0
-  m_Name: gun
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1645,7 +1650,7 @@ GameObject:
   - component: {fileID: 2139830470}
   - component: {fileID: 2139830471}
   m_Layer: 0
-  m_Name: 5_1
+  m_Name: Blue Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1706,7 +1711,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b0d04b0d5ffac465e810a4284ed37158, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
