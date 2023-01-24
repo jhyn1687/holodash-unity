@@ -4,23 +4,26 @@ using UnityEngine;
 
 public class ShootScript : MonoBehaviour
 {
-    public Transform Gun;
+    [SerializeField] private Transform Gun;
 
     Vector2 direction;
 
-    public GameObject Bullet;
+    [SerializeField] private GameObject Bullet;
 
-    public float BulletSpeed;
+    [SerializeField] private BulletProperty bulletProps;
 
-    public Transform ShootPoint;
+    [SerializeField] private Transform ShootPoint;
 
-    public float fireRate;
+    [SerializeField] private float fireRate;
     float ReadyForNextShot;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        SpriteRenderer sr = Bullet.GetComponent<SpriteRenderer>();
+        sr.sprite = bulletProps.bulletSprite;
+        BulletScript bs = Bullet.GetComponent<BulletScript>();
+        bs.bulletProps = this.bulletProps;
     }
 
     // Update is called once per frame
@@ -30,7 +33,7 @@ public class ShootScript : MonoBehaviour
         direction = mousePos - (Vector2)Gun.position;
         FaceMouse();
 
-        bool fire = Input.GetButtonDown("Fire1");
+        bool fire = Input.GetButton("Fire1");
 
         if(fire) {
             if(Time.time > ReadyForNextShot) {
@@ -47,6 +50,5 @@ public class ShootScript : MonoBehaviour
 
     void Shoot() {
         GameObject BulletInstance = Instantiate(Bullet, ShootPoint.position, ShootPoint.rotation);
-        //BulletInstance.GetComponent<Rigidbody2D>().AddForce(BulletInstance.transform.right * BulletSpeed);
     }
 }
