@@ -141,7 +141,7 @@ public class PlayerBehavior : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject collided = collision.gameObject;
         if(collided.layer == LayerMask.NameToLayer("Enemy")) {
-            collided.GetComponent<EnemyBehavior>().TakeDamage(10);
+            collided.GetComponent<HealthScript>().TakeDamage(10);
         }
     }
 }
