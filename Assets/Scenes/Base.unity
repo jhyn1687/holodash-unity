@@ -521,7 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gun: {fileID: 1783445270}
   Bullet: {fileID: 6257472744926558581, guid: ba0699a0f98cd4a88ae5c4e1f237e2dc, type: 3}
-  BulletSpeed: 1200
+  BulletSpeed: 500
   ShootPoint: {fileID: 2139830470}
   fireRate: 2
 --- !u!1 &942337264
@@ -1711,7 +1711,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b0d04b0d5ffac465e810a4284ed37158, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
