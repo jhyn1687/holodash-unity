@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerBehavior : MonoBehaviour
 {
     private Rigidbody2D rb;
     private BoxCollider2D coll;
+    private TrailRenderer tr;
 
     private bool canDash = true;
     private bool isDashing;
@@ -23,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Ability dash;
     [SerializeField] private ParticleSystem dashEffect;
-    [SerializeField] private TrailRenderer tr;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private int extraJumps;
@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        tr = GetComponent<TrailRenderer>();
         jumpsLeft = extraJumps;
         dashTime = dash.castTime;
         dashCD = dash.castCooldown;
@@ -49,11 +50,10 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        
         float horizontal = Input.GetAxisRaw("Horizontal");
         bool jumpPress = Input.GetButtonDown("Jump");
         bool jumpRelease = Input.GetButtonUp("Jump");
-        bool dash = Input.GetKeyDown    (dashButton);
+        bool dash = Input.GetKeyDown(dashButton);
         rb.velocity = new Vector2(horizontal * horizontalSpeed, rb.velocity.y);
         if(IsGrounded())
         {
@@ -109,7 +109,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     bool IsGrounded()
     {
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, groundLayer);
@@ -137,5 +136,12 @@ public class PlayerMovement : MonoBehaviour
         isDashing = false;
         yield return new WaitForSeconds(dashCD);
         canDash = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        GameObject collided = collision.gameObject;
+        if(collided.layer == LayerMask.NameToLayer("Enemy")) {
+            collided.GetComponent<EnemyBehavior>().TakeDamage(10);
+        }
     }
 }
