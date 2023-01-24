@@ -255,6 +255,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 721343454}
+  smoothTime: 0.25
+  offset: {x: 0, y: 0, z: -10}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &587021176
 GameObject:
   m_ObjectHideFlags: 0
@@ -5296,16 +5299,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566e231e505cbaf4dbb71dbdca35631b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dash: {fileID: 11400000, guid: 2d72b8eb0e91db140b26de61171a4e08, type: 2}
-  dashEffect: {fileID: 625917437}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  mainCamera: {fileID: 519420031}
-  extraJumps: 0
+
+  numJumps: 0
   horizontalSpeed: 5
   jumpVelocity: 10
   dashVelocity: 15
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &721343456
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5662,7 +5663,7 @@ SpriteRenderer:
   m_Size: {x: 0.6, y: 1.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1114926485
@@ -5693,6 +5694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5251e12476f7a540845c776acee73d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  coll: {fileID: 0}
   HP: 100
 --- !u!1 &1124836430
 GameObject:
@@ -7867,3 +7870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityImage: {fileID: 1837777385}
   ability: {fileID: 11400000, guid: 2d72b8eb0e91db140b26de61171a4e08, type: 2}
+  isCooldown: 0
+  castTime: 0
+  castCooldown: 0
+  keyPress: 0
