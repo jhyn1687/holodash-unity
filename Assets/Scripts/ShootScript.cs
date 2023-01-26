@@ -4,34 +4,41 @@ using UnityEngine;
 
 public class ShootScript : MonoBehaviour
 {
-    [SerializeField] private Transform Gun;
+    private SpriteRenderer sr;
 
-    Vector2 direction;
-
-    [SerializeField] private GameObject Bullet;
-
+    [SerializeField] private GameObject gunSprite;
+    [SerializeField] private GameObject bullet;
     [SerializeField] private BulletProperty bulletProps;
-
-    [SerializeField] private Transform ShootPoint;
-
+    [SerializeField] private Transform shootPoint;
     [SerializeField] private float fireRate;
+    
+    Vector2 direction;
     float ReadyForNextShot;
 
     // Start is called before the first frame update
     void Start()
     {
-        SpriteRenderer sr = Bullet.GetComponent<SpriteRenderer>();
-        sr.sprite = bulletProps.bulletSprite;
-        BulletScript bs = Bullet.GetComponent<BulletScript>();
-        bs.bulletProps = this.bulletProps;
+        SpriteRenderer bullet_sr = bullet.GetComponent<SpriteRenderer>();
+        bullet_sr.sprite = bulletProps.bulletSprite;
+        BulletScript bullet_bs = bullet.GetComponent<BulletScript>();
+        bullet_bs.bulletProps = this.bulletProps;
+        sr = gunSprite.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        direction = mousePos - (Vector2)Gun.position;
+        direction = mousePos - (Vector2)this.transform.position;
         FaceMouse();
+        if(direction.x < 0) 
+        {
+            sr.flipY = true;
+        } 
+        else 
+        {
+            sr.flipY = false;
+        }
 
         bool fire = Input.GetButton("Fire1");
 
@@ -45,10 +52,10 @@ public class ShootScript : MonoBehaviour
 
     void FaceMouse()
     {
-        Gun.transform.right = direction;
+        this.transform.right = direction;
     }
 
     void Shoot() {
-        GameObject BulletInstance = Instantiate(Bullet, ShootPoint.position, ShootPoint.rotation);
+        GameObject BulletInstance = Instantiate(bullet, shootPoint.position, shootPoint.rotation);
     }
 }
