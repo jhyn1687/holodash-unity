@@ -11,7 +11,7 @@ public class PlayerBehavior : MonoBehaviour
     private bool canDash = true;
     private bool isDashing;
     private float dashTime = 0.2f;
-    private float dashCD = 1f;
+    private float dashCD = 0.5f;
     private KeyCode dashButton = KeyCode.LeftShift;
 
     private int jumpsLeft;
@@ -61,6 +61,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 jumpsLeft = extraJumps;
             }
+
             coyoteTimeCounter = coyoteTime;
         }
         else
