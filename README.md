@@ -22,6 +22,8 @@ Create a project with 2D (URP). Then git clone the repo somewhere else and copy 
 
 ![image](https://user-images.githubusercontent.com/25493737/215223273-b156dd4a-16e8-4326-8d2a-6502872d6863.png)
 
+Project Settings > Physics 2D > Gravity > Y = -30 
+
 ## Make a branch and add stuff!
 
 How to branch and push to remote:
