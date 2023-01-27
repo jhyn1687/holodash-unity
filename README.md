@@ -8,7 +8,7 @@ Install [Git LFS](https://git-lfs.com/) just in case.
 
 ## Unity
 
-Create a project with 2D (URP), then git clone the folders into the project. Or git clone somewhere else and copy the folders in. (Let me know which one works, I haven't tested yet.)
+Create a project with 2D (URP). Then git clone the repo somewhere else and copy all the folders in.
 
 ## What's in this "base"?
 
@@ -17,6 +17,10 @@ Create a project with 2D (URP), then git clone the folders into the project. Or 
 * Player sprite w/ animation
 * Basic weapon shooting
 * Enemies with HP, basic sprite.
+
+## Variables to keep consistent
+
+![image](https://user-images.githubusercontent.com/25493737/215223273-b156dd4a-16e8-4326-8d2a-6502872d6863.png)
 
 ## Make a branch and add stuff!
 
