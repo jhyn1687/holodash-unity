@@ -12,15 +12,18 @@ Create a project with 2D (URP), then git clone the folders into the project. Or 
 
 ## What's in this "base"?
 
-Basic movement, physics, dashing, and a basic tile map.
-
-Things that you can change (and their default values) inside of the unity editor:
-
-```
-numJumps = 1
-horizontalSpeed = 5
-jumpVelocity = 5
-dashVelocity = 10
-```
+* Basic movement, physics, dashing
+* A basic tile palette.
+* Player sprite w/ animation
+* Basic weapon shooting
+* Enemies with HP, basic sprite.
 
 ## Make a branch and add stuff!
+
+How to branch and push to remote:
+```
+git checkout -b <name>
+git add .
+git commit -m "<message>"
+git push -u origin <name>
+```
