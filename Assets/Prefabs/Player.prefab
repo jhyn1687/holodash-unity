@@ -4967,7 +4967,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  mainCamera: {fileID: 0}
+  mainCamera: {fileID: 6399897130348717, guid: 3d0f253c29f1e27479bdcb67ce58ce9c, type: 3}
   extraJumps: 0
   horizontalSpeed: 5
   jumpVelocity: 10

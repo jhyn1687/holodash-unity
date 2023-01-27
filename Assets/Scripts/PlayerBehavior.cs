@@ -19,6 +19,7 @@ public class PlayerBehavior : MonoBehaviour
     private int jumpsLeft;
 
     private float horizontalInput;
+    private float aimAngle;
 
     private float coyoteTime = 0.1f;
     private float coyoteTimeCounter;
@@ -64,7 +65,10 @@ public class PlayerBehavior : MonoBehaviour
         bool jumpRelease = Input.GetButtonUp("Jump");
         bool dash = Input.GetKeyDown(dashButton);
         rb.velocity = new Vector2(horizontalInput * horizontalSpeed, rb.velocity.y);
-        if(IsGrounded())
+
+        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        aimAngle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x);
+        if (IsGrounded())
         {
             if(rb.velocity.y <= 0f)
             {
@@ -104,8 +108,6 @@ public class PlayerBehavior : MonoBehaviour
         }
         if (dash && canDash)
         {
-            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            float aimAngle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x);
             StartCoroutine(Dash(aimAngle));
         }
         UpdateAnimation();
@@ -126,12 +128,21 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void UpdateAnimation() {
         MovementState animationState;
+        Debug.Log(aimAngle * Mathf.Rad2Deg);
+
+        if (aimAngle * Mathf.Rad2Deg > -90 && aimAngle * Mathf.Rad2Deg < 90)
+        {
+            sr.flipX = false;
+        }
+        else
+        {
+            sr.flipX = true;
+        }
+        
         if (horizontalInput > 0f) {
             animationState = MovementState.running;
-            sr.flipX = false;
         } else if (horizontalInput < 0f) {
             animationState = MovementState.running;
-            sr.flipX = true;
         } else {
             animationState = MovementState.idle;
         }
