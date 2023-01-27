@@ -344,11 +344,7 @@ PrefabInstance:
       objectReference: {fileID: 326373343}
     - target: {fileID: 1392454718503928749, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
       propertyPath: m_Name
-      value: HUD (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392454718503928750, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
+      value: HUD
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
@@ -575,10 +571,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 326373343}
-    - target: {fileID: 3718101359043949183, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
-      propertyPath: dashVelocity
-      value: 31.61
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
 --- !u!1 &1297651082

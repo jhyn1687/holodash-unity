@@ -19,7 +19,7 @@ public class PlayerBehavior : MonoBehaviour
     private int jumpsLeft;
 
     private float horizontalInput;
-    private float aimAngle;
+    private Vector2 aimDirection;
 
     private float coyoteTime = 0.1f;
     private float coyoteTimeCounter;
@@ -66,8 +66,8 @@ public class PlayerBehavior : MonoBehaviour
         bool dash = Input.GetKeyDown(dashButton);
         rb.velocity = new Vector2(horizontalInput * horizontalSpeed, rb.velocity.y);
 
-        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        aimAngle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x);
+        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        aimDirection = mousePosition - (Vector2)this.transform.position;
         if (IsGrounded())
         {
             if(rb.velocity.y <= 0f)
@@ -108,6 +108,7 @@ public class PlayerBehavior : MonoBehaviour
         }
         if (dash && canDash)
         {
+            float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x);
             StartCoroutine(Dash(aimAngle));
         }
         UpdateAnimation();
@@ -128,17 +129,15 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void UpdateAnimation() {
         MovementState animationState;
-        Debug.Log(aimAngle * Mathf.Rad2Deg);
-
-        if (aimAngle * Mathf.Rad2Deg > -90 && aimAngle * Mathf.Rad2Deg < 90)
-        {
-            sr.flipX = false;
-        }
-        else
+        if (aimDirection.x < 0)
         {
             sr.flipX = true;
         }
-        
+        else
+        {
+            sr.flipX = false;
+        }
+
         if (horizontalInput > 0f) {
             animationState = MovementState.running;
         } else if (horizontalInput < 0f) {
