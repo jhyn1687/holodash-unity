@@ -7,6 +7,8 @@ public class PlayerBehavior : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private TrailRenderer tr;
+    private SpriteRenderer sr;
+    private Animator ani;
 
     private bool canDash = true;
     private bool isDashing;
@@ -16,11 +18,16 @@ public class PlayerBehavior : MonoBehaviour
 
     private int jumpsLeft;
 
+    private float horizontalInput;
+    private Vector2 aimDirection;
+
     private float coyoteTime = 0.1f;
     private float coyoteTimeCounter;
 
     private float jumpBufferTime = 0.1f;
     private float jumpBufferCounter;
+
+    private enum MovementState { idle, running, jumping, falling }
 
     [SerializeField] private Ability dash;
     [SerializeField] private ParticleSystem dashEffect;
@@ -37,6 +44,9 @@ public class PlayerBehavior : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
         tr = GetComponent<TrailRenderer>();
+        ani = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+
         jumpsLeft = extraJumps;
         dashTime = dash.castTime;
         dashCD = dash.castCooldown;
@@ -50,12 +60,15 @@ public class PlayerBehavior : MonoBehaviour
         {
             return;
         }
-        float horizontal = Input.GetAxisRaw("Horizontal");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
         bool jumpPress = Input.GetButtonDown("Jump");
         bool jumpRelease = Input.GetButtonUp("Jump");
         bool dash = Input.GetKeyDown(dashButton);
-        rb.velocity = new Vector2(horizontal * horizontalSpeed, rb.velocity.y);
-        if(IsGrounded())
+        rb.velocity = new Vector2(horizontalInput * horizontalSpeed, rb.velocity.y);
+
+        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        aimDirection = mousePosition - (Vector2)this.transform.position;
+        if (IsGrounded())
         {
             if(rb.velocity.y <= 0f)
             {
@@ -96,10 +109,10 @@ public class PlayerBehavior : MonoBehaviour
         }
         if (dash && canDash)
         {
-            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            float aimAngle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x);
+            float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x);
             StartCoroutine(Dash(aimAngle));
         }
+        UpdateAnimation();
     }
 
     void FixedUpdate()
@@ -115,7 +128,34 @@ public class PlayerBehavior : MonoBehaviour
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, groundLayer);
         return raycastHit2D.collider != null;
     }
-    
+    private void UpdateAnimation() {
+        MovementState animationState;
+        if (aimDirection.x < 0)
+        {
+            sr.flipX = true;
+        }
+        else
+        {
+            sr.flipX = false;
+        }
+
+        if (horizontalInput > 0f) {
+            animationState = MovementState.running;
+        } else if (horizontalInput < 0f) {
+            animationState = MovementState.running;
+        } else {
+            animationState = MovementState.idle;
+        }
+
+        if (rb.velocity.y > .1f) {
+            animationState = MovementState.jumping;
+        } else if (rb.velocity.y < -.1f) {
+            animationState = MovementState.falling;
+        }
+
+        ani.SetInteger("State", (int)animationState);
+    }
+
     IEnumerator Dash(float angle)
     {
         ParticleSystem.EmissionModule em = dashEffect.emission;
