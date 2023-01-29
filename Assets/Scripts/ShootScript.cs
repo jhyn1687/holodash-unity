@@ -75,4 +75,5 @@ public class ShootScript : MonoBehaviour
             Shoot(((minAim - (i * 3f)) + 360) % 360);
         }
     }
+
 }

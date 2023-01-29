@@ -28,6 +28,7 @@ public class AugmentBehavior : MonoBehaviour
         if(collision.CompareTag("Player"))
         {
             AugmentManager.Instance.addAugment(this.aug);
+            GameManager.Instance.OnAugmentPickup(this.aug);
             Object.Destroy(this.gameObject);
         }
     }

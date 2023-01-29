@@ -16,3 +16,4 @@ MonoBehaviour:
   damage: 10
   bulletSpeed: 600
   targetLayer: Enemy
+  ricochets: 0

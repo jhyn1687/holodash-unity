@@ -8,7 +8,7 @@ public class AugmentManager : MonoBehaviour
 
     public static List<Augment> allAugments;
     
-    public List<Augment> augments;
+    private List<Augment> augments = new List<Augment>();
     public static AugmentManager Instance {
         get {
             if (_instance == null) {
@@ -23,6 +23,7 @@ public class AugmentManager : MonoBehaviour
         allAugments = new List<Augment>(Resources.LoadAll<Augment>(""));
         _instance = this;
     }
+
     public static Augment GetID(int code)
     {
         return allAugments.Find(aug => aug.ID == code);
