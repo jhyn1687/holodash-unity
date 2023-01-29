@@ -19,6 +19,10 @@ public class BulletScript : MonoBehaviour
         GameObject collider = collision.gameObject;
         if (collider.layer == LayerMask.NameToLayer(bulletProps.targetLayer)) {
             collider.GetComponent<HealthScript>().TakeDamage(bulletProps.damage);
+            if (AugmentManager.Instance.hasAugment(AugmentManager.GetID(1)))
+            {
+                collider.GetComponent<HealthScript>().TakeDOT(5, 5);
+            }
             Object.Destroy(this.gameObject);
         } 
         else if (collider.layer == LayerMask.NameToLayer("Ground"))
