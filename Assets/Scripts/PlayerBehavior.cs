@@ -60,15 +60,12 @@ public class PlayerBehavior : MonoBehaviour
         {
             return;
         }
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontal = Input.GetAxisRaw("Horizontal");
         bool jumpPress = Input.GetButtonDown("Jump");
         bool jumpRelease = Input.GetButtonUp("Jump");
         bool dash = Input.GetKeyDown(dashButton);
-        rb.velocity = new Vector2(horizontalInput * horizontalSpeed, rb.velocity.y);
-
-        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        aimDirection = mousePosition - (Vector2)this.transform.position;
-        if (IsGrounded())
+        rb.velocity = new Vector2(horizontal * horizontalSpeed, rb.velocity.y);
+        if(IsGrounded())
         {
             if(rb.velocity.y <= 0f)
             {
@@ -109,7 +106,8 @@ public class PlayerBehavior : MonoBehaviour
         }
         if (dash && canDash)
         {
-            float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x);
+            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            float aimAngle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x);
             StartCoroutine(Dash(aimAngle));
         }
         UpdateAnimation();
