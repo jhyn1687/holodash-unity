@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 65d0620e87e90ef42937f04afd66f483
+guid: 105c88e9d95a26d40926fb2d84359c08
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -52,7 +52,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -104,11 +104,16 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -100, y: -100}
+      - {x: -100, y: 30}
+      - {x: -33, y: 100}
+      - {x: 100, y: 100}
+      - {x: 100, y: -100}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -117,7 +122,7 @@ TextureImporter:
     nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
+  pSDShowRemoveMatteOption: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 
