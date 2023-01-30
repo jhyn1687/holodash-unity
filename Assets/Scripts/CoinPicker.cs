@@ -7,12 +7,12 @@ public class CoinPicker : MonoBehaviour
 {
     private float coin = 0;
 
-    public TextMeshProUGUI textCoins;
+    [SerializeField] private TextMeshProUGUI textCoins;
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.tag == "Coin") {
             coin++;
-            textCoins.text = coin.ToString();
+            textCoins.SetText("Credits: " + coin);
             Destroy(other.gameObject);
         }
     }
