@@ -152,9 +152,10 @@ public class ChapterManager : MonoBehaviour
         foreach (Transform child in grid.transform) {
             GameObject.Destroy(child.gameObject);
         }
-
-        foreach(Transform enemy in enemiesContainer) {
-            GameObject.Destroy(enemy.gameObject);
+        if (enemiesContainer != null) { 
+            foreach (Transform enemy in enemiesContainer) {
+                GameObject.Destroy(enemy.gameObject);
+            }
         }
     }
 }
