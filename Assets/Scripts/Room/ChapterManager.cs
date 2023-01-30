@@ -28,14 +28,14 @@ public class ChapterManager : MonoBehaviour
     public const int NUMCHAPTERS = 8; 
 
     // reference to GameObject with Grid component at root
-    [SerializeField] public GameObject grid; 
+    [SerializeField] private Grid grid; 
 
-    [SerializeField] public GameObject startRoom;
-    [SerializeField] public GameObject endRoom;
-    [SerializeField] public GameObject ch0;
-    [SerializeField] public List<GameObject> ch1;
+    [SerializeField] private GameObject startRoom;
+    [SerializeField] private GameObject endRoom;
+    [SerializeField] private GameObject ch0;
+    [SerializeField] private List<GameObject> ch1;
 
-    [SerializeField] public GameObject[] enemies; // available enemies
+    [SerializeField] private GameObject[] enemies; // available enemies
 
     List<GameObject>[] chapterRooms;
 
@@ -43,7 +43,9 @@ public class ChapterManager : MonoBehaviour
     // we child GameObjects (enemies, coins, destructibles) in this Transform
     private Transform enemiesContainer;
 
-
+    void Start() {
+        enemiesContainer = new GameObject("Enemies").transform;
+    }
     /**
     Initializes all rooms for the current chapter.    
 
@@ -56,6 +58,7 @@ public class ChapterManager : MonoBehaviour
     */
     public void initChapter(int chapter)
     {
+        ClearLevel();
         if (chapter == 0) // if prologue
         {  
             initPrologue();
@@ -123,7 +126,7 @@ public class ChapterManager : MonoBehaviour
     void spawnEnemies(GameObject room)
     {
         if (enemiesContainer == null)
-            enemiesContainer = new GameObject ("Enemies").transform;
+            enemiesContainer = new GameObject("Enemies").transform;
 
         // get enemy positions from room.enemyPositions
         Vector2[] enemyPositions = room.GetComponent<Room>().enemyPositions;
@@ -145,4 +148,13 @@ public class ChapterManager : MonoBehaviour
         }
     }
 
+    void ClearLevel() {
+        foreach (Transform child in grid.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach(Transform enemy in enemiesContainer) {
+            GameObject.Destroy(enemy.gameObject);
+        }
+    }
 }

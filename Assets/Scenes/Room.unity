@@ -185,9 +185,20 @@ PrefabInstance:
     - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: grid
       value: 
-      objectReference: {fileID: 1342072001}
+      objectReference: {fileID: 1342072002}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+--- !u!114 &315180051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9000296169202079842, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
+  m_PrefabInstance: {fileID: 1330506705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &336557387
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,6 +317,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2983331790440032220, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
+      propertyPath: textCoins
+      value: 
+      objectReference: {fileID: 315180051}
     - target: {fileID: 3718101359043949178, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
       propertyPath: m_Name
       value: Player
@@ -538,6 +553,10 @@ PrefabInstance:
     - target: {fileID: 1392454718503928749, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000296169202079842, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
+      propertyPath: m_text
+      value: 'Credits: 0'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
