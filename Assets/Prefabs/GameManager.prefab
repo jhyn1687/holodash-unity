@@ -60,8 +60,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 0}
-  startRoom: {fileID: 0}
-  endRoom: {fileID: 0}
-  ch0: {fileID: 0}
-  ch1: []
+  startRoom: {fileID: 4262263799578425454, guid: 76cf5d3b871600643b57c82853460370, type: 3}
+  endRoom: {fileID: 5324278072101807575, guid: 0db42b42292358149a3f7b37fc9f3216, type: 3}
+  ch0: {fileID: 5412107753212336918, guid: e89d23739da9fb342bbe5f27b6acd4c9, type: 3}
+  ch1:
+  - {fileID: 5169520296300502564, guid: 19471f57e2dd9544593f1e25710f0c49, type: 3}
+  - {fileID: 694820205800710666, guid: a1e2540dbc031014a8cc7dc4b05449d6, type: 3}
+  - {fileID: 8887387769187405157, guid: cfbdf9a0d1558e849947583a4222ac34, type: 3}
+  - {fileID: 4891018322708378748, guid: fc8abdc1c0262f64289f960649c26677, type: 3}
+  - {fileID: 5754568270666150326, guid: c5a6ca4343c8aa84e85eb5a7e4539475, type: 3}
   enemies: []
