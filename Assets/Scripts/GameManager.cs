@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -13,10 +14,23 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+
+    private ChapterManager chapterScript;
+    
+    
     // Start is called before the first frame update
     void Awake()
     {
         _instance = this;
+        chapterScript = GetComponent<ChapterManager>();
+        InitGame();
+    }
+
+
+    void InitGame()
+    {
+        chapterScript.initChapter(0);
+
     }
 
 }
