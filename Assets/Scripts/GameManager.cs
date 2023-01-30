@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
 
     [SerializeField] public int CHAPTER;
 
+    [SerializeField] private TextMeshProUGUI AugmentPickupText;
+    
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -35,4 +38,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void OnAugmentPickup(Augment aug)
+    {
+        StartCoroutine(AugmentPickup(aug));
+    }
+
+    IEnumerator AugmentPickup(Augment aug)
+    {
+        yield return new WaitUntil(() => !AugmentPickupText.IsActive());
+        AugmentPickupText.SetText(aug.name + "\n" + aug.description);
+        AugmentPickupText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        AugmentPickupText.gameObject.SetActive(false);
+    }
 }

@@ -174,6 +174,7 @@ public class PlayerBehavior : MonoBehaviour
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashCD);
+        em.rateOverTime = 0;
         canDash = true;
     }
 

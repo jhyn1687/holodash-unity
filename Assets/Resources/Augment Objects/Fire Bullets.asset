@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075e8df4ca0b49144885cc19c19a260c, type: 3}
-  m_Name: Basic Friendly Bullet
+  m_Script: {fileID: 11500000, guid: df66ccc36a7823a43be03589332eeb49, type: 3}
+  m_Name: Fire Bullets
   m_EditorClassIdentifier: 
-  bulletSprite: {fileID: 21300000, guid: 5b4170b67e50246e5b20787f7ec335c0, type: 3}
-  damage: 10
-  bulletSpeed: 600
-  targetLayer: Enemy
+  ID: 1
+  description: Bullets deal fire damage
+  sprite: {fileID: 21300000, guid: 5d77d399ab3124148bcce49a4ea1583e, type: 3}
