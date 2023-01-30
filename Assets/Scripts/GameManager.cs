@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
+    [SerializeField] public int CHAPTER;
+
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
-        chapterScript.initChapter(0);
+        chapterScript.initChapter(CHAPTER);
 
     }
 
