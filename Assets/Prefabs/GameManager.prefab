@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2434135130777357094}
   - component: {fileID: 2434135130777357089}
+  - component: {fileID: 5846134382029998997}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,4 +45,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52a9160386e4d14cb84c682236d7d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CHAPTER: 0
   AugmentPickupText: {fileID: 0}
+--- !u!114 &5846134382029998997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434135130777357095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28023f00c2144c478a4b69b34223899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 0}
+  startRoom: {fileID: 0}
+  endRoom: {fileID: 0}
+  ch0: {fileID: 0}
+  ch1: []
+  enemies: []

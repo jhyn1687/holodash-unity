@@ -5,8 +5,12 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
+    [SerializeField] private int CHAPTER;
     [SerializeField] private TextMeshProUGUI AugmentPickupText;
-    
+
+    private ChapterManager chapterScript;
+
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -20,6 +24,15 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
+    }
+
+    void Start() {
+        chapterScript = GetComponent<ChapterManager>();
+        InitGame();
+    }
+
+    void InitGame() {
+        chapterScript.initChapter(CHAPTER);
     }
 
     public void OnAugmentPickup(Augment aug)
