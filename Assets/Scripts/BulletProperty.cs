@@ -9,4 +9,5 @@ public class BulletProperty : ScriptableObject {
 	public float damage;
 	public float bulletSpeed;
 	public string targetLayer;
+    public int ricochets;
 }

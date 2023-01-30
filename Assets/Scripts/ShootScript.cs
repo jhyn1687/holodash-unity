@@ -45,7 +45,7 @@ public class ShootScript : MonoBehaviour
         if(fire) {
             if(Time.time > ReadyForNextShot) {
                 ReadyForNextShot = Time.time + 1/fireRate;
-                Shoot();
+                HandleAugments();
             }
         }
     }
@@ -55,7 +55,25 @@ public class ShootScript : MonoBehaviour
         this.transform.right = direction;
     }
 
-    void Shoot() {
-        GameObject BulletInstance = Instantiate(bullet, shootPoint.position, shootPoint.rotation);
+    void Shoot(float angle) {
+        GameObject BulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.Euler(0, 0, angle));
     }
+
+    void HandleAugments()
+    {
+        float numShots = 1;
+        if (AugmentManager.Instance.hasAugment(AugmentManager.GetID(2)))
+        {
+            numShots += 1;
+        }
+
+        float currentAim = shootPoint.rotation.eulerAngles.z;
+        float minAim = currentAim + (1.5f * numShots);
+
+        for (int i = 0; i < numShots; i++)
+        {
+            Shoot(((minAim - (i * 3f)) + 360) % 360);
+        }
+    }
+
 }

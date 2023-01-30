@@ -25,7 +25,7 @@ public class AbilityButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(keyPress) && !isCooldown)
+        if(Input.GetKeyDown(keyPress) && !isCooldown)
         {
             isCooldown = true;
             abilityImage.fillAmount = 1;
