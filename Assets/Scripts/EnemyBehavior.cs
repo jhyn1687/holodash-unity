@@ -6,7 +6,7 @@ public class EnemyBehavior : MonoBehaviour
 {
     private Rigidbody2D rb;
     private BoxCollider2D coll;
-    private bool isQuitting = false;
+    private Animator ani;
     [SerializeField] private GameObject coin;
 
     // Start is called before the first frame update
@@ -14,6 +14,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        ani = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -21,16 +22,28 @@ public class EnemyBehavior : MonoBehaviour
         
     }
 
-    void OnApplicationQuit() {
-        isQuitting = true;
-    }
-
     // when enemy dies, drop coin for player to pickup
     // later can incorporate different amounts of coins for
     // different enemies, etc.
-    void OnDestroy() {
-        if (!isQuitting) {
-            Instantiate(coin, this.transform.position, this.transform.rotation);
+    public void OnDeath() {
+        Instantiate(coin, this.transform.position, this.transform.rotation);
+        Destroy(this.gameObject);
+    }
+    
+    public void OnDamageTaken() {
+        StartCoroutine(DamageAnimation());
+    }
+
+    IEnumerator DamageAnimation() {
+        ani.SetBool("Taking Damage", true);
+        yield return new WaitForSeconds(0.5f);
+        ani.SetBool("Taking Damage", false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        GameObject collided = collision.gameObject;
+        if (collided.CompareTag("Player")) {
+            collided.GetComponent<HealthScript>().TakeDamage(10);
         }
     }
 }

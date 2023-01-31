@@ -178,10 +178,20 @@ public class PlayerBehavior : MonoBehaviour
         canDash = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        GameObject collided = collision.gameObject;
-        if(collided.layer == LayerMask.NameToLayer("Enemy")) {
-            collided.GetComponent<HealthScript>().TakeDamage(10);
-        }
+    public void OnEndZoneReached() {
+        this.transform.position = new Vector2(2, 2);
+    }
+
+    public void OnReset() {
+        StopAllCoroutines();
+        jumpsLeft = extraJumps;
+        dashTime = dash.castTime;
+        dashCD = dash.castCooldown;
+        dashButton = dash.keyPress;
+        canDash = true;
+        tr.emitting = false;
+        ParticleSystem.EmissionModule em = dashEffect.emission;
+        em.rateOverTime = 0;
+        this.transform.position = new Vector2(2, 2);
     }
 }

@@ -46,11 +46,23 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnEndZoneReached() {
-        Debug.Log(currentChapter);
         currentChapter += 1;
         chapterScript.initChapter(currentChapter);
     }
 
+    public void OnReset() {
+        currentChapter = 0;
+        chapterScript.initChapter(currentChapter);
+        GameObject player = GameObject.FindWithTag("Player");
+        player.BroadcastMessage("OnReset");
+    }
+
+    public void OnDeath() {
+        currentChapter = 0;
+        chapterScript.initChapter(currentChapter);
+        GameObject player = GameObject.FindWithTag("Player");
+        player.BroadcastMessage("OnReset");
+    }
     public void OnAugmentPickup(Augment aug)
     {
         StartCoroutine(AugmentPickup(aug));
