@@ -6,8 +6,9 @@ public class EndzoneScript : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.tag == "Player") {
-            Debug.Log("trigger entered by player");
             GameManager.Instance.OnEndZoneReached();
+            GameObject player = GameObject.FindWithTag("Player");
+            player.BroadcastMessage("OnEndZoneReached");
         }
     }
 }
