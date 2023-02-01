@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-
+    public static event Action OnReset;
     [SerializeField] private int startingChapter;
     [SerializeField] private TextMeshProUGUI AugmentPickupText;
 
@@ -34,23 +35,21 @@ public class GameManager : MonoBehaviour
         chapterScript.initChapter(currentChapter);
     }
 
-    public void OnEndZoneReached() {
+    private void OnEndzoneReached() {
         currentChapter += 1;
         chapterScript.initChapter(currentChapter);
     }
 
-    public void OnReset() {
+    private void Reset() {
         currentChapter = 0;
         chapterScript.initChapter(currentChapter);
-        GameObject player = GameObject.FindWithTag("Player");
-        player.BroadcastMessage("OnReset");
+        OnReset?.Invoke();
     }
 
     public void OnDeath() {
         currentChapter = 0;
         chapterScript.initChapter(currentChapter);
-        GameObject player = GameObject.FindWithTag("Player");
-        player.BroadcastMessage("OnReset");
+        OnReset?.Invoke();
     }
     public void OnAugmentPickup(Augment aug)
     {
@@ -64,5 +63,12 @@ public class GameManager : MonoBehaviour
         AugmentPickupText.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         AugmentPickupText.gameObject.SetActive(false);
+    }
+
+    private void OnEnable() {
+        EndzoneScript.EndzoneReached += OnEndzoneReached;
+    }
+    private void OnDisable() {
+        EndzoneScript.EndzoneReached -= OnEndzoneReached;
     }
 }

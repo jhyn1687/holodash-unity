@@ -18,7 +18,14 @@ public class HPCounter : MonoBehaviour
         textCoins.SetText("HP: " + newHP.ToString("F0"));
     }
 
-    public void OnReset() {
-        textCoins.SetText("HP: " + hs.GetCurrentHP());
+    private void OnReset() {
+        textCoins.SetText("HP: " + hs.GetMaxHP());
+    }
+
+    private void OnEnable() {
+        GameManager.OnReset += OnReset;
+    }
+    private void OnDisable() {
+        GameManager.OnReset -= OnReset;
     }
 }

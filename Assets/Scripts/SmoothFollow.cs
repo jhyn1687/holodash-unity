@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SmoothFollow : MonoBehaviour
 {
-
 	[SerializeField] private Transform target;
 
 	private float smoothTime = 0.25f;
@@ -18,4 +17,14 @@ public class SmoothFollow : MonoBehaviour
 		transform.position = smoothedPosition;
 	}
 
+	private void OnEnable() {
+		GameManager.OnReset += ResetCamera;
+	}
+	private void OnDisable() {
+		GameManager.OnReset -= ResetCamera;
+	}
+
+	void ResetCamera() {
+		transform.position = target.position;
+	}
 }
