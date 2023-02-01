@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBehavior : MonoBehaviour
-{
+public class PlayerBehavior : MonoBehaviour {
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private TrailRenderer tr;
@@ -13,12 +13,13 @@ public class PlayerBehavior : MonoBehaviour
     private bool canDash = true;
     private bool isDashing;
     private float dashTime = 0.2f;
-    private float dashCD = 0.5f;
+    private float dashCD = 1f;
     private KeyCode dashButton = KeyCode.LeftShift;
 
     private int jumpsLeft;
 
     private float horizontalInput;
+    private float verticalInput;
     private Vector2 aimDirection;
 
     private float coyoteTime = 0.1f;
@@ -27,7 +28,19 @@ public class PlayerBehavior : MonoBehaviour
     private float jumpBufferTime = 0.1f;
     private float jumpBufferCounter;
 
+    private float originalGravity;
+
     private enum MovementState { idle, running, jumping, falling }
+    private enum DashDirection { 
+        North=90,
+        South=-90,
+        East=0, 
+        West=180,
+        NorthWest=135,
+        SouthWest=-135,
+        NorthEast=45,
+        SouthEast=-45
+    }
 
     [SerializeField] private Ability dash;
     [SerializeField] private ParticleSystem dashEffect;
@@ -51,6 +64,7 @@ public class PlayerBehavior : MonoBehaviour
         dashTime = dash.castTime;
         dashCD = dash.castCooldown;
         dashButton = dash.keyPress;
+        originalGravity = rb.gravityScale;
     }
 
     // Update is called once per frame
@@ -60,18 +74,45 @@ public class PlayerBehavior : MonoBehaviour
         {
             return;
         }
-        float horizontal = Input.GetAxisRaw("Horizontal");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+        bool jumpHold = Input.GetButton("Jump");
         bool jumpPress = Input.GetButtonDown("Jump");
         bool jumpRelease = Input.GetButtonUp("Jump");
         bool dash = Input.GetKeyDown(dashButton);
-        rb.velocity = new Vector2(horizontal * horizontalSpeed, rb.velocity.y);
-        if(IsGrounded())
+        rb.velocity = new Vector2(horizontalInput * horizontalSpeed, rb.velocity.y);
+
+        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        aimDirection = mousePosition - (Vector2)this.transform.position;
+        if (dash && canDash) {
+            DashDirection dir = aimDirection.x < 0 ? DashDirection.West : DashDirection.East;
+            if (horizontalInput > 0f) {
+                dir = DashDirection.East;
+                if (verticalInput > 0f) {
+                    dir = DashDirection.NorthEast;
+                } else if (verticalInput < 0f) {
+                    dir = DashDirection.SouthEast;
+                }
+            } else if (horizontalInput < 0f) {
+                dir = DashDirection.West;
+                if (verticalInput > 0f) {
+                    dir = DashDirection.NorthWest;
+                } else if (verticalInput < 0f) {
+                    dir = DashDirection.SouthWest;
+                }
+            } else if (verticalInput < 0f) {
+                dir = DashDirection.South;
+            } else if (verticalInput > 0f) {
+                dir = DashDirection.North;
+            }
+            StartCoroutine(Dash((int)dir * Mathf.Deg2Rad));
+        }
+        if (IsGrounded())
         {
             if(rb.velocity.y <= 0f)
             {
                 jumpsLeft = extraJumps;
             }
-
             coyoteTimeCounter = coyoteTime;
         }
         else
@@ -79,7 +120,7 @@ public class PlayerBehavior : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        if (jumpPress)
+        if (jumpHold)
         {
             jumpBufferCounter = jumpBufferTime;
         }
@@ -104,12 +145,7 @@ public class PlayerBehavior : MonoBehaviour
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
         }
-        if (dash && canDash)
-        {
-            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            float aimAngle = Mathf.Atan2(mousePosition.y - transform.position.y, mousePosition.x - transform.position.x);
-            StartCoroutine(Dash(aimAngle));
-        }
+        
         UpdateAnimation();
     }
 
@@ -123,11 +159,13 @@ public class PlayerBehavior : MonoBehaviour
 
     bool IsGrounded()
     {
-        RaycastHit2D raycastHit2D = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, groundLayer);
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x -.1f, coll.bounds.size.y - .2f), 0f, Vector2.down, .1f, groundLayer);
         return raycastHit2D.collider != null;
     }
+    
     private void UpdateAnimation() {
         MovementState animationState;
+        // flip sprite if aiming in certain direction
         if (aimDirection.x < 0)
         {
             sr.flipX = true;
@@ -137,6 +175,8 @@ public class PlayerBehavior : MonoBehaviour
             sr.flipX = false;
         }
 
+        // if player presses horizontal movement buttons
+        // change to running animation
         if (horizontalInput > 0f) {
             animationState = MovementState.running;
         } else if (horizontalInput < 0f) {
@@ -145,6 +185,8 @@ public class PlayerBehavior : MonoBehaviour
             animationState = MovementState.idle;
         }
 
+        // if midair and rising/falling, change to
+        // jump/fall animations
         if (rb.velocity.y > .1f) {
             animationState = MovementState.jumping;
         } else if (rb.velocity.y < -.1f) {
@@ -156,21 +198,20 @@ public class PlayerBehavior : MonoBehaviour
 
     IEnumerator Dash(float angle)
     {
+        // setting params for during dash
         ParticleSystem.EmissionModule em = dashEffect.emission;
-        ParticleSystem.ShapeModule sm = dashEffect.shape;
-        sm.rotation = new Vector3(0f, -1f * angle * Mathf.Rad2Deg - 90f, 0f);
         canDash = false;
         isDashing = true;
-        float originalGravity = rb.gravityScale;
+        Vector2 originalVelocity = rb.velocity;
         em.rateOverTime = 100;
         rb.gravityScale = 0f;
-        
         rb.velocity = new Vector2(Mathf.Cos(angle) * dashVelocity, Mathf.Sin(angle) * dashVelocity);
         tr.emitting = true;
         yield return new WaitForSeconds(dashTime);
+        // resetting params
         tr.emitting = false;
         em.rateOverTime = 0;
-        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.velocity = new Vector2(originalVelocity.x, 0);
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashCD);
@@ -178,11 +219,12 @@ public class PlayerBehavior : MonoBehaviour
         canDash = true;
     }
 
-    public void OnEndZoneReached() {
+    private void OnEndZoneReached() {
         this.transform.position = new Vector2(2, 2);
     }
 
-    public void OnReset() {
+    private void OnReset() {
+        // stop any dashes, and also reset everything that may have been changed in dash.
         StopAllCoroutines();
         jumpsLeft = extraJumps;
         dashTime = dash.castTime;
@@ -193,5 +235,16 @@ public class PlayerBehavior : MonoBehaviour
         ParticleSystem.EmissionModule em = dashEffect.emission;
         em.rateOverTime = 0;
         this.transform.position = new Vector2(2, 2);
+        rb.velocity = new Vector2(0, 0);
+        rb.gravityScale = originalGravity;
+    }
+
+    private void OnEnable() {
+        GameManager.OnReset += OnReset;
+        EndzoneScript.EndzoneReached += OnEndZoneReached;
+    }
+    private void OnDisable() {
+        GameManager.OnReset -= OnReset;
+        EndzoneScript.EndzoneReached -= OnEndZoneReached;
     }
 }

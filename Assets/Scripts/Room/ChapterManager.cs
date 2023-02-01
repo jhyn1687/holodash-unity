@@ -18,14 +18,11 @@ TODO:
  - [] TODO: you can put all chapter room arrays in another array,
             with indices 0=prologue 1=ch1, 7=ch7, etc
  - [] Make placeRooms() recursive, in preparation for Branch Rooms 
- - [] Making edits to enemy positions
+
 
 */
 public class ChapterManager : MonoBehaviour
 {
-
-    public const bool DEBUG = false; 
-
     // amount of total possible randomly generated rooms for this chapter
     public const int NUMROOMS = 5; 
     public const int NUMCHAPTERS = 8; 
@@ -82,12 +79,6 @@ public class ChapterManager : MonoBehaviour
         // GameObject tutorialInstance = Instantiate(ch0, startRoomExit, Quaternion.identity) as GameObject;
         // tutorialInstance.transform.SetParent(grid.transform);
         spawnEnemies(placeRoom(ch0, startRoomExit));
-    
-        if (DEBUG)
-        {
-            GameObject Clint = GameObject.Find("Player");
-            Clint.transform.SetPositionAndRotation(new Vector3(85, 4, 0), Quaternion.identity);
-        }
     }
 
     // Will initialize all rooms, connecting them properly.

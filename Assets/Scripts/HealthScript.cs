@@ -39,12 +39,18 @@ public class HealthScript : MonoBehaviour {
         }
     }
 
-    public void OnReset() {
+    private void OnReset() {
         hasBroadcasted = false;
         HP = maxHP;
     }
 
-    public float GetCurrentHP() {
-        return HP;
+    private void OnEnable() {
+        GameManager.OnReset += OnReset;
+    }
+    private void OnDisable() {
+        GameManager.OnReset -= OnReset;
+    }
+    public float GetMaxHP() {
+        return maxHP;
     }
 }

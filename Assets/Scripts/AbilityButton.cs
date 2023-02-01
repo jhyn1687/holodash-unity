@@ -42,4 +42,16 @@ public class AbilityButton : MonoBehaviour
             }
         }
     }
+
+    private void OnReset() {
+        abilityImage.fillAmount = 0;
+        isCooldown = false;
+    }
+
+    private void OnEnable() {
+        GameManager.OnReset += OnReset;
+    }
+    private void OnDisable() {
+        GameManager.OnReset -= OnReset;
+    }
 }

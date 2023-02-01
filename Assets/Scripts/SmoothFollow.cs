@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class SmoothFollow : MonoBehaviour
 {
-
 	[SerializeField] private Transform target;
 
 	private float smoothTime = 0.25f;
-	private Vector3 offset = new Vector3(0f, 0f, -5f);
+	private Vector3 offset = new Vector3(0f, 0f, -10f);
 	private Vector3 velocity = Vector3.zero;
 
 	void Update()
@@ -18,4 +17,14 @@ public class SmoothFollow : MonoBehaviour
 		transform.position = smoothedPosition;
 	}
 
+	private void OnEnable() {
+		GameManager.OnReset += ResetCamera;
+	}
+	private void OnDisable() {
+		GameManager.OnReset -= ResetCamera;
+	}
+
+	void ResetCamera() {
+		transform.position = target.position;
+	}
 }

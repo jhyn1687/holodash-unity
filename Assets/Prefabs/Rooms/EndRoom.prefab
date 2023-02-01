@@ -20716,11 +20716,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5324278072101807575}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a925f6a2cf5ace46a89de5f6dd93f13, type: 3}
+  m_Script: {fileID: 11500000, guid: f00b1653acdf73a489b77f9d9c6de3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   entrance: {x: 0, y: 11}
-  exit: {x: 0, y: 0}
+  exit: {x: 0, y: 11}
   enemyPositions: []
   destructiblePositions: []
   doorPositions: []
