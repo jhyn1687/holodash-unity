@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour {
-    public static event Action OnDash;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private TrailRenderer tr;

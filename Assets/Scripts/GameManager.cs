@@ -45,12 +45,6 @@ public class GameManager : MonoBehaviour
         chapterScript.initChapter(currentChapter);
         OnReset?.Invoke();
     }
-
-    public void OnDeath() {
-        currentChapter = 0;
-        chapterScript.initChapter(currentChapter);
-        OnReset?.Invoke();
-    }
     public void OnAugmentPickup(Augment aug)
     {
         StartCoroutine(AugmentPickup(aug));
@@ -67,8 +61,10 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable() {
         EndzoneScript.EndzoneReached += OnEndzoneReached;
+        PlayerDeath.OnPlayerDeath += Reset;
     }
     private void OnDisable() {
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
+        PlayerDeath.OnPlayerDeath += Reset;
     }
 }
