@@ -197,6 +197,14 @@ PrefabInstance:
       propertyPath: grid
       value: 
       objectReference: {fileID: 1342072002}
+    - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+      propertyPath: ch1.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+      propertyPath: ch1.Array.data[5]
+      value: 
+      objectReference: {fileID: 3691490908677307273, guid: 7e7b86411698ede45af1942b99905716, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
 --- !u!114 &315180051 stripped
@@ -336,6 +344,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82b114e6c03ff9a43ac4191d21209eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &450354769 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2434135130777357089, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+  m_PrefabInstance: {fileID: 301594484}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450354763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52a9160386e4d14cb84c682236d7d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &842760597 stripped
@@ -1018,16 +1037,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 450354767}
-        m_TargetAssemblyTypeName: ResetGame, Assembly-CSharp
-        m_MethodName: OnResetGame
-        m_Mode: 1
+      - m_Target: {fileID: 450354769}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: BroadcastMessage
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Reset
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2094607576

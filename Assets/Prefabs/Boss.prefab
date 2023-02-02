@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 6713606312490413161}
   - component: {fileID: 7740602220575310482}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ Transform:
   m_GameObject: {fileID: 6713606312490413155}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6713606311709938943}
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0bb64d2ccaead4384135f20d07c8a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 50
+  maxHP: 500
 --- !u!95 &7740602220575310482
 Animator:
   serializedVersion: 5

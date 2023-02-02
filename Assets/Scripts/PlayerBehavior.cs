@@ -70,16 +70,32 @@ public class PlayerBehavior : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (isDashing)
-        {
-            return;
-        }
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
         bool jumpHold = Input.GetButton("Jump");
         bool jumpPress = Input.GetButtonDown("Jump");
         bool jumpRelease = Input.GetButtonUp("Jump");
         bool dash = Input.GetKeyDown(dashButton);
+        if (IsGrounded()) {
+            if (rb.velocity.y <= 0f) {
+                jumpsLeft = extraJumps;
+            }
+            coyoteTimeCounter = coyoteTime;
+        } else {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (jumpHold) {
+            jumpBufferCounter = jumpBufferTime;
+        } else {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (isDashing)
+        {
+            return;
+        }
+        
         rb.velocity = new Vector2(horizontalInput * horizontalSpeed, rb.velocity.y);
 
         Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -107,27 +123,7 @@ public class PlayerBehavior : MonoBehaviour {
             }
             StartCoroutine(Dash((int)dir * Mathf.Deg2Rad));
         }
-        if (IsGrounded())
-        {
-            if(rb.velocity.y <= 0f)
-            {
-                jumpsLeft = extraJumps;
-            }
-            coyoteTimeCounter = coyoteTime;
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        if (jumpHold)
-        {
-            jumpBufferCounter = jumpBufferTime;
-        }
-        else
-        {
-            jumpBufferCounter -= Time.deltaTime;
-        }
+        
         
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
@@ -230,6 +226,7 @@ public class PlayerBehavior : MonoBehaviour {
         dashTime = dash.castTime;
         dashCD = dash.castCooldown;
         dashButton = dash.keyPress;
+        isDashing = false;
         canDash = true;
         tr.emitting = false;
         ParticleSystem.EmissionModule em = dashEffect.emission;
