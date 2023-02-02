@@ -101,11 +101,13 @@ public class ChapterManager : MonoBehaviour
     {
         placeRoom(startRoom, new Vector2(0f, 0f));
         Vector2 lastExit = startRoom.GetComponent<Room>().exit;
+        // cloning the chapter so that reset doesn't delete the original rooms.
+        List<GameObject> ch1_clone = new List<GameObject>(ch1);
         for (int i = 0; i < NUMROOMS; i++)
         {
-            int randy = Random.Range (0, ch1.Count-1);
-            GameObject randRoom = ch1[randy];
-            ch1.RemoveAt(randy);
+            int randy = Random.Range (0, ch1_clone.Count-1);
+            GameObject randRoom = ch1_clone[randy];
+            ch1_clone.RemoveAt(randy);
             Vector2 rrEntrance = randRoom.GetComponent<Room>().entrance;
             Vector2 rrExit = randRoom.GetComponent<Room>().exit;
 
