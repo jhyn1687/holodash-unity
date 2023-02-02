@@ -20737,10 +20737,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
-    - target: {fileID: 6713606312490413165, guid: 0ee47e49fd31bed4a8bc1d233a41236f, type: 3}
-      propertyPath: m_Mass
-      value: 59.151
-      objectReference: {fileID: 0}
     - target: {fileID: 6713606312490413166, guid: 0ee47e49fd31bed4a8bc1d233a41236f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -20810,10 +20806,6 @@ PrefabInstance:
     - target: {fileID: 6713606312490413155, guid: 08f12444c4015fc4287cc65a2bae24b0, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6713606312490413165, guid: 08f12444c4015fc4287cc65a2bae24b0, type: 3}
-      propertyPath: m_Mass
-      value: 2.3660398
       objectReference: {fileID: 0}
     - target: {fileID: 6713606312490413166, guid: 08f12444c4015fc4287cc65a2bae24b0, type: 3}
       propertyPath: m_RootOrder

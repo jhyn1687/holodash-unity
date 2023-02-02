@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
 
     private int currentChapter;
 
-    private ChapterManager chapterScript;
-
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -31,18 +29,17 @@ public class GameManager : MonoBehaviour
 
     void Start() {
         currentChapter = startingChapter;
-        chapterScript = GetComponent<ChapterManager>();
-        chapterScript.initChapter(currentChapter);
+        ChapterManager.Instance.initChapter(currentChapter);
     }
 
     private void OnEndzoneReached() {
         currentChapter += 1;
-        chapterScript.initChapter(currentChapter);
+        ChapterManager.Instance.initChapter(currentChapter);
     }
 
     private void Reset() {
         currentChapter = 0;
-        chapterScript.initChapter(currentChapter);
+        ChapterManager.Instance.initChapter(currentChapter);
         OnReset?.Invoke();
     }
     public void OnAugmentPickup(Augment aug)

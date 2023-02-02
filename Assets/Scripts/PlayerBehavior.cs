@@ -122,8 +122,8 @@ public class PlayerBehavior : MonoBehaviour {
                 dir = DashDirection.North;
             }
             StartCoroutine(Dash((int)dir * Mathf.Deg2Rad));
+            return;
         }
-        
         
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
@@ -243,5 +243,12 @@ public class PlayerBehavior : MonoBehaviour {
     private void OnDisable() {
         GameManager.OnReset -= OnReset;
         EndzoneScript.EndzoneReached -= OnEndZoneReached;
+    }
+    // hackjob knockback
+    private void OnCollisionEnter2D(Collision2D collision) {
+        GameObject collided = collision.gameObject;
+        if (collided.CompareTag("Enemy")) {
+            rb.velocity = new Vector2(0f, 10f);
+        }
     }
 }

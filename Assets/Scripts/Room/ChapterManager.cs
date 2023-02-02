@@ -23,6 +23,16 @@ TODO:
 */
 public class ChapterManager : MonoBehaviour
 {
+    // using the singleton pattern for the ChapterManager
+    private static ChapterManager _instance;
+    public static ChapterManager Instance {
+        get {
+            if (_instance == null) {
+                Debug.Log("Chapter Manager is null");
+            }
+            return _instance;
+        }
+    }
     // amount of total possible randomly generated rooms for this chapter
     public const int NUMROOMS = 5; 
     public const int NUMCHAPTERS = 8; 
@@ -43,8 +53,12 @@ public class ChapterManager : MonoBehaviour
     // we child GameObjects (enemies, coins, destructibles) in this Transform
     private Transform enemiesContainer;
 
-    void Start() {
+    void Awake() {
+        _instance = this;
         enemiesContainer = new GameObject("Enemies").transform;
+    }
+
+    void Start() {
     }
     /**
     Initializes all rooms for the current chapter.    

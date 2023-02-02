@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a4d8c6dccf46f6a479938241b46573c2
+guid: 28db72a2cfc50a345a97bef0e3032393
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -52,7 +52,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -104,26 +104,11 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline:
-    - - {x: 20, y: 21}
-      - {x: -14, y: 21}
-      - {x: -26, y: -13}
-      - {x: -45, y: -14}
-      - {x: -46, y: -29}
-      - {x: -19, y: -29}
-      - {x: -30, y: -50}
-      - {x: -9, y: -50}
-      - {x: -4, y: -38}
-      - {x: 12, y: -36}
-      - {x: 20, y: -50}
-      - {x: 31, y: -50}
-      - {x: 35, y: -37}
-      - {x: 41, y: -25}
-      - {x: 31, y: -4}
+    outline: []
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -132,7 +117,7 @@ TextureImporter:
     nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
+  pSDShowRemoveMatteOption: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

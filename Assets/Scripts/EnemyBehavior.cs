@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private BoxCollider2D coll;
     private Animator ani;
     [SerializeField] private GameObject coin;
 
@@ -13,7 +12,6 @@ public class EnemyBehavior : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<BoxCollider2D>();
         ani = GetComponent<Animator>();
     }
 
