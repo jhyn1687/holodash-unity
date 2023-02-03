@@ -101,12 +101,23 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         yield return new WaitForSeconds(0.5f);
         ani.SetBool("Taking Damage", false);
     }
+    void OnAugmentPickup(int id) {
+        switch (AugmentManager.GetName(id)) {
+            case "Extra Health":
+                maxHP += 50;
+                break;
+            default:
+                break;
+        }
+    }
     private void OnEnable() {
         GameManager.OnReset += OnReset;
         EndzoneScript.EndzoneReached += OnEndZoneReached;
+        AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
     private void OnDisable() {
         GameManager.OnReset -= OnReset;
         EndzoneScript.EndzoneReached -= OnEndZoneReached;
+        AugmentManager.OnAugmentPickup -= OnAugmentPickup;
     }
 }

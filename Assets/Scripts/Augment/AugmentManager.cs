@@ -1,14 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AugmentManager : MonoBehaviour
 {
+    public static event Action<int> OnAugmentPickup;
     private static AugmentManager _instance;
 
     public static List<Augment> allAugments;
-    
-    private List<Augment> augments = new List<Augment>();
     public static AugmentManager Instance {
         get {
             if (_instance == null) {
@@ -23,24 +23,15 @@ public class AugmentManager : MonoBehaviour
         allAugments = new List<Augment>(Resources.LoadAll<Augment>(""));
         _instance = this;
     }
+    public void AugmentPickup(Augment aug) {
+        OnAugmentPickup?.Invoke(aug.ID);
+    }
 
-    public static Augment GetID(int code)
+    public static string GetName(int code)
     {
+        return allAugments.Find(aug => aug.ID == code).augmentName;
+    }
+    public static Augment GetAugment(int code) {
         return allAugments.Find(aug => aug.ID == code);
-    }
-
-    public void addAugment(Augment aug)
-    {
-        augments.Add(aug);
-    }
-
-    public void removeAugment(Augment aug)
-    {
-        augments.Remove(aug);
-    }
-    
-    public bool hasAugment(Augment aug)
-    {
-        return augments.Contains(aug);
     }
 }

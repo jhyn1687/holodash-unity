@@ -6,23 +6,28 @@ public class ShootScript : MonoBehaviour
 {
     private SpriteRenderer sr;
 
-    [SerializeField] private GameObject gunSprite;
+
+    [Header("Bullet Properties")]
     [SerializeField] private GameObject bullet;
     [SerializeField] private BulletProperty bulletProps;
+    [SerializeField] private Transform bulletContainer;
+
+    [Header("Gun Properties")]
+    [SerializeField] private GameObject gunSprite;
     [SerializeField] private Transform shootPoint;
     [SerializeField] private float fireRate;
-    
+    [SerializeField] private int numShots;
+
+
+    private BulletScript bullet_bs;
+    private SpriteRenderer bullet_sr;
     Vector2 direction;
     float ReadyForNextShot;
 
     // Start is called before the first frame update
     void Start()
     {
-        SpriteRenderer bullet_sr = bullet.GetComponent<SpriteRenderer>();
-        bullet_sr.sprite = bulletProps.bulletSprite;
-        BulletScript bullet_bs = bullet.GetComponent<BulletScript>();
-        bullet_bs.bulletProps = this.bulletProps;
-        sr = gunSprite.GetComponent<SpriteRenderer>();
+        Reset();
     }
 
     // Update is called once per frame
@@ -45,8 +50,20 @@ public class ShootScript : MonoBehaviour
         if(fire) {
             if(Time.time > ReadyForNextShot) {
                 ReadyForNextShot = Time.time + 1/fireRate;
-                HandleAugments();
+                Shoot();
             }
+        }
+    }
+
+    void Reset() {
+        bullet_sr = bullet.GetComponent<SpriteRenderer>();
+        bullet_bs = bullet.GetComponent<BulletScript>();
+        bullet_sr.sprite = bulletProps.bulletSprite;
+        bullet_bs.bulletProps = this.bulletProps;
+        sr = gunSprite.GetComponent<SpriteRenderer>();
+        numShots = 1;
+        foreach (Transform child in bulletContainer) {
+            Destroy(child.gameObject);
         }
     }
 
@@ -57,16 +74,10 @@ public class ShootScript : MonoBehaviour
 
     void Shoot(float angle) {
         GameObject BulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.Euler(0, 0, angle));
+        BulletInstance.transform.SetParent(bulletContainer);
     }
-
-    void HandleAugments()
+    void Shoot()
     {
-        float numShots = 1;
-        if (AugmentManager.Instance.hasAugment(AugmentManager.GetID(2)))
-        {
-            numShots += 1;
-        }
-
         float currentAim = shootPoint.rotation.eulerAngles.z;
         float minAim = currentAim + (1.5f * numShots);
 
@@ -75,5 +86,30 @@ public class ShootScript : MonoBehaviour
             Shoot(((minAim - (i * 3f)) + 360) % 360);
         }
     }
+    void OnAugmentPickup(int id) {
+        switch (AugmentManager.GetName(id)) {
+            case "Double Shot":
+                numShots += 1;
+                bullet_bs.bulletProps.DOTDamageMultiplier /= 2;
+                break;
+            case "Ricochet":
+                bullet_bs.bulletProps.ricochets += 1;
+                break;
+            case "Fire Bullets":
+                bullet_bs.bulletProps.DOTDamage += 5;
+                break;
+            default:
+                break;
+        }
+    }
 
+    void OnEnable() {
+        AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        GameManager.OnReset += Reset;
+    }
+
+    void OnDisable() {
+        AugmentManager.OnAugmentPickup -= OnAugmentPickup;
+        GameManager.OnReset -= Reset;
+    }
 }

@@ -14,7 +14,9 @@ public class PlayerMovement : MonoBehaviour
 {
 	//Scriptable object which holds all the player's movement parameters. If you don't want to use it
 	//just paste in all the parameters, though you will need to manuly change all references in this script
-	public PlayerData Data;
+	public PlayerData InitialData;
+
+	private PlayerData Data;
 
 	#region EVENTS
 	public UnityEvent onDash;
@@ -98,10 +100,8 @@ public class PlayerMovement : MonoBehaviour
 		sr = GetComponent<SpriteRenderer>();
 	}
 
-	private void Start()
-	{
-		SetGravityScale(Data.gravityScale);
-		IsFacingRight = true;
+	private void Start() {
+		Reset();
 	}
 
 	private void Update()
@@ -612,18 +612,29 @@ public class PlayerMovement : MonoBehaviour
 		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
 		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 	}
-    #endregion
+	#endregion
 
-    #region EVENT_LOOPS
-	private void OnReset() {
+	#region EVENT_LOOPS
+	void OnAugmentPickup(int id) {
+		switch (AugmentManager.GetName(id)) {
+			default:
+				break;
+		}
+	}
+	private void Reset() {
+		Data = InitialData;
+		SetGravityScale(Data.gravityScale);
+		IsFacingRight = true;
 		this.transform.position = new Vector2(2, 2);
 		RB.velocity = new Vector2(0, 0);
 	}
 	private void OnEnable() {
-		GameManager.OnReset += OnReset;
+		GameManager.OnReset += Reset;
+		AugmentManager.OnAugmentPickup += OnAugmentPickup;
 	}
 	private void OnDisable() {
-		GameManager.OnReset -= OnReset;
+		GameManager.OnReset -= Reset;
+		AugmentManager.OnAugmentPickup -= OnAugmentPickup;
 	}
     #endregion
 }

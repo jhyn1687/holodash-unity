@@ -7,6 +7,7 @@ public class Augment : ScriptableObject
 
 	[Header("Augment")]
 	public int ID;
+	public string augmentName;
 	public string description;
 	public Sprite sprite;
 }

@@ -9,7 +9,9 @@ public class BulletScript : MonoBehaviour
     private int ricochetCounter;
     private float damage;
     private float DOTDamage;
+    private float DOTDamageMultiplier;
     private float DOTTime;
+    private float DOTTimeMultiplier;
     private float bulletSpeed;
     private int ricochets;
 
@@ -21,11 +23,9 @@ public class BulletScript : MonoBehaviour
         bulletSpeed = bulletProps.bulletSpeed;
         ricochets = bulletProps.ricochets;
         DOTDamage = bulletProps.DOTDamage;
+        DOTDamageMultiplier = bulletProps.DOTDamageMultiplier;
         DOTTime = bulletProps.DOTTime;
-        if (AugmentManager.Instance.hasAugment(AugmentManager.GetID(3)))
-        {
-            ricochets += 1;
-        }
+        DOTTimeMultiplier = bulletProps.DOTTimeMultiplier;
 
         rb.AddForce(this.transform.right * bulletSpeed);
     }
@@ -43,15 +43,24 @@ public class BulletScript : MonoBehaviour
         GameObject collided = collision.gameObject;
         if (collided.TryGetComponent(out IDamageable hit)) {
             hit.Damage(damage);
-            if (AugmentManager.Instance.hasAugment(AugmentManager.GetID(1)))
-            {
-                hit.DamageOverTime(DOTDamage, DOTTime);
-            }
+            hit.DamageOverTime(DOTDamage * DOTDamageMultiplier, DOTTime * DOTTimeMultiplier);
             Object.Destroy(this.gameObject);
         } 
         else if (collided.layer == LayerMask.NameToLayer("Ground"))
         {
             ricochetCounter++;
         }
+    }
+
+    private void Reset() {
+        // idk what to do here
+    }
+
+    void OnEnable() {
+        GameManager.OnReset += Reset;
+    }
+
+    void OnDisable() {
+        GameManager.OnReset += Reset;
     }
 }

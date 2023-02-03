@@ -8,7 +8,11 @@ public class BulletProperty : ScriptableObject {
 	public Sprite bulletSprite;
 	public float damage;
 	public float DOTDamage;
+    [Range(0f, 2f)]
+	public float DOTDamageMultiplier;
 	public float DOTTime;
+    [Range(0f, 2f)]
+	public float DOTTimeMultiplier;
 	public float bulletSpeed;
     public int ricochets;
 }

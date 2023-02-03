@@ -42,8 +42,9 @@ public class GameManager : MonoBehaviour
         ChapterManager.Instance.initChapter(currentChapter);
         OnReset?.Invoke();
     }
-    public void OnAugmentPickup(Augment aug)
+    public void OnAugmentPickup(int id) 
     {
+        Augment aug = AugmentManager.GetAugment(id);
         StartCoroutine(AugmentPickup(aug));
     }
 
@@ -59,9 +60,11 @@ public class GameManager : MonoBehaviour
     private void OnEnable() {
         EndzoneScript.EndzoneReached += OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
+        AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
     private void OnDisable() {
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
+        AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
 }

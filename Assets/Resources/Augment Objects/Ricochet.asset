@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Ricochet
   m_EditorClassIdentifier: 
   ID: 3
+  augmentName: Ricochet
   description: Bullets ricochet once
   sprite: {fileID: 21300000, guid: 3f0c24e7fae025f48b8e072b3080060f, type: 3}

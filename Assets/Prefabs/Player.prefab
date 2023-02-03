@@ -5178,7 +5178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6525021ab1e580489fa16c14e4e2730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: aa03a24c371f01b42bfb623b318ecfd9, type: 2}
+  InitialData: {fileID: 11400000, guid: aa03a24c371f01b42bfb623b318ecfd9, type: 2}
   onDash:
     m_PersistentCalls:
       m_Calls:
@@ -5354,6 +5354,7 @@ MonoBehaviour:
   bulletProps: {fileID: 11400000, guid: f90927378d7406c4eb433a46755f801c, type: 2}
   shootPoint: {fileID: 3718101359158142833}
   fireRate: 4
+  numShots: 1
 --- !u!1 &3718101360021334374
 GameObject:
   m_ObjectHideFlags: 0
