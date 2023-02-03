@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
 	public Rigidbody2D RB { get; private set; }
 	public Animator ani { get; private set; }
 	public TrailRenderer tr { get; private set; }
+
+	public SpriteRenderer sr { get; private set; }
 	#endregion
 
 	#region ENUMS
@@ -93,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
 		RB = GetComponent<Rigidbody2D>();
 		ani = GetComponent<Animator>();
 		tr = GetComponent<TrailRenderer>();
+		sr = GetComponent<SpriteRenderer>();
 	}
 
 	private void Start()
@@ -432,9 +435,7 @@ public class PlayerMovement : MonoBehaviour
 	private void Turn()
 	{
 		//stores scale and flips the player along the x axis, 
-		Vector3 scale = transform.localScale; 
-		scale.x *= -1;
-		transform.localScale = scale;
+		sr.flipX = !sr.flipX;
 
 		IsFacingRight = !IsFacingRight;
 	}

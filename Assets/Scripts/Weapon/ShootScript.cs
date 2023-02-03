@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ public class ShootScript : MonoBehaviour
         FaceMouse();
         if(direction.x < 0) 
         {
-            sr.flipY = true;
+            sr.flipY = true; 
         } 
         else 
         {
