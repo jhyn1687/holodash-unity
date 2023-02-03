@@ -7,7 +7,8 @@ public class BulletProperty : ScriptableObject {
 	[Header("Bullet Properties")]
 	public Sprite bulletSprite;
 	public float damage;
+	public float DOTDamage;
+	public float DOTTime;
 	public float bulletSpeed;
-	public string targetLayer;
     public int ricochets;
 }

@@ -8,6 +8,8 @@ public class BulletScript : MonoBehaviour
     private Rigidbody2D rb;
     private int ricochetCounter;
     private float damage;
+    private float DOTDamage;
+    private float DOTTime;
     private float bulletSpeed;
     private int ricochets;
 
@@ -18,6 +20,8 @@ public class BulletScript : MonoBehaviour
         damage = bulletProps.damage;
         bulletSpeed = bulletProps.bulletSpeed;
         ricochets = bulletProps.ricochets;
+        DOTDamage = bulletProps.DOTDamage;
+        DOTTime = bulletProps.DOTTime;
         if (AugmentManager.Instance.hasAugment(AugmentManager.GetID(3)))
         {
             ricochets += 1;
@@ -36,19 +40,18 @@ public class BulletScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        GameObject collider = collision.gameObject;
-        if (collider.layer == LayerMask.NameToLayer(bulletProps.targetLayer)) {
-            collider.GetComponent<HealthScript>().TakeDamage(damage);
+        GameObject collided = collision.gameObject;
+        if (collided.TryGetComponent(out IDamageable hit)) {
+            hit.Damage(damage);
             if (AugmentManager.Instance.hasAugment(AugmentManager.GetID(1)))
             {
-                collider.GetComponent<HealthScript>().TakeDOT(5, 5);
+                hit.DamageOverTime(DOTDamage, DOTTime);
             }
             Object.Destroy(this.gameObject);
         } 
-        else if (collider.layer == LayerMask.NameToLayer("Ground"))
+        else if (collided.layer == LayerMask.NameToLayer("Ground"))
         {
             ricochetCounter++;
         }
-
     }
 }
