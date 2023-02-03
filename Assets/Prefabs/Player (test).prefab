@@ -4889,7 +4889,6 @@ GameObject:
   - component: {fileID: 3718101359043949123}
   - component: {fileID: 3718101359043949124}
   - component: {fileID: 2983331790440032220}
-  - component: {fileID: 1041925047098846024}
   - component: {fileID: 7016344866040910975}
   m_Layer: 6
   m_Name: Player (test)
@@ -5165,19 +5164,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textCoins: {fileID: 0}
---- !u!114 &1041925047098846024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3718101359043949178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df0ecd26632a694682b4cbaa32207f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathUI: {fileID: 0}
 --- !u!114 &7016344866040910975
 MonoBehaviour:
   m_ObjectHideFlags: 0

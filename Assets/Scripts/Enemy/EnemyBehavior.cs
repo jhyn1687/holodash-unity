@@ -31,12 +31,6 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
         Instantiate(coin, this.transform.position, this.transform.rotation);
         Destroy(this.gameObject);
     }
-    private void OnReset() {
-        StopAllCoroutines();
-        ani.SetBool("Taking Damage", false);
-        Health = maxHealth;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject collided = collision.gameObject;
         if (collided.TryGetComponent(out PlayerHealth hit)) {
@@ -62,11 +56,5 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
         ani.SetBool("Taking Damage", true);
         yield return new WaitForSeconds(0.5f);
         ani.SetBool("Taking Damage", false);
-    }
-    private void OnEnable() {
-        GameManager.OnReset += OnReset;
-    }
-    private void OnDisable() {
-        GameManager.OnReset -= OnReset;
     }
 }

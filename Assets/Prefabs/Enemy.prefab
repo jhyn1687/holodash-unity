@@ -59,8 +59,8 @@ GameObject:
   - component: {fileID: 6713606312490413166}
   - component: {fileID: 6713606312490413167}
   - component: {fileID: 6713606312490413165}
-  - component: {fileID: 6713606312490413154}
   - component: {fileID: 7740602220575310482}
+  - component: {fileID: 6713606312490413154}
   - component: {fileID: 6233977746651905960}
   m_Layer: 7
   m_Name: Enemy
@@ -158,20 +158,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6713606312490413154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6713606312490413155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5251e12476f7a540845c776acee73d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coin: {fileID: 9166757833457666934, guid: 0fe54eb122da8d5418366d5fd624579c, type: 3}
-  maxHealth: 50
 --- !u!95 &7740602220575310482
 Animator:
   serializedVersion: 5
@@ -192,6 +178,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &6713606312490413154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713606312490413155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5251e12476f7a540845c776acee73d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageToPlayer: 10
+  coin: {fileID: 9166757833457666934, guid: 0fe54eb122da8d5418366d5fd624579c, type: 3}
+  maxHealth: 50
 --- !u!60 &6233977746651905960
 PolygonCollider2D:
   m_ObjectHideFlags: 0

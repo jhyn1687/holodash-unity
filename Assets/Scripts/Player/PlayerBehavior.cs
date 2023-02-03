@@ -11,14 +11,11 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     private SpriteRenderer sr;
     private Animator ani;
 
-
-
     public static event Action OnPlayerDeath;
     [SerializeField] private float maxHP;
     [SerializeField] private TextMeshProUGUI deathUI;
     [SerializeField] private TextMeshProUGUI HPUI;
     [SerializeField] private ParticleSystem dashEffect;
-
 
     public float Health { get; set; }
     private bool dead;
@@ -31,6 +28,9 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         tr = GetComponent<TrailRenderer>();
         sr = GetComponent<SpriteRenderer>();
         ani = GetComponent<Animator>();
+        dead = false;
+        Health = maxHP;
+        HPUI.SetText("HP: " + maxHP);
     }
 
     // Update is called once per frame
@@ -64,21 +64,12 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     void OnDeath() {
         dead = true;
         StartCoroutine(Die());
-        deathUI.gameObject.SetActive(false);
     }
     IEnumerator Die() {
         deathUI.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         deathUI.gameObject.SetActive(false);
         OnPlayerDeath?.Invoke();
-    }
-    private void OnEnable() {
-        GameManager.OnReset += OnReset;
-        EndzoneScript.EndzoneReached += OnEndZoneReached;
-    }
-    private void OnDisable() {
-        GameManager.OnReset -= OnReset;
-        EndzoneScript.EndzoneReached -= OnEndZoneReached;
     }
     // hackjob knockback
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -109,5 +100,13 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         ani.SetBool("Taking Damage", true);
         yield return new WaitForSeconds(0.5f);
         ani.SetBool("Taking Damage", false);
+    }
+    private void OnEnable() {
+        GameManager.OnReset += OnReset;
+        EndzoneScript.EndzoneReached += OnEndZoneReached;
+    }
+    private void OnDisable() {
+        GameManager.OnReset -= OnReset;
+        EndzoneScript.EndzoneReached -= OnEndZoneReached;
     }
 }

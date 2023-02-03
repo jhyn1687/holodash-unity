@@ -612,6 +612,19 @@ public class PlayerMovement : MonoBehaviour
 		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 	}
     #endregion
+
+    #region EVENT_LOOPS
+	private void OnReset() {
+		this.transform.position = new Vector2(2, 2);
+		RB.velocity = new Vector2(0, 0);
+	}
+	private void OnEnable() {
+		GameManager.OnReset += OnReset;
+	}
+	private void OnDisable() {
+		GameManager.OnReset -= OnReset;
+	}
+    #endregion
 }
 
 [System.Serializable]

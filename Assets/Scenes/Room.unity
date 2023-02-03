@@ -631,7 +631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   deathUI: {fileID: 80099244}
-  HPUI: {fileID: 0}
+  HPUI: {fileID: 842760597}
   dashEffect: {fileID: 734923953}
 --- !u!114 &1217005112
 MonoBehaviour:
@@ -977,7 +977,8 @@ PrefabInstance:
       propertyPath: onDashFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1041925047098846024, guid: 975297f2886502447bb537f251876106, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 975297f2886502447bb537f251876106, type: 3}
 --- !u!1 &1472678688
 GameObject:

@@ -58,10 +58,10 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable() {
         EndzoneScript.EndzoneReached += OnEndzoneReached;
-        PlayerDeath.OnPlayerDeath += Reset;
+        PlayerBehavior.OnPlayerDeath += Reset;
     }
     private void OnDisable() {
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
-        PlayerDeath.OnPlayerDeath += Reset;
+        PlayerBehavior.OnPlayerDeath += Reset;
     }
 }
