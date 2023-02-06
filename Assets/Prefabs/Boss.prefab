@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6713606311709938943}
   - component: {fileID: 6713606311709938942}
-  m_Layer: 7
+  m_Layer: 2
   m_Name: Detection Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ Transform:
   m_GameObject: {fileID: 6713606312490413155}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6713606311709938943}
@@ -208,8 +208,8 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0, y: 0, z: 0, w: 0.58}
+    pivot: {x: 0.5, y: 0.3425028}
     oldSize: {x: 2, y: 2}
     newSize: {x: 0.6, y: 1.2}
     adaptiveTilingThreshold: 0.5

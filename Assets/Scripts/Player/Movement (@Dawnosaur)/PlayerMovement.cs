@@ -435,9 +435,10 @@ public class PlayerMovement : MonoBehaviour
 	private void Turn()
 	{
 		//stores scale and flips the player along the x axis, 
-		sr.flipX = !sr.flipX;
 
-		IsFacingRight = !IsFacingRight;
+		this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y + 180, 0);
+
+        IsFacingRight = !IsFacingRight;
 	}
     #endregion
 
@@ -500,6 +501,11 @@ public class PlayerMovement : MonoBehaviour
 		_dashesLeft--;
 		_isDashAttacking = true;
 
+		// Dash through enemies?
+		// Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
+		// Dash through enemy bullets?
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy Projectile"), true);
 		SetGravityScale(0);
 
 		//We keep the player's velocity at the dash speed during the "attack" phase (in celeste the first 0.15s)
@@ -514,6 +520,12 @@ public class PlayerMovement : MonoBehaviour
 		startTime = Time.time;
 
 		_isDashAttacking = false;
+
+		// Dash through enemies?
+		// Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+		
+		// Dash through enemy bullets?
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy Projectile"), false);
 
 		//Begins the "end" of our dash where we return some control to the player but still limit run acceleration (see Update() and Run())
 		SetGravityScale(Data.gravityScale);
@@ -614,7 +626,7 @@ public class PlayerMovement : MonoBehaviour
 	}
 	#endregion
 
-	#region EVENT_LOOPS
+	#region EVENT LOOPS
 	void OnAugmentPickup(int id) {
 		switch (AugmentManager.GetName(id)) {
 			default:
@@ -624,6 +636,7 @@ public class PlayerMovement : MonoBehaviour
 	private void Reset() {
 		Data = InitialData;
 		SetGravityScale(Data.gravityScale);
+		sr.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
 		IsFacingRight = true;
 		this.transform.position = new Vector2(2, 2);
 		RB.velocity = new Vector2(0, 0);

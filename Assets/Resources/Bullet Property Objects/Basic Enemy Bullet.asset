@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 075e8df4ca0b49144885cc19c19a260c, type: 3}
-  m_Name: Basic Friendly Bullet
+  m_Name: Basic Enemy Bullet
   m_EditorClassIdentifier: 
-  bulletSprite: {fileID: 21300000, guid: 5b4170b67e50246e5b20787f7ec335c0, type: 3}
-  damage: 10
+  bulletSprite: {fileID: 21300000, guid: 337bd5cf22baf9744aadc7255e31e9e3, type: 3}
+  damage: 5
   DOTDamage: 0
   DOTDamageMultiplier: 1
   DOTTime: 5
   DOTTimeMultiplier: 1
-  bulletSpeed: 60
+  bulletSpeed: 20
   ricochets: 0

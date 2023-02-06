@@ -13,6 +13,7 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
 
     public static event Action OnPlayerDeath;
     [SerializeField] private float maxHP;
+    [SerializeField] private float knockbackForce;
     [SerializeField] private TextMeshProUGUI deathUI;
     [SerializeField] private TextMeshProUGUI HPUI;
     [SerializeField] private ParticleSystem dashEffect;
@@ -75,7 +76,8 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject collided = collision.gameObject;
         if (collided.CompareTag("Enemy")) {
-            rb.velocity = new Vector2(0f, 10f);
+            Vector2 dir = (this.transform.position - collided.transform.position).normalized;
+            rb.AddForce(dir * knockbackForce, ForceMode2D.Impulse);
         }
     }
 

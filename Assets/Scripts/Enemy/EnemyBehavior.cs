@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour, IDamageable
 {
     private Animator ani;
+    public enum EnemyState { Idle, Patrol, Alert, Attack, Dead };
+    public EnemyState currentState { get; set; }
+    public Vector2 playerLastLocation { get; set; }
     [SerializeField] private float damageToPlayer;
     [SerializeField] private GameObject coin;
     [SerializeField] private int maxHealth;
@@ -15,6 +18,8 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     void Start()
     {
         ani = GetComponent<Animator>();
+        playerLastLocation = Vector2.negativeInfinity;
+        currentState = EnemyState.Idle;
         Health = maxHealth;
     }
 

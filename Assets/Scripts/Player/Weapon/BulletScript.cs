@@ -7,32 +7,19 @@ public class BulletScript : MonoBehaviour
     public BulletProperty bulletProps;
     private Rigidbody2D rb;
     private int ricochetCounter;
-    private float damage;
-    private float DOTDamage;
-    private float DOTDamageMultiplier;
-    private float DOTTime;
-    private float DOTTimeMultiplier;
-    private float bulletSpeed;
-    private int ricochets;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        damage = bulletProps.damage;
-        bulletSpeed = bulletProps.bulletSpeed;
-        ricochets = bulletProps.ricochets;
-        DOTDamage = bulletProps.DOTDamage;
-        DOTDamageMultiplier = bulletProps.DOTDamageMultiplier;
-        DOTTime = bulletProps.DOTTime;
-        DOTTimeMultiplier = bulletProps.DOTTimeMultiplier;
+        ricochetCounter = 0;
 
-        rb.AddForce(this.transform.right * bulletSpeed);
+        rb.AddForce(this.transform.right * bulletProps.bulletSpeed);
     }
 
     private void Update()
     {
-        if (ricochetCounter > ricochets)
+        if (ricochetCounter > bulletProps.ricochets)
         {
             Object.Destroy(this.gameObject);
         }
@@ -42,12 +29,15 @@ public class BulletScript : MonoBehaviour
     {
         GameObject collided = collision.gameObject;
         if (collided.TryGetComponent(out IDamageable hit)) {
-            hit.Damage(damage);
-            hit.DamageOverTime(DOTDamage * DOTDamageMultiplier, DOTTime * DOTTimeMultiplier);
+            hit.Damage(bulletProps.damage);
+            hit.DamageOverTime(bulletProps.DOTDamage * bulletProps.DOTDamageMultiplier, bulletProps.DOTTime * bulletProps.DOTTimeMultiplier);
             Object.Destroy(this.gameObject);
         } 
         else if (collided.layer == LayerMask.NameToLayer("Ground"))
         {
+            ricochetCounter++;
+        } else if (collided.layer == LayerMask.NameToLayer("Enemy Projectile")) {
+            Object.Destroy(collided.gameObject);
             ricochetCounter++;
         }
     }

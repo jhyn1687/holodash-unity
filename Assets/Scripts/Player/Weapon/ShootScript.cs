@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShootScript : MonoBehaviour
 {
     private SpriteRenderer sr;
-
+    private bool inGround;
 
     [Header("Bullet Properties")]
     [SerializeField] private GameObject bullet;
@@ -18,7 +18,7 @@ public class ShootScript : MonoBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private int numShots;
 
-
+    private BoxCollider2D coll;
     private BulletScript bullet_bs;
     private SpriteRenderer bullet_sr;
     Vector2 direction;
@@ -33,21 +33,16 @@ public class ShootScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = mousePos - (Vector2)this.transform.position;
         FaceMouse();
-        if(direction.x < 0) 
-        {
-            sr.flipY = true; 
-        } 
-        else 
-        {
-            sr.flipY = false;
-        }
-
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y), 0f, direction, 0f, LayerMask.GetMask("Ground"));
+        inGround = (raycastHit2D.collider != null);
+        
         bool fire = Input.GetButton("Fire1");
 
-        if(fire) {
+        if(!inGround && fire) {
             if(Time.time > ReadyForNextShot) {
                 ReadyForNextShot = Time.time + 1/fireRate;
                 Shoot();
@@ -56,11 +51,16 @@ public class ShootScript : MonoBehaviour
     }
 
     void Reset() {
+        coll = GetComponentInChildren<BoxCollider2D>();
         bullet_sr = bullet.GetComponent<SpriteRenderer>();
         bullet_bs = bullet.GetComponent<BulletScript>();
         bullet_sr.sprite = bulletProps.bulletSprite;
-        bullet_bs.bulletProps = this.bulletProps;
+        bullet_bs.bulletProps = Instantiate(this.bulletProps);
+        inGround = false;
         sr = gunSprite.GetComponent<SpriteRenderer>();
+        if (GameObject.Find("Bullet Container") != null) {
+            GameObject bulletContainer = GameObject.Find("Bullet Container");
+        }
         numShots = 1;
         foreach (Transform child in bulletContainer) {
             Destroy(child.gameObject);
@@ -69,7 +69,15 @@ public class ShootScript : MonoBehaviour
 
     void FaceMouse()
     {
-        this.transform.right = direction;
+        if (direction.x < 0) {
+            this.transform.right = direction;
+            sr.flipY = true;
+            shootPoint.localPosition = new Vector2(shootPoint.localPosition.x, Mathf.Abs(shootPoint.localPosition.y) * -1);
+        } else {
+            this.transform.right = direction;
+            sr.flipY = false;
+            shootPoint.localPosition = new Vector2(shootPoint.localPosition.x, Mathf.Abs(shootPoint.localPosition.y));
+        }
     }
 
     void Shoot(float angle) {
@@ -78,6 +86,8 @@ public class ShootScript : MonoBehaviour
     }
     void Shoot()
     {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        direction = mousePos - (Vector2)shootPoint.position;
         float currentAim = shootPoint.rotation.eulerAngles.z;
         float minAim = currentAim + (1.5f * numShots);
 

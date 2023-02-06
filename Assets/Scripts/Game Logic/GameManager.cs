@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     private int currentChapter;
 
+    private Transform enemyBulletContainer;
+
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -28,8 +30,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
-        currentChapter = startingChapter;
-        ChapterManager.Instance.initChapter(currentChapter);
+        Reset();
     }
 
     private void OnEndzoneReached() {
@@ -38,8 +39,15 @@ public class GameManager : MonoBehaviour
     }
 
     private void Reset() {
-        currentChapter = 0;
+        currentChapter = startingChapter;
         ChapterManager.Instance.initChapter(currentChapter);
+        if (enemyBulletContainer != null) {
+            foreach (Transform child in enemyBulletContainer) {
+                Destroy(child.gameObject);
+            }
+        } else if (GameObject.Find("Enemy Bullet Container") != null) {
+            enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
+        }
         OnReset?.Invoke();
     }
     public void OnAugmentPickup(int id) 

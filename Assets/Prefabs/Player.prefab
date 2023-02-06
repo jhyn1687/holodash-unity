@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3224040046941451192}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.16789055, y: -0.06836772, z: -0.0032387972}
+  m_LocalPosition: {x: -0.11, y: -0.07, z: -0.0032387972}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 3718101359015648350}
   - component: {fileID: 3718101359015648349}
   - component: {fileID: 3718101359015648348}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5257,6 +5257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  knockbackForce: 10
   deathUI: {fileID: 0}
   HPUI: {fileID: 0}
   dashEffect: {fileID: 3718101359015648349}
@@ -5281,7 +5282,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3718101359158142833}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Blue Gun Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5295,12 +5296,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3718101359158142832}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.12399992, y: 0.014, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0441, y: 0.011, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3718101359934036326}
+  m_Father: {fileID: 3718101360021334375}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3718101359934036325
@@ -5313,7 +5314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3718101359934036326}
   - component: {fileID: 3718101359934036328}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Blue Gun Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5327,12 +5328,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3718101359934036325}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.02, y: -0.07999992, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3718101359158142833}
   - {fileID: 3718101360021334375}
   m_Father: {fileID: 3718101360106133174}
   m_RootOrder: 0
@@ -5349,9 +5349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809d66fe9fe434921956e91b682b8a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunSprite: {fileID: 3718101360021334374}
   bullet: {fileID: 6257472744926558581, guid: ba0699a0f98cd4a88ae5c4e1f237e2dc, type: 3}
   bulletProps: {fileID: 11400000, guid: f90927378d7406c4eb433a46755f801c, type: 2}
+  bulletContainer: {fileID: 0}
+  gunSprite: {fileID: 3718101360021334374}
   shootPoint: {fileID: 3718101359158142833}
   fireRate: 4
   numShots: 1
@@ -5365,7 +5366,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3718101360021334375}
   - component: {fileID: 3718101360021334376}
-  m_Layer: 6
+  - component: {fileID: 3527417023267850447}
+  m_Layer: 0
   m_Name: Blue Gun Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5379,13 +5381,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3718101360021334374}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.124, y: 0, z: -0.25}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.45, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3718101359158142833}
   m_Father: {fileID: 3718101359934036326}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3718101360021334376
 SpriteRenderer:
@@ -5439,6 +5442,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &3527417023267850447
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718101360021334374}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.11, y: 0.09}
+    newSize: {x: 0.11, y: 0.09}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.11, y: 0.09}
+  m_EdgeRadius: 0
 --- !u!1 &3718101360106133173
 GameObject:
   m_ObjectHideFlags: 0
@@ -5448,7 +5477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3718101360106133174}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Gun Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5463,7 +5492,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3718101360106133173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5495,7 +5524,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4652043359369060121}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.27810955, y: -0.06836772, z: 0.46873128}
+  m_LocalPosition: {x: 0.21, y: -0.07, z: 0.46873128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
