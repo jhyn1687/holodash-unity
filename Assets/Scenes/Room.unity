@@ -416,6 +416,30 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1959690590}
+    - target: {fileID: 3718101360021334374, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718101360021334375, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.13078454
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718101360021334375, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1376219
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718101360021334375, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.151
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718101360021334375, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.031
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718101360021334376, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: de03bdde418a743ab87a37f52c5c0e39, type: 3}
     - target: {fileID: 4276518920156299735, guid: 617282d7ca1f1444792d5f38171d85b8, type: 3}
       propertyPath: textCoins
       value: 

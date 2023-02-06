@@ -44,6 +44,7 @@ public class EnemyBehavior : MonoBehaviour
         GameObject collided = collision.gameObject;
         if (collided.CompareTag("Player")) {
             collided.GetComponent<HealthScript>().TakeDamage(10);
+            collided.GetComponent<PlayerBehavior>().OnDamageTaken();
         }
     }
 }

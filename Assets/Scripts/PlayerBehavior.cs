@@ -15,6 +15,7 @@ public class PlayerBehavior : MonoBehaviour
     private float dashTime = 0.2f;
     private float dashCD = 1f;
     private KeyCode dashButton = KeyCode.LeftShift;
+    private bool isHurt = false;
 
     private int jumpsLeft;
 
@@ -27,7 +28,7 @@ public class PlayerBehavior : MonoBehaviour
     private float jumpBufferTime = 0.1f;
     private float jumpBufferCounter;
 
-    private enum MovementState { idle, running, jumping, falling }
+    private enum MovementState { idle, running, jumping, falling, hurt }
 
     [SerializeField] private Ability dash;
     [SerializeField] private ParticleSystem dashEffect;
@@ -65,6 +66,7 @@ public class PlayerBehavior : MonoBehaviour
         bool jumpRelease = Input.GetButtonUp("Jump");
         bool dash = Input.GetKeyDown(dashButton);
         rb.velocity = new Vector2(horizontalInput * horizontalSpeed, rb.velocity.y);
+
 
         Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         aimDirection = mousePosition - (Vector2)this.transform.position;
@@ -151,6 +153,9 @@ public class PlayerBehavior : MonoBehaviour
         } else if (rb.velocity.y < -.1f) {
             animationState = MovementState.falling;
         }
+        if(isHurt == true){
+            animationState = MovementState.hurt;
+        }
 
         ani.SetInteger("State", (int)animationState);
     }
@@ -191,8 +196,21 @@ public class PlayerBehavior : MonoBehaviour
         dashButton = dash.keyPress;
         canDash = true;
         tr.emitting = false;
+        isHurt = false;
         ParticleSystem.EmissionModule em = dashEffect.emission;
         em.rateOverTime = 0;
         this.transform.position = new Vector2(2, 2);
     }
+    IEnumerator TakeDamage() {
+        isHurt = true;
+        yield return new WaitForSeconds(0.5f);
+        isHurt = false;
+    }
+
+     public void OnDamageTaken() {
+        StartCoroutine(TakeDamage());
+    }
+
+
+
 }
