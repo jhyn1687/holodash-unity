@@ -51,6 +51,6 @@ public class BulletScript : MonoBehaviour
     }
 
     void OnDisable() {
-        GameManager.OnReset += Reset;
+        GameManager.OnReset -= Reset;
     }
 }

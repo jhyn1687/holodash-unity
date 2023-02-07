@@ -12,6 +12,7 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     [SerializeField] private GameObject coin;
     [SerializeField] private int maxHealth;
 
+    private float damageAnimationTimer;
     public float Health { get; set; }
 
     // Start is called before the first frame update
@@ -21,12 +22,18 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
         playerLastLocation = Vector2.negativeInfinity;
         currentState = EnemyState.Idle;
         Health = maxHealth;
+        damageAnimationTimer = 0f;
     }
 
     // Update is called once per frame
     void Update() {
         if (Health <= 0) {
             OnDeath();
+        }
+        if (damageAnimationTimer < 0) {
+            ani.SetBool("Taking Damage", false);
+        } else {
+            damageAnimationTimer -= Time.deltaTime;
         }
     }
     // when enemy dies, drop coin for player to pickup
@@ -44,7 +51,8 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     }
     public void Damage(float damage) {
         Health -= damage;
-        StartCoroutine(DamageAnimation());
+        damageAnimationTimer = 0.5f;
+        ani.SetBool("Taking Damage", true);
     }
     public void DamageOverTime(float damage, float time) {
         StartCoroutine(DOT(damage, time));
@@ -56,10 +64,5 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
             damageTaken += damage / time;
             yield return new WaitForSeconds(1f);
         }
-    }
-    IEnumerator DamageAnimation() {
-        ani.SetBool("Taking Damage", true);
-        yield return new WaitForSeconds(0.5f);
-        ani.SetBool("Taking Damage", false);
     }
 }
