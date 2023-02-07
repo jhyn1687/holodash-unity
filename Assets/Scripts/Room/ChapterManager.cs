@@ -23,6 +23,16 @@ TODO:
 */
 public class ChapterManager : MonoBehaviour
 {
+    // using the singleton pattern for the ChapterManager
+    private static ChapterManager _instance;
+    public static ChapterManager Instance {
+        get {
+            if (_instance == null) {
+                Debug.Log("Chapter Manager is null");
+            }
+            return _instance;
+        }
+    }
     // amount of total possible randomly generated rooms for this chapter
     public const int NUMROOMS = 5; 
     public const int NUMCHAPTERS = 8; 
@@ -43,8 +53,12 @@ public class ChapterManager : MonoBehaviour
     // we child GameObjects (enemies, coins, destructibles) in this Transform
     private Transform enemiesContainer;
 
-    void Start() {
+    void Awake() {
+        _instance = this;
         enemiesContainer = new GameObject("Enemies").transform;
+    }
+
+    void Start() {
     }
     /**
     Initializes all rooms for the current chapter.    
@@ -87,11 +101,13 @@ public class ChapterManager : MonoBehaviour
     {
         placeRoom(startRoom, new Vector2(0f, 0f));
         Vector2 lastExit = startRoom.GetComponent<Room>().exit;
+        // cloning the chapter so that reset doesn't delete the original rooms.
+        List<GameObject> ch1_clone = new List<GameObject>(ch1);
         for (int i = 0; i < NUMROOMS; i++)
         {
-            int randy = Random.Range (0, ch1.Count-1);
-            GameObject randRoom = ch1[randy];
-            ch1.RemoveAt(randy);
+            int randy = Random.Range (0, ch1_clone.Count-1);
+            GameObject randRoom = ch1_clone[randy];
+            ch1_clone.RemoveAt(randy);
             Vector2 rrEntrance = randRoom.GetComponent<Room>().entrance;
             Vector2 rrExit = randRoom.GetComponent<Room>().exit;
 

@@ -33,3 +33,11 @@ git add .
 git commit -m "<message>"
 git push -u origin <name>
 ```
+
+How to fast forward back to main on your branch (note: this will override your remote and local branch):
+```
+git checkout main
+git branch -D <name>
+git checkout -b <name>
+git push -u origin <name>
+```
