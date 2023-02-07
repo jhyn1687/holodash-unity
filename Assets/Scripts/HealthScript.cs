@@ -7,12 +7,10 @@ public class HealthScript : MonoBehaviour {
     [SerializeField] private float maxHP;
     private float HP;
     private bool hasBroadcasted;
-    private Animator ani;
 
     void Start() {
         hasBroadcasted = false;
         HP = maxHP;
-        ani = GetComponent<Animator>();
     }
     void Update() {
         if (HP <= 0 && !hasBroadcasted) {
@@ -20,16 +18,10 @@ public class HealthScript : MonoBehaviour {
             hasBroadcasted = true;
         }
     }
-    IEnumerator DamageAnimation() {
-        ani.SetBool("damage taken", true);
-        yield return new WaitForSeconds(0.5f);
-        ani.SetBool("damage taken", false);
-    }
-
+    
     // Update is called once per frame
     public void TakeDamage(float damage) {
         HP -= damage;
-        StartCoroutine(DamageAnimation());
         gameObject.BroadcastMessage("OnDamageTaken", HP);
     }
 

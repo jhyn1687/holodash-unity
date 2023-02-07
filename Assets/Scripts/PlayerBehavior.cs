@@ -57,6 +57,7 @@ public class PlayerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (isDashing)
         {
             return;
@@ -201,6 +202,8 @@ public class PlayerBehavior : MonoBehaviour
         em.rateOverTime = 0;
         this.transform.position = new Vector2(2, 2);
     }
+
+    //added same hurt behavior as enemey to player
     IEnumerator TakeDamage() {
         isHurt = true;
         yield return new WaitForSeconds(0.5f);
