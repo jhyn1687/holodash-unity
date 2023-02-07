@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnDisable() {
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
-        PlayerBehavior.OnPlayerDeath += Reset;
-        AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        PlayerBehavior.OnPlayerDeath -= Reset;
+        AugmentManager.OnAugmentPickup -= OnAugmentPickup;
     }
 }
