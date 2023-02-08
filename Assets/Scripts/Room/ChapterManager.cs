@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 
 /**
@@ -49,6 +50,9 @@ public class ChapterManager : MonoBehaviour
 
     List<GameObject>[] chapterRooms;
 
+    public Tilemap tilemap;
+    public List<Vector3> tileWorldLocations;
+
     // to keep the hierarchy clean
     // we child GameObjects (enemies, coins, destructibles) in this Transform
     private Transform enemiesContainer;
@@ -59,6 +63,7 @@ public class ChapterManager : MonoBehaviour
     }
 
     void Start() {
+
     }
     /**
     Initializes all rooms for the current chapter.    
@@ -90,9 +95,12 @@ public class ChapterManager : MonoBehaviour
         placeRoom(startRoom, new Vector2(0f, 0f));
 
         Vector2 startRoomExit = startRoom.GetComponent<Room>().exit;
-        // GameObject tutorialInstance = Instantiate(ch0, startRoomExit, Quaternion.identity) as GameObject;
-        // tutorialInstance.transform.SetParent(grid.transform);
-        spawnEnemies(placeRoom(ch0, startRoomExit));
+        GameObject tutorialInstance = Instantiate(ch0, startRoomExit, Quaternion.identity) as GameObject;
+        tutorialInstance.transform.SetParent(grid.transform);
+        
+        // spawnEnemies(placeRoom(ch0, startRoomExit));
+    
+        testHandleRoom(tutorialInstance);
     }
 
     // Will initialize all rooms, connecting them properly.
@@ -105,7 +113,7 @@ public class ChapterManager : MonoBehaviour
         List<GameObject> ch1_clone = new List<GameObject>(ch1);
         for (int i = 0; i < NUMROOMS; i++)
         {
-            int randy = Random.Range (0, ch1_clone.Count-1);
+            int randy = Random.Range (0, ch1_clone.Count);
             GameObject randRoom = ch1_clone[randy];
             ch1_clone.RemoveAt(randy);
             Vector2 rrEntrance = randRoom.GetComponent<Room>().entrance;
@@ -116,6 +124,7 @@ public class ChapterManager : MonoBehaviour
             Vector2 exitPos = (lastExit + rrExit) - rrEntrance;
 
             GameObject randRoomInstance = placeRoom(randRoom, entrancePos);
+            testHandleRoom(randRoomInstance);
             spawnEnemies(randRoomInstance);
 
             lastExit = exitPos;
@@ -135,6 +144,32 @@ public class ChapterManager : MonoBehaviour
         GameObject roomInstance = Instantiate(roomToInstance, position, Quaternion.identity) as GameObject;
         roomInstance.transform.SetParent(grid.transform);
         return roomInstance;
+    }
+
+    void testHandleRoom(GameObject room)
+    {
+        
+        tileWorldLocations = new List<Vector3>();
+        Debug.Log(room.name);
+        tilemap = room.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
+
+        foreach (var pos in tilemap.cellBounds.allPositionsWithin)
+        {   
+            Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
+            // TODO https://docs.unity3d.com/ScriptReference/Tilemaps.Tilemap.html
+            TileBase t = tilemap.GetTile(localPlace);
+            Debug.Log("curr tile");
+            Debug.Log(t);
+            Debug.Log(t.ToString());
+            Debug.Log(t.name);
+            // Vector3 place = tilemap.CellToWorld(localPlace);
+            // if (tilemap.HasTile(localPlace))
+            // {
+            //     tileWorldLocations.Add(place);
+            // }
+        }
+
+
     }
 
     // @Requires: room must be an instance, NOT a prefab

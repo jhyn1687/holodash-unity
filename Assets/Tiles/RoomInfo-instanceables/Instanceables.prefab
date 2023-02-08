@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1698758071112738852}
   - component: {fileID: 8104505692253700177}
   m_Layer: 0
-  m_Name: Spawnables
+  m_Name: Instanceables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
