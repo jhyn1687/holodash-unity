@@ -65,14 +65,24 @@ public class GameManager : MonoBehaviour
         AugmentPickupText.gameObject.SetActive(false);
     }
 
+    public void CoinCollected() 
+    {
+        if (onCoinCollected != null) 
+        {
+            onCoinCollected();
+        }
+    }
+
     private void OnEnable() {
         EndzoneScript.EndzoneReached += OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        CoinPicker.OnCoinCollected += CoinCollected;
     }
     private void OnDisable() {
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath -= Reset;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
+        CoinPicker.OnCoinCollected -= CoinCollected;
     }
 }

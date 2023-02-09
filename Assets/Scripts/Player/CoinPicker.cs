@@ -2,18 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
-public class CoinPicker : MonoBehaviour
+public class CoinPicker : MonoBehaviour, IDataPersistence
 {
     private float coin = 0;
 
-    [SerializeField] private TextMeshProUGUI textCoins;
+    private SpriteRenderer visual;
+
+    public static event Action OnCoinCollected;
+
+    private void Awake() {
+        visual = this.GetComponent<SpriteRenderer>();
+    }
+
+    public void LoadData(GameData data) 
+    {
+        coin = data.coinsCollected;
+    }
+
+    public void SaveData(GameData data) 
+    {
+        data.coinsCollected = coin;
+    }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.tag == "Coin") {
             coin++;
-            textCoins.SetText("Credits: " + coin);
             Destroy(other.gameObject);
+            OnCoinCollected?.Invoke();
         }
     }
 }
