@@ -47,11 +47,10 @@ public class ChapterManager : MonoBehaviour
     [SerializeField] private List<GameObject> ch1;
 
     [SerializeField] private GameObject[] enemies; // available enemies
+    [SerializeField] private GameObject coin;
 
     List<GameObject>[] chapterRooms;
 
-    public Tilemap tilemap;
-    public List<Vector3> tileWorldLocations;
 
     // to keep the hierarchy clean
     // we child GameObjects (enemies, coins, destructibles) in this Transform
@@ -125,7 +124,7 @@ public class ChapterManager : MonoBehaviour
 
             GameObject randRoomInstance = placeRoom(randRoom, entrancePos);
             testHandleRoom(randRoomInstance);
-            spawnEnemies(randRoomInstance);
+            //spawnEnemies(randRoomInstance);
 
             lastExit = exitPos;
         }
@@ -148,27 +147,59 @@ public class ChapterManager : MonoBehaviour
 
     void testHandleRoom(GameObject room)
     {
-        
-        tileWorldLocations = new List<Vector3>();
-        Debug.Log(room.name);
+        Tilemap tilemap;
+
+        if (enemiesContainer == null)
+            enemiesContainer = new GameObject("Enemies").transform;
+
+        // List<Vector3> tileWorldLocations;
+        // tileWorldLocations = new List<Vector3>();
+        // Debug.Log(room.name);
+
+        // get Tilemap of RoomInfoPositions
+        // Grid > Tutorial > RoomInfo > RoomInfoPositions
         tilemap = room.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
 
         foreach (var pos in tilemap.cellBounds.allPositionsWithin)
         {   
-            Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
+            Vector3Int tileLocalPos = new Vector3Int(pos.x, pos.y, pos.z);
             // TODO https://docs.unity3d.com/ScriptReference/Tilemaps.Tilemap.html
-            TileBase t = tilemap.GetTile(localPlace);
-            Debug.Log("curr tile");
-            Debug.Log(t);
-            Debug.Log(t.ToString());
-            Debug.Log(t.name);
-            // Vector3 place = tilemap.CellToWorld(localPlace);
-            // if (tilemap.HasTile(localPlace))
+            TileBase t = tilemap.GetTile(tileLocalPos);
+            if (t == null)
+                continue;
+            //Debug.Log("curr tile");
+            //Debug.Log(t);
+            Debug.Log(t.name + " at " + tileLocalPos.ToString());
+
+            // Vector3 place = tilemap.CellToWorld(tileLocalPos);
+            // if (tilemap.HasTile(tileLocalPos))
             // {
             //     tileWorldLocations.Add(place);
             // }
+
+            switch (t.name)
+            {
+                case "coin_0":
+                    // instantiate at position
+                    GameObject c = InstanceSpawnable(coin, tileLocalPos, room);
+                    c.transform.SetParent(enemiesContainer);
+
+                    break;
+                case "enemy":
+                    // choose random enemy from the enemies array
+                    GameObject enemyPrefab = enemies[Random.Range(0, enemies.Length - 1)];
+
+                    GameObject enemyInstance = InstanceSpawnable(enemyPrefab, tileLocalPos, room);
+
+                    enemyInstance.transform.SetParent(enemiesContainer);
+
+                    break;
+            }
         }
 
+        // delete RoomPositionsInfo tilemap
+        GameObject.Destroy(room.transform.GetChild(0).GetChild(0).gameObject);
+        GameObject.Destroy(room.transform.GetChild(0).gameObject);
 
     }
 
@@ -198,6 +229,17 @@ public class ChapterManager : MonoBehaviour
             enemyInstance.transform.SetParent(enemiesContainer);
         }
     }
+
+    // Instances and places the specified prefab at the given position in the given room.
+    GameObject InstanceSpawnable(GameObject prefab, Vector3 localPosition, GameObject room)
+    {
+        // calculate position with offset of room, the spawnable's local position, and a mid-tile offset
+        Vector3 finalPosition = room.transform.position + localPosition + new Vector3(0.5f, 0.5f, 0f);
+
+        // instantiate at position
+        return Instantiate(prefab, finalPosition, Quaternion.identity) as GameObject;
+    }
+
 
     void ClearLevel() {
         foreach (Transform child in grid.transform) {
