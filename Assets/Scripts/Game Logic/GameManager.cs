@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour
         Reset();
     }
 
-    private void OnEndzoneReached() {
-        currentChapter += 1;
-        ChapterManager.Instance.initChapter(currentChapter);
-    }
+    //private void OnEndzoneReached() {
+        // currentChapter += 1;
+        // ChapterManager.Instance.initChapter(currentChapter);
+    //}
 
     private void Reset() {
         currentChapter = startingChapter;
@@ -66,12 +66,12 @@ public class GameManager : MonoBehaviour
     }
 
     private void OnEnable() {
-        EndzoneScript.EndzoneReached += OnEndzoneReached;
+        //EndzoneScript.EndzoneReached += OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
     private void OnDisable() {
-        EndzoneScript.EndzoneReached -= OnEndzoneReached;
+        //EndzoneScript.EndzoneReached -= OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }

@@ -50,9 +50,9 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         
     }
 
-    private void OnEndZoneReached() {
-        this.transform.position = new Vector2(2, 2);
-    }
+    //private void OnEndZoneReached() {
+    //    this.transform.position = new Vector2(2, 2);
+    //}
 
     private void OnReset() {
         // stop any dashes, and also reset everything that may have been changed in dash.
@@ -114,12 +114,12 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     }
     private void OnEnable() {
         GameManager.OnReset += OnReset;
-        EndzoneScript.EndzoneReached += OnEndZoneReached;
+        //EndzoneScript.EndzoneReached += OnEndZoneReached;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
     private void OnDisable() {
         GameManager.OnReset -= OnReset;
-        EndzoneScript.EndzoneReached -= OnEndZoneReached;
+        //EndzoneScript.EndzoneReached -= OnEndZoneReached;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
     }
 }

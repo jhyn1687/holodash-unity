@@ -142,6 +142,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2434135130777357089, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+      propertyPath: startingChapter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2434135130777357089, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: AugmentPickupText
       value: 
       objectReference: {fileID: 1031942255}
@@ -193,6 +197,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+      propertyPath: coin
+      value: 
+      objectReference: {fileID: 9166757833457666934, guid: 0fe54eb122da8d5418366d5fd624579c, type: 3}
     - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: grid
       value: 

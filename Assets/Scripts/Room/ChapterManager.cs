@@ -18,7 +18,7 @@ Holodash Team
 TODO:
  - [] TODO: you can put all chapter room arrays in another array,
             with indices 0=prologue 1=ch1, 7=ch7, etc
- - [] Make placeRooms() recursive, in preparation for Branch Rooms 
+ - [] Make PlaceRooms() recursive, in preparation for Branch Rooms 
 
 
 */
@@ -49,8 +49,12 @@ public class ChapterManager : MonoBehaviour
     [SerializeField] private GameObject[] enemies; // available enemies
     [SerializeField] private GameObject coin;
 
-    List<GameObject>[] chapterRooms;
-
+    private HashSet<int> usedRooms; // list of available rooms. 
+                            // ints correspond to their index in ch1
+                            // removing one marks current index as "used". (no room repeats)
+    
+    private Vector2 lastEndRoomPos;
+    private List<Vector2> roomEndPositions;
 
     // to keep the hierarchy clean
     // we child GameObjects (enemies, coins, destructibles) in this Transform
@@ -77,13 +81,29 @@ public class ChapterManager : MonoBehaviour
     public void initChapter(int chapter)
     {
         ClearLevel();
+
+        Vector2 startRoomExit = PlaceRoom(startRoom, new Vector2(0f, 0f));
+
         if (chapter == 0) // if prologue
-        {  
-            initPrologue();
-            return;
+        {
+            PlaceRoom(ch0, startRoomExit);
         }
 
-        placeRooms(chapter);
+        usedRooms = new HashSet<int>();
+    }
+
+    // TODO call this OnExitReached
+    private void OnEndzoneReached()
+    {
+
+        int randy = Random.Range(0, ch1.Count);
+        while (usedRooms.Contains(randy))
+            randy = Random.Range(0, ch1.Count);
+        usedRooms.Add(randy);
+
+        GameObject randRoom = ch1[randy];
+
+        PlaceRoom(randRoom, lastEndRoomPos);
     }
 
     // Initializes rooms for the prologue tutorial.
@@ -91,45 +111,9 @@ public class ChapterManager : MonoBehaviour
     {
         // GameObject startRoomInstance = Instantiate(startRoom, new Vector2(0f, 0f), Quaternion.identity) as GameObject;
         // startRoomInstance.transform.SetParent(grid.transform);
-        placeRoom(startRoom, new Vector2(0f, 0f));
+        Vector2 startRoomExit = PlaceRoom(startRoom, new Vector2(0f, 0f));
 
-        Vector2 startRoomExit = startRoom.GetComponent<Room>().exit;
-        GameObject tutorialInstance = Instantiate(ch0, startRoomExit, Quaternion.identity) as GameObject;
-        tutorialInstance.transform.SetParent(grid.transform);
-        
-        // spawnEnemies(placeRoom(ch0, startRoomExit));
-    
-        testHandleRoom(tutorialInstance);
-    }
-
-    // Will initialize all rooms, connecting them properly.
-    // Each room is set up with appropriate enemies, destructibles, etc. one at a time
-    void placeRooms(int chapter)
-    {
-        placeRoom(startRoom, new Vector2(0f, 0f));
-        Vector2 lastExit = startRoom.GetComponent<Room>().exit;
-        // cloning the chapter so that reset doesn't delete the original rooms.
-        List<GameObject> ch1_clone = new List<GameObject>(ch1);
-        for (int i = 0; i < NUMROOMS; i++)
-        {
-            int randy = Random.Range (0, ch1_clone.Count);
-            GameObject randRoom = ch1_clone[randy];
-            ch1_clone.RemoveAt(randy);
-            Vector2 rrEntrance = randRoom.GetComponent<Room>().entrance;
-            Vector2 rrExit = randRoom.GetComponent<Room>().exit;
-
-            // calculate entrance and exit connection position
-            Vector2 entrancePos = lastExit - rrEntrance;
-            Vector2 exitPos = (lastExit + rrExit) - rrEntrance;
-
-            GameObject randRoomInstance = placeRoom(randRoom, entrancePos);
-            testHandleRoom(randRoomInstance);
-            //spawnEnemies(randRoomInstance);
-
-            lastExit = exitPos;
-        }
-
-        placeRoom(endRoom, lastExit - endRoom.GetComponent<Room>().entrance);
+        PlaceRoom(ch0, startRoomExit);
     }
 
 
@@ -138,23 +122,22 @@ public class ChapterManager : MonoBehaviour
     // - position: global position at which to place room
     // 
     // Instances and places the given room at a given location.
-    GameObject placeRoom(GameObject roomToInstance, Vector2 position)
+    Vector2 PlaceRoom(GameObject roomToInstance, Vector2 position)
     {
         GameObject roomInstance = Instantiate(roomToInstance, position, Quaternion.identity) as GameObject;
+
         roomInstance.transform.SetParent(grid.transform);
-        return roomInstance;
+        
+        lastEndRoomPos = HandleRoomInfo(roomInstance);
+        return lastEndRoomPos;
     }
 
-    void testHandleRoom(GameObject room)
+    // Uses RoomInfoPositions tilemap to get room entrance, exit, position information as well as
+    // instance coins, enemies, etc. in their corresponding positions.
+    Vector2 HandleRoomInfo(GameObject room)
     {
         Tilemap tilemap;
-
-        if (enemiesContainer == null)
-            enemiesContainer = new GameObject("Enemies").transform;
-
-        // List<Vector3> tileWorldLocations;
-        // tileWorldLocations = new List<Vector3>();
-        // Debug.Log(room.name);
+        Vector2 endPosition = Vector2.zero;
 
         // get Tilemap of RoomInfoPositions
         // Grid > Tutorial > RoomInfo > RoomInfoPositions
@@ -167,15 +150,8 @@ public class ChapterManager : MonoBehaviour
             TileBase t = tilemap.GetTile(tileLocalPos);
             if (t == null)
                 continue;
-            //Debug.Log("curr tile");
-            //Debug.Log(t);
-            Debug.Log(t.name + " at " + tileLocalPos.ToString());
 
-            // Vector3 place = tilemap.CellToWorld(tileLocalPos);
-            // if (tilemap.HasTile(tileLocalPos))
-            // {
-            //     tileWorldLocations.Add(place);
-            // }
+            Debug.Log(t.name + " at " + tileLocalPos.ToString());
 
             switch (t.name)
             {
@@ -194,6 +170,10 @@ public class ChapterManager : MonoBehaviour
                     enemyInstance.transform.SetParent(enemiesContainer);
 
                     break;
+                case "EndMarker":
+                    endPosition = new Vector2(tileLocalPos.x, tileLocalPos.y);
+
+                    break;
             }
         }
 
@@ -201,33 +181,7 @@ public class ChapterManager : MonoBehaviour
         GameObject.Destroy(room.transform.GetChild(0).GetChild(0).gameObject);
         GameObject.Destroy(room.transform.GetChild(0).gameObject);
 
-    }
-
-    // @Requires: room must be an instance, NOT a prefab
-    // spawns enemies in room instance
-    void spawnEnemies(GameObject room)
-    {
-        if (enemiesContainer == null)
-            enemiesContainer = new GameObject("Enemies").transform;
-
-        // get enemy positions from room.enemyPositions
-        Vector2[] enemyPositions = room.GetComponent<Room>().enemyPositions;
-
-        for (int i = 0; i < enemyPositions.Length; i++)
-        {
-            // choose random enemy from the enemies array
-            GameObject enemyPrefab = enemies[Random.Range (0, enemies.Length-1)];
-
-            // calculate placement position relative to room
-            // (+1 to y for some reason)
-            Vector3 pos = room.transform.position + new Vector3(enemyPositions[i].x, enemyPositions[i].y + 1, 0);
-
-            // instantiate at position
-            GameObject enemyInstance = Instantiate(enemyPrefab, pos, Quaternion.identity) as GameObject;
-
-            // place in enemies container
-            enemyInstance.transform.SetParent(enemiesContainer);
-        }
+        return endPosition;
     }
 
     // Instances and places the specified prefab at the given position in the given room.
@@ -240,7 +194,6 @@ public class ChapterManager : MonoBehaviour
         return Instantiate(prefab, finalPosition, Quaternion.identity) as GameObject;
     }
 
-
     void ClearLevel() {
         foreach (Transform child in grid.transform) {
             GameObject.Destroy(child.gameObject);
@@ -250,5 +203,16 @@ public class ChapterManager : MonoBehaviour
                 GameObject.Destroy(enemy.gameObject);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        //GameManager.OnReset += OnReset;
+        EndzoneScript.EndzoneReached += OnEndzoneReached;
+    }
+    private void OnDisable()
+    {
+        //GameManager.OnReset -= OnReset;
+        EndzoneScript.EndzoneReached -= OnEndzoneReached;
     }
 }
