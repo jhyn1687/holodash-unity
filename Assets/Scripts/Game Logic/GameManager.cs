@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
         AugmentPickupText.gameObject.SetActive(false);
     }
 
+    public event Action onCoinCollected;
     public void CoinCollected() 
     {
         if (onCoinCollected != null) 

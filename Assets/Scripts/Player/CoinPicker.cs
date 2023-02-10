@@ -30,7 +30,7 @@ public class CoinPicker : MonoBehaviour, IDataPersistence
         if (other.transform.tag == "Coin") {
             coin++;
             Destroy(other.gameObject);
-            OnCoinCollected?.Invoke();
+            GameManager.Instance.CoinCollected();
         }
     }
 }

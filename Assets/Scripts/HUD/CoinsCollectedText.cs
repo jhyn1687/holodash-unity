@@ -17,7 +17,7 @@ public class CoinsCollectedText : MonoBehaviour, IDataPersistence
     private void Start() 
     {
         // subscribe to events
-        GameManager._instance.onCoinCollected += OnCoinCollected;
+        GameManager.Instance.onCoinCollected += OnCoinCollected;
     }
 
     public void LoadData(GameData data) 
@@ -33,7 +33,7 @@ public class CoinsCollectedText : MonoBehaviour, IDataPersistence
     private void OnDestroy() 
     {
         // unsubscribe from events
-        GameManager._instance.onCoinCollected -= OnCoinCollected;
+        GameManager.Instance.onCoinCollected -= OnCoinCollected;
     }
 
     private void OnCoinCollected() 
