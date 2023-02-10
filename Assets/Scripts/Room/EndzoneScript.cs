@@ -9,6 +9,7 @@ public class EndzoneScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.tag == "Player") {
             EndzoneReached?.Invoke();
+            GameObject.Destroy(gameObject);
         }
     }
 }

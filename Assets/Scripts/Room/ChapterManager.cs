@@ -49,12 +49,12 @@ public class ChapterManager : MonoBehaviour
     [SerializeField] private GameObject[] enemies; // available enemies
     [SerializeField] private GameObject coin;
 
-    private HashSet<int> usedRooms; // list of available rooms. 
+    //private HashSet<int> usedRooms; // list of available rooms. 
                             // ints correspond to their index in ch1
                             // removing one marks current index as "used". (no room repeats)
     
     private Vector2 lastEndRoomPos;
-    private List<Vector2> roomEndPositions;
+    //private List<Vector2> roomEndPositions; // or make it used room names? 
 
     // to keep the hierarchy clean
     // we child GameObjects (enemies, coins, destructibles) in this Transform
@@ -82,14 +82,14 @@ public class ChapterManager : MonoBehaviour
     {
         ClearLevel();
 
-        Vector2 startRoomExit = PlaceRoom(startRoom, new Vector2(0f, 0f));
+        PlaceRoom(startRoom, new Vector2(0f, 0f));
 
-        if (chapter == 0) // if prologue
+        if (chapter == 0) // if prologue, place tutorial
         {
-            PlaceRoom(ch0, startRoomExit);
+            PlaceRoom(ch0, lastEndRoomPos);
         }
 
-        usedRooms = new HashSet<int>();
+        //usedRooms = new HashSet<int>();
     }
 
     // TODO call this OnExitReached
@@ -97,10 +97,11 @@ public class ChapterManager : MonoBehaviour
     {
 
         int randy = Random.Range(0, ch1.Count);
-        while (usedRooms.Contains(randy))
-            randy = Random.Range(0, ch1.Count);
-        usedRooms.Add(randy);
+        //while (usedRooms.Contains(randy))
+        //    randy = Random.Range(0, ch1.Count);
+        //usedRooms.Add(randy);
 
+        Debug.Log("OnEndzone (exit) Reached");
         GameObject randRoom = ch1[randy];
 
         PlaceRoom(randRoom, lastEndRoomPos);
@@ -127,8 +128,10 @@ public class ChapterManager : MonoBehaviour
         GameObject roomInstance = Instantiate(roomToInstance, position, Quaternion.identity) as GameObject;
 
         roomInstance.transform.SetParent(grid.transform);
-        
+        Debug.Log(roomToInstance.name + "placed at: " + lastEndRoomPos);
+
         lastEndRoomPos = HandleRoomInfo(roomInstance);
+        Debug.Log("its end position: " + lastEndRoomPos);
         return lastEndRoomPos;
     }
 
@@ -151,7 +154,7 @@ public class ChapterManager : MonoBehaviour
             if (t == null)
                 continue;
 
-            Debug.Log(t.name + " at " + tileLocalPos.ToString());
+            // Debug.Log(t.name + " at " + tileLocalPos.ToString());
 
             switch (t.name)
             {
@@ -171,7 +174,7 @@ public class ChapterManager : MonoBehaviour
 
                     break;
                 case "EndMarker":
-                    endPosition = new Vector2(tileLocalPos.x, tileLocalPos.y);
+                    endPosition = lastEndRoomPos + new Vector2(tileLocalPos.x, tileLocalPos.y);
 
                     break;
             }
