@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private PlayerData Data;
 
+	private Vector2 STARTPOSITION = new Vector2(-3.5f, 2f);
+
 	#region EVENTS
 	public UnityEvent onDash;
 	public UnityEvent onDashFinished;
@@ -638,7 +640,7 @@ public class PlayerMovement : MonoBehaviour
 		SetGravityScale(Data.gravityScale);
 		sr.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
 		IsFacingRight = true;
-		this.transform.position = new Vector2(2, 2);
+		this.transform.position = STARTPOSITION;
 		RB.velocity = new Vector2(0, 0);
 	}
 	private void OnEnable() {
