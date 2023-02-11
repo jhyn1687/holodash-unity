@@ -108,8 +108,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
-        #region TIMERS
-        LastOnGroundTime -= Time.deltaTime;
+		#region TIMERS
+		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
 		LastOnWallRightTime -= Time.deltaTime;
 		LastOnWallLeftTime -= Time.deltaTime;
@@ -127,14 +127,19 @@ public class PlayerMovement : MonoBehaviour
 
 		CheckDirectionToFace(aimDirection.x > 0);
 
-		if(Input.GetButtonDown("Jump"))
-        {
+		if (Input.GetButtonDown("Jump"))
+		{
 			OnJumpInput();
-        }
+		}
 
 		if (Input.GetButtonUp("Jump"))
 		{
 			OnJumpUpInput();
+		}
+
+		if (Input.GetButtonDown("Crouch"))
+        {
+			OnCrouchInput();
 		}
 
 		if (Input.GetButtonDown("Fire3"))
@@ -350,6 +355,11 @@ public class PlayerMovement : MonoBehaviour
 		if (CanJumpCut() || CanWallJumpCut())
 			_isJumpCut = true;
 	}
+
+	public void OnCrouchInput()
+    {
+		Debug.Log("Crouch");
+    }
 
 	public void OnDashInput()
 	{

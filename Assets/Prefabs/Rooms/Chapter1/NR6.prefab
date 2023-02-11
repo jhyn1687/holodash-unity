@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3691490908677307277}
   - component: {fileID: 3691490908677307274}
   - component: {fileID: 3691490908677307275}
-  - component: {fileID: 3986984748610249616}
   m_Layer: 3
   m_Name: NR6
   m_TagString: Untagged
@@ -20915,29 +20914,6 @@ CompositeCollider2D:
       - {x: 11.00003, y: -28}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
---- !u!114 &3986984748610249616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3691490908677307273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f00b1653acdf73a489b77f9d9c6de3f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entrance: {x: 0, y: 1}
-  exit: {x: 28, y: -4}
-  enemyPositions:
-  - {x: 12, y: -2}
-  - {x: 8, y: -9}
-  - {x: 23, y: -12}
-  - {x: 17, y: -6}
-  destructiblePositions:
-  - {x: 20, y: 1}
-  - {x: 7, y: 7}
-  doorPositions: []
 --- !u!1001 &1670278523265731261
 PrefabInstance:
   m_ObjectHideFlags: 0

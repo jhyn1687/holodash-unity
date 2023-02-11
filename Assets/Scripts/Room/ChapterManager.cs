@@ -59,10 +59,12 @@ public class ChapterManager : MonoBehaviour
     // to keep the hierarchy clean
     // we child GameObjects (enemies, coins, destructibles) in this Transform
     private Transform enemiesContainer;
+    private Transform ftpsContainer;
 
     void Awake() {
         _instance = this;
-        enemiesContainer = new GameObject("Enemies").transform;
+        enemiesContainer = new GameObject("EnemiesContainer").transform;
+        ftpsContainer = new GameObject("FtpsContainer").transform;
     }
 
     void Start() {
@@ -128,10 +130,26 @@ public class ChapterManager : MonoBehaviour
         GameObject roomInstance = Instantiate(roomToInstance, position, Quaternion.identity) as GameObject;
 
         roomInstance.transform.SetParent(grid.transform);
-        Debug.Log(roomToInstance.name + "placed at: " + lastEndRoomPos);
+        // Debug.Log(roomToInstance.name + "placed at: " + lastEndRoomPos);
+
+        // Handle fallthrough platforms
+        // thanks man https://forum.unity.com/threads/how-to-get-gameobjects-that-inside-instantiated-prefabs.841522/
+        // problem: parent tags override child tags
+        // solution: DUH just extract the ftp's out of the room, reparent them into new container
+
+        // find all children whose names are "FallthroughPlatform" in the room
+        // and set their parent to the FallthroughPlatformsContainer
+        Transform[] ftPlatforms = roomInstance.transform.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < ftPlatforms.Length; i++)
+        {
+            if (String.Equals(ftPlatforms[i].name, "FallthroughPlatform"))
+            {
+                ftPlatforms[i].SetParent(ftpsContainer);
+            }
+        }
 
         lastEndRoomPos = HandleRoomInfo(roomInstance);
-        Debug.Log("its end position: " + lastEndRoomPos);
+        // Debug.Log("its end position: " + lastEndRoomPos);
         return lastEndRoomPos;
     }
 
