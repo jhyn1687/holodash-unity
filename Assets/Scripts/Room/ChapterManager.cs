@@ -84,10 +84,14 @@ public class ChapterManager : MonoBehaviour
     {
         ClearLevel();
 
-        PlaceRoom(startRoom, new Vector2(0f, 0f));
+        GameObject startRoomInstance = PlaceRoom(startRoom, new Vector2(0f, 0f));
 
-        if (chapter == 0) // if prologue, place tutorial
+        if (chapter == 0) 
         {
+            // delete StartRoom endzone
+            GameObject.Destroy(startRoomInstance.transform.GetChild(1).gameObject);
+
+            // if prologue, place tutorial
             PlaceRoom(ch0, lastEndRoomPos);
         }
 
@@ -114,18 +118,20 @@ public class ChapterManager : MonoBehaviour
     {
         // GameObject startRoomInstance = Instantiate(startRoom, new Vector2(0f, 0f), Quaternion.identity) as GameObject;
         // startRoomInstance.transform.SetParent(grid.transform);
-        Vector2 startRoomExit = PlaceRoom(startRoom, new Vector2(0f, 0f));
+        PlaceRoom(startRoom, new Vector2(0f, 0f));
 
-        PlaceRoom(ch0, startRoomExit);
+        PlaceRoom(ch0, lastEndRoomPos);
     }
 
-
+    // Modifies
+    // lastEndRoomPos - sets to the placed room's exit position
+    //
     // Parameters
     // - roomToInstance: room prefab to instance into game.
     // - position: global position at which to place room
     // 
     // Instances and places the given room at a given location.
-    Vector2 PlaceRoom(GameObject roomToInstance, Vector2 position)
+    GameObject PlaceRoom(GameObject roomToInstance, Vector2 position)
     {
         GameObject roomInstance = Instantiate(roomToInstance, position, Quaternion.identity) as GameObject;
 
@@ -151,7 +157,8 @@ public class ChapterManager : MonoBehaviour
 
         lastEndRoomPos = HandleRoomInfo(roomInstance);
         // Debug.Log("its end position: " + lastEndRoomPos);
-        return lastEndRoomPos;
+
+        return roomInstance;
     }
 
     // Uses RoomInfoPositions tilemap to get room entrance, exit, position information as well as

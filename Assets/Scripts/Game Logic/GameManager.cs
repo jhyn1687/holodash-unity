@@ -29,27 +29,40 @@ public class GameManager : MonoBehaviour
         _instance = this;
     }
 
-    void Start() {
+    void Start() 
+    {
         Reset();
     }
 
-    //private void OnEndzoneReached() {
-        // currentChapter += 1;
-        // ChapterManager.Instance.initChapter(currentChapter);
-    //}
+    private void OnEndChapterZoneReached() 
+    {
+        currentChapter += 1;
+        LoadNewChapter(currentChapter);
+    }
 
-    private void Reset() {
+    private void Reset() 
+    {
         currentChapter = startingChapter;
-        ChapterManager.Instance.initChapter(currentChapter);
-        if (enemyBulletContainer != null) {
-            foreach (Transform child in enemyBulletContainer) {
+        LoadNewChapter(currentChapter);
+    }
+
+    private void LoadNewChapter(int currChapter)
+    {
+        ChapterManager.Instance.initChapter(currChapter);
+        if (enemyBulletContainer != null)
+        {
+            foreach (Transform child in enemyBulletContainer)
+            {
                 Destroy(child.gameObject);
             }
-        } else if (GameObject.Find("Enemy Bullet Container") != null) {
+        }
+        else if (GameObject.Find("Enemy Bullet Container") != null)
+        {
             enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
         }
         OnReset?.Invoke();
     }
+
     public void OnAugmentPickup(int id) 
     {
         Augment aug = AugmentManager.GetAugment(id);
@@ -66,12 +79,13 @@ public class GameManager : MonoBehaviour
     }
 
     private void OnEnable() {
-        //EndzoneScript.EndzoneReached += OnEndzoneReached;
+        EndChapterScript.EndChapterZoneReached += OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
+
     private void OnDisable() {
-        //EndzoneScript.EndzoneReached -= OnEndzoneReached;
+        EndChapterScript.EndChapterZoneReached -= OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }

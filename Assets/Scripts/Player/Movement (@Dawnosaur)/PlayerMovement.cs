@@ -645,6 +645,7 @@ public class PlayerMovement : MonoBehaviour
 				break;
 		}
 	}
+
 	private void Reset() {
 		Data = InitialData;
 		SetGravityScale(Data.gravityScale);
@@ -653,15 +654,17 @@ public class PlayerMovement : MonoBehaviour
 		this.transform.position = STARTPOSITION;
 		RB.velocity = new Vector2(0, 0);
 	}
+
 	private void OnEnable() {
 		GameManager.OnReset += Reset;
 		AugmentManager.OnAugmentPickup += OnAugmentPickup;
 	}
+
 	private void OnDisable() {
 		GameManager.OnReset -= Reset;
 		AugmentManager.OnAugmentPickup -= OnAugmentPickup;
 	}
-    #endregion
+	#endregion
 }
 
 [System.Serializable]

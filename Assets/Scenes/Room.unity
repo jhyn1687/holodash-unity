@@ -328,7 +328,7 @@ PrefabInstance:
     - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: ch0
       value: 
-      objectReference: {fileID: 6309524100365010643, guid: d252ebaa2edf1bf4f932fd353d47a423, type: 3}
+      objectReference: {fileID: 5412107753212336918, guid: e89d23739da9fb342bbe5f27b6acd4c9, type: 3}
     - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: coin
       value: 
@@ -339,12 +339,16 @@ PrefabInstance:
       objectReference: {fileID: 1342072002}
     - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: ch1.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: ch1.Array.data[5]
       value: 
       objectReference: {fileID: 3691490908677307273, guid: 7e7b86411698ede45af1942b99905716, type: 3}
+    - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+      propertyPath: ch1.Array.data[6]
+      value: 
+      objectReference: {fileID: 8936203364616047231, guid: b3b199f84c555d649ac498b66f23c3ce, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
 --- !u!114 &315180051 stripped
