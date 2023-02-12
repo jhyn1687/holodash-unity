@@ -139,10 +139,11 @@ public class ChapterManager : MonoBehaviour
 
         // find all children whose names are "FallthroughPlatform" in the room
         // and set their parent to the FallthroughPlatformsContainer
+        string ftp = "FallthroughPlatform";
         Transform[] ftPlatforms = roomInstance.transform.GetComponentsInChildren<Transform>();
         for (int i = 0; i < ftPlatforms.Length; i++)
         {
-            if (String.Equals(ftPlatforms[i].name, "FallthroughPlatform"))
+            if (ftPlatforms[i].name.Contains(ftp))
             {
                 ftPlatforms[i].SetParent(ftpsContainer);
             }

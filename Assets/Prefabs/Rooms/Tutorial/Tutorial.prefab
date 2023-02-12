@@ -518,7 +518,6 @@ GameObject:
   - component: {fileID: 5412107753212336936}
   - component: {fileID: 5412107753212336937}
   - component: {fileID: 5412107753212336938}
-  - component: {fileID: 7379079789392191592}
   m_Layer: 3
   m_Name: Tutorial
   m_TagString: Untagged
@@ -104465,32 +104464,6 @@ CompositeCollider2D:
       - {x: 151.00003, y: -13}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
---- !u!114 &7379079789392191592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5412107753212336918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f00b1653acdf73a489b77f9d9c6de3f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entrance: {x: 0, y: 0}
-  exit: {x: -1, y: -1}
-  enemyPositions:
-  - {x: 81, y: 0}
-  - {x: 99, y: 0}
-  - {x: 104, y: -2}
-  - {x: 107, y: -5}
-  - {x: 121, y: -10}
-  - {x: 133, y: -9}
-  - {x: 137, y: -13}
-  - {x: 190, y: -13}
-  - {x: 194, y: -13}
-  destructiblePositions: []
-  doorPositions: []
 --- !u!1 &6451535757583432489
 GameObject:
   m_ObjectHideFlags: 0
