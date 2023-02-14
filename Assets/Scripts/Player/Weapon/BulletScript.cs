@@ -38,7 +38,7 @@ public class BulletScript : MonoBehaviour
             ricochetCounter++;
         } else if (collided.layer == LayerMask.NameToLayer("Enemy Projectile")) {
             Object.Destroy(collided.gameObject);
-            ricochetCounter++;
+            Object.Destroy(this.gameObject);
         }
     }
 
@@ -51,6 +51,6 @@ public class BulletScript : MonoBehaviour
     }
 
     void OnDisable() {
-        GameManager.OnReset += Reset;
+        GameManager.OnReset -= Reset;
     }
 }

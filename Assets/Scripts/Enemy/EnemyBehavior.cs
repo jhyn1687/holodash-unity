@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBehavior : MonoBehaviour, IDamageable
 {
@@ -11,10 +12,12 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     public EnemyState currentState { get; set; }
     public Vector2 playerLastLocation { get; set; }
 
+    private float damageAnimationTimer = 0f;
     private Animator ani;
     [SerializeField] private float damageToPlayer;
     [SerializeField] private GameObject coin;
     [SerializeField] private int maxHealth;
+    [SerializeField] private EnemyHPBehavior HPBar;
 
     public float Health { get; set; }
 
@@ -25,6 +28,7 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
         playerLastLocation = Vector2.negativeInfinity;
         currentState = EnemyState.Idle;
         Health = maxHealth;
+        damageAnimationTimer = 0f;
     }
 
     // Update is called once per frame
@@ -32,6 +36,11 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     {
         if (Health <= 0) {
             OnDeath();
+        }
+        if (damageAnimationTimer < 0) {
+            ani.SetBool("Taking Damage", false);
+        } else {
+            damageAnimationTimer -= Time.deltaTime;
         }
     }
 
@@ -42,7 +51,7 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     {
         Instantiate(coin, this.transform.position, this.transform.rotation);
         Destroy(this.gameObject);
-        Debug.Log("bossdied: " + gameObject.name);
+        Debug.Log("boss died: " + gameObject.name);
         
         // if this enemy is a boss
         if (String.Equals(gameObject.name, "Boss"))
@@ -63,8 +72,11 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
 
     public void Damage(float damage) 
     {
-        Health -= damage;
-        StartCoroutine(DamageAnimation());
+
+        Health = Mathf.Max(Health - damage, 0);
+        damageAnimationTimer = 0.5f;
+        ani.SetBool("Taking Damage", true);
+        HPBar.setHealth(Health, maxHealth);
     }
 
     public void DamageOverTime(float damage, float time) 
@@ -81,12 +93,5 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
             damageTaken += damage / time;
             yield return new WaitForSeconds(1f);
         }
-    }
-
-    IEnumerator DamageAnimation() 
-    {
-        ani.SetBool("Taking Damage", true);
-        yield return new WaitForSeconds(0.5f);
-        ani.SetBool("Taking Damage", false);
     }
 }
