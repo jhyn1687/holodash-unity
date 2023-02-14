@@ -4892,6 +4892,7 @@ GameObject:
   - component: {fileID: 7016344866040910975}
   - component: {fileID: 4229144723987542341}
   - component: {fileID: 7998192504759970100}
+  - component: {fileID: 2584288324398040688}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -5225,8 +5226,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AbilityButton, Assembly-CSharp
-        m_MethodName: AbilityReady
+        m_TargetAssemblyTypeName: DashIcon, Assembly-CSharp
+        m_MethodName: OnDashRefilled
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5273,6 +5274,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb79310d288e794689327fede7c515d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2584288324398040688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718101359043949178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e697221babbc3244b40d36831736612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCollider: {fileID: 3718101359043949121}
 --- !u!1 &3718101359158142832
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,6 +46,6 @@ public class EnemyBulletScript : MonoBehaviour
     }
 
     void OnDisable() {
-        GameManager.OnReset -= Reset;
+        GameManager.OnReset += Reset;
     }
 }

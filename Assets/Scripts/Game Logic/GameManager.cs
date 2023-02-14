@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int startingChapter;
     [SerializeField] private TextMeshProUGUI AugmentPickupText;
 
-    private int currentChapter;
+    public int currentChapter;
 
     private Transform enemyBulletContainer;
 
@@ -29,27 +29,41 @@ public class GameManager : MonoBehaviour
         _instance = this;
     }
 
-    void Start() {
+    void Start() 
+    {
         Reset();
     }
 
-    private void OnEndzoneReached() {
+    private void OnEndChapterZoneReached() 
+    {
         currentChapter += 1;
-        ChapterManager.Instance.initChapter(currentChapter);
+        LoadNewChapter(currentChapter);
     }
 
-    private void Reset() {
+    private void Reset() 
+    {
         currentChapter = startingChapter;
-        ChapterManager.Instance.initChapter(currentChapter);
-        if (enemyBulletContainer != null) {
-            foreach (Transform child in enemyBulletContainer) {
-                Destroy(child.gameObject);
-            }
-        } else if (GameObject.Find("Enemy Bullet Container") != null) {
-            enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
-        }
+        LoadNewChapter(currentChapter);
         OnReset?.Invoke();
     }
+
+    private void LoadNewChapter(int currChapter)
+    {
+        ChapterManager.Instance.initChapter(currChapter);
+        if (enemyBulletContainer != null)
+        {
+            foreach (Transform child in enemyBulletContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        else if (GameObject.Find("Enemy Bullet Container") != null)
+        {
+            enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
+        }
+
+    }
+
     public void OnAugmentPickup(int id) 
     {
         Augment aug = AugmentManager.GetAugment(id);
@@ -66,13 +80,14 @@ public class GameManager : MonoBehaviour
     }
 
     private void OnEnable() {
-        EndzoneScript.EndzoneReached += OnEndzoneReached;
+        EndChapterScript.EndChapterZoneReached += OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
+
     private void OnDisable() {
-        EndzoneScript.EndzoneReached -= OnEndzoneReached;
-        PlayerBehavior.OnPlayerDeath -= Reset;
-        AugmentManager.OnAugmentPickup -= OnAugmentPickup;
+        EndChapterScript.EndChapterZoneReached -= OnEndChapterZoneReached;
+        PlayerBehavior.OnPlayerDeath += Reset;
+        AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
 }
