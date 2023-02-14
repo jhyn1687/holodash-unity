@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public int currentChapter;
 
+    public UpgradeShopUI uiShop;
+
     private Transform enemyBulletContainer;
 
     private static GameManager _instance;
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
     void Start() 
     {
         Reset();
+        uiShop.gameObject.SetActive(false);
     }
 
     private void OnEndChapterZoneReached() 
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour
         currentChapter = startingChapter;
         LoadNewChapter(currentChapter);
         OnReset?.Invoke();
+        
     }
 
     private void LoadNewChapter(int currChapter)
