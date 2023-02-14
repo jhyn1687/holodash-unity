@@ -33,12 +33,12 @@ public class BulletScript : MonoBehaviour
             hit.DamageOverTime(bulletProps.DOTDamage * bulletProps.DOTDamageMultiplier, bulletProps.DOTTime * bulletProps.DOTTimeMultiplier);
             Object.Destroy(this.gameObject);
         } 
-        else if (collided.layer == LayerMask.NameToLayer("Ground"))
+        else if (collided.layer == LayerMask.NameToLayer("Ground") && !string.Equals(collided.tag, "OneWayPlatform"))
         {
             ricochetCounter++;
         } else if (collided.layer == LayerMask.NameToLayer("Enemy Projectile")) {
             Object.Destroy(collided.gameObject);
-            ricochetCounter++;
+            Object.Destroy(this.gameObject);
         }
     }
 
