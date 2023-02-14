@@ -1,0 +1,12 @@
+# How to Make Rooms
+
+1. Have Room scene open, drag RoomBase into Grid
+2. Each room needs 1 of each; make sure it has these:
+- RoomInfo prefab
+- Endzone prefab
+
+3. Draw level with the Tile Palette, edit in scene.
+4. Add any FallthroughPlatform's you want
+5. In RoomInfoPositions tilemap, draw enemies and coins. Use the "Instanceables" tile palette, IN SCENE. IMPORTANT: Place the END marker at the exit.
+6. Place the Endzone at the same position as the END marker. Its offset compensates for this
+7. Rename the prefab, drag it to the folder to make it as an original prefab.

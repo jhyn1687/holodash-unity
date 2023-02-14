@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7009674959420408897}
   - component: {fileID: 7009674959420408902}
   - component: {fileID: 7009674959420408903}
-  - component: {fileID: 7289371566174854236}
   m_Layer: 3
   m_Name: NR69
   m_TagString: Untagged
@@ -2117,26 +2116,3 @@ CompositeCollider2D:
       - {x: 10.00003, y: 5}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
---- !u!114 &7289371566174854236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009674959420408901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f00b1653acdf73a489b77f9d9c6de3f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entrance: {x: 0, y: 1}
-  exit: {x: 26, y: 11}
-  enemyPositions:
-  - {x: 12, y: 1}
-  - {x: 20, y: 5}
-  - {x: 2, y: 15}
-  - {x: 22, y: 11}
-  destructiblePositions:
-  - {x: 20, y: 1}
-  - {x: 7, y: 7}
-  doorPositions: []
