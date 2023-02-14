@@ -31,10 +31,9 @@ public class UpgradeShopUI : MonoBehaviour
 
     public void BuyItem() {
     
-        if (cp.coin >= 3) {
+        if (cp.getCoin() >= 3) {
             Debug.Log("item bought");
-            cp.coin-=3;
-            cp.textCoins.SetText("Credits: " + (cp.coin));
+            cp.withdraw(3);
         }
     }
 

@@ -17,6 +17,7 @@ public class CoinsCollectedText : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data) 
     {
         coinsCollected = data.coinsCollected;
+        coinsCollectedText.text = "Credits: " + coinsCollected;
     }
 
     public void SaveData(GameData data)
@@ -24,9 +25,10 @@ public class CoinsCollectedText : MonoBehaviour, IDataPersistence
         // no data needs to be saved for this script
     }
 
-    private void OnCoinCollected() 
+    private void OnCoinChange(int newBalance) 
     {
-        coinsCollected++;
+        coinsCollected = newBalance;
+        coinsCollectedText.text = "Credits: " + coinsCollected;
     }
 
     private void Update() 
@@ -35,9 +37,9 @@ public class CoinsCollectedText : MonoBehaviour, IDataPersistence
     }
     
     private void OnEnable() {
-        CoinPicker.OnCoinCollected += OnCoinCollected;
+        CoinPicker.OnCoinChange += OnCoinChange;
     }
     private void OnDisable() {
-        CoinPicker.OnCoinCollected -= OnCoinCollected;
+        CoinPicker.OnCoinChange -= OnCoinChange;
     }
 }

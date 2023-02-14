@@ -4893,6 +4893,7 @@ GameObject:
   - component: {fileID: 4229144723987542341}
   - component: {fileID: 7998192504759970100}
   - component: {fileID: 2584288324398040688}
+  - component: {fileID: 4511994593988222929}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -5166,7 +5167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1702a3cb879303f4381406e9632864c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textCoins: {fileID: 0}
 --- !u!114 &7016344866040910975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5261,6 +5261,7 @@ MonoBehaviour:
   knockbackForce: 10
   deathUI: {fileID: 0}
   HPUI: {fileID: 0}
+  HPBar: {fileID: 0}
   dashEffect: {fileID: 3718101359015648349}
 --- !u!114 &7998192504759970100
 MonoBehaviour:
@@ -5287,6 +5288,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCollider: {fileID: 3718101359043949121}
+--- !u!114 &4511994593988222929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718101359043949178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a33a5b9cb544db24c9e89f478c32b768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiShop: {fileID: 0}
 --- !u!1 &3718101359158142832
 GameObject:
   m_ObjectHideFlags: 0
