@@ -24,22 +24,17 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerIsClose)
+        if (Input.GetKeyDown(KeyCode.E) && playerIsClose && (dialoguePanel.activeInHierarchy == false))
         {
-            if(dialoguePanel.activeInHierarchy)
-            {
-                zeroText();
-            }
-            else
-            {
-                dialoguePanel.SetActive(true);
-                StartCoroutine(Typing());
-            }
+            dialoguePanel.SetActive(true);
+            StartCoroutine(Typing());
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && dialoguePanel.activeInHierarchy)
+        if (Input.GetKeyDown(KeyCode.Q) && dialoguePanel.activeInHierarchy && playerIsClose)
         {
             zeroText();
+            StopCoroutine(Typing());
+            dialoguePanel.SetActive(false);
         }
 
         if (dialogueText.text == dialogue[index])
