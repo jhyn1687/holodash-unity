@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
 
     public int currentChapter;
 
-    public UpgradeShopUI uiShop;
-
     private Transform enemyBulletContainer;
 
     private static GameManager _instance;
@@ -34,7 +32,6 @@ public class GameManager : MonoBehaviour
     void Start() 
     {
         Reset();
-        uiShop.gameObject.SetActive(false);
     }
 
     private void OnEndChapterZoneReached() 
