@@ -55,7 +55,6 @@ public class NPC : MonoBehaviour
         dialoguePanel.SetActive(false);
     }
 
-
     IEnumerator Typing()
     {
         foreach(char letter in dialogue[index].ToCharArray())
