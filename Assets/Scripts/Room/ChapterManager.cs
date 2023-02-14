@@ -34,15 +34,15 @@ public class ChapterManager : MonoBehaviour
             return _instance;
         }
     }
-    // amount of total possible randomly generated rooms for this chapter
-    public const int NUMROOMS = 5; 
-    public const int NUMCHAPTERS = 8; 
+    // Number of total rooms between each boss.
+    public const int NUMROOMS = 4; 
+    // public const int NUMCHAPTERS = 8; 
 
     // reference to GameObject with Grid component at root
     [SerializeField] private Grid grid; 
 
     [SerializeField] private GameObject startRoom;
-    [SerializeField] private GameObject endRoom;
+    [SerializeField] private GameObject bossRoom;
     [SerializeField] private GameObject ch0;
     [SerializeField] private List<GameObject> ch1;
 
@@ -54,6 +54,7 @@ public class ChapterManager : MonoBehaviour
                             // removing one marks current index as "used". (no room repeats)
     
     private Vector2 lastEndRoomPos;
+    private int sinceLastBoss; 
     //private List<Vector2> roomEndPositions; // or make it used room names? 
 
     // to keep the hierarchy clean
@@ -83,6 +84,7 @@ public class ChapterManager : MonoBehaviour
     public void initChapter(int chapter)
     {
         ClearLevel();
+        lastEndRoomPos = Vector2.zero;
 
         GameObject startRoomInstance = PlaceRoom(startRoom, new Vector2(0f, 0f));
 
@@ -95,22 +97,85 @@ public class ChapterManager : MonoBehaviour
             PlaceRoom(ch0, lastEndRoomPos);
         }
 
+        GenerateRooms();
+
         //usedRooms = new HashSet<int>();
     }
 
+    private void GenerateRooms()
+    {
+        for (int i = 0; i < NUMROOMS; i++)
+        {
+            int randy = Random.Range(0, ch1.Count);
+
+            GameObject randRoom = ch1[randy];
+
+            PlaceRoom(randRoom, lastEndRoomPos);
+        }
+
+        PlaceRoom(bossRoom, lastEndRoomPos);
+    }
+
+    // check if boss died
+    private void OnBossDied()
+    {
+        GenerateRooms();
+    }
+
+    private void OnPlayerDeath()
+    {   
+        Transform[] allRooms = GameObject.Find("Grid").transform.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < allRooms.Length; i++)
+        {
+            if (String.Equals(allRooms[i].name, "Grid"))
+            {
+                continue;
+            }
+            Debug.Log("CM: destroying " + allRooms[i].name);
+            GameObject.Destroy(allRooms[i].gameObject);
+        }
+
+        Transform[] ftpsContainer = GameObject.Find("FtpsContainer").transform.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < ftpsContainer.Length; i++)
+        {
+            if (String.Equals(ftpsContainer[i].name, "FtpsContainer"))
+            {
+                continue;
+            }
+            Debug.Log("CM: destroying " + ftpsContainer[i].name);
+            GameObject.Destroy(ftpsContainer[i].gameObject);
+        }
+    }
+
+    // Modifies
+    // sinceLastBoss - increments for every normal room generated
+    //
     // TODO call this OnExitReached
     private void OnEndzoneReached()
     {
 
-        int randy = Random.Range(0, ch1.Count);
-        //while (usedRooms.Contains(randy))
-        //    randy = Random.Range(0, ch1.Count);
-        //usedRooms.Add(randy);
 
-        Debug.Log("OnEndzone (exit) Reached");
-        GameObject randRoom = ch1[randy];
+        if (sinceLastBoss == 3)
+        {
+            // boss room
+            sinceLastBoss = 0;
+            
+            PlaceRoom(bossRoom, lastEndRoomPos);
 
-        PlaceRoom(randRoom, lastEndRoomPos);
+        } else {
+            sinceLastBoss++;
+
+            // normal room
+            int randy = Random.Range(0, ch1.Count);
+            //while (usedRooms.Contains(randy))
+            //    randy = Random.Range(0, ch1.Count);
+            //usedRooms.Add(randy);
+
+            Debug.Log("OnEndzone (exit) Reached");
+            GameObject randRoom = ch1[randy];
+
+            PlaceRoom(randRoom, lastEndRoomPos);
+        }
     }
 
     // Initializes rooms for the prologue tutorial.
@@ -136,7 +201,7 @@ public class ChapterManager : MonoBehaviour
         GameObject roomInstance = Instantiate(roomToInstance, position, Quaternion.identity) as GameObject;
 
         roomInstance.transform.SetParent(grid.transform);
-        // Debug.Log(roomToInstance.name + "placed at: " + lastEndRoomPos);
+        Debug.Log(roomToInstance.name + "placed at: " + lastEndRoomPos);
 
         // Handle fallthrough platforms
         // thanks man https://forum.unity.com/threads/how-to-get-gameobjects-that-inside-instantiated-prefabs.841522/
@@ -156,7 +221,7 @@ public class ChapterManager : MonoBehaviour
         }
 
         lastEndRoomPos = HandleRoomInfo(roomInstance);
-        // Debug.Log("its end position: " + lastEndRoomPos);
+        Debug.Log("its end position: " + lastEndRoomPos);
 
         return roomInstance;
     }
@@ -238,10 +303,14 @@ public class ChapterManager : MonoBehaviour
     {
         //GameManager.OnReset += OnReset;
         EndzoneScript.EndzoneReached += OnEndzoneReached;
+        PlayerBehavior.OnPlayerDeath += OnPlayerDeath;
+        EnemyBehavior.BossDied += OnBossDied;
     }
     private void OnDisable()
     {
         //GameManager.OnReset -= OnReset;
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
+        PlayerBehavior.OnPlayerDeath -= OnPlayerDeath;
+        EnemyBehavior.BossDied -= OnBossDied;
     }
 }

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int startingChapter;
     [SerializeField] private TextMeshProUGUI AugmentPickupText;
 
-    private int currentChapter;
+    public int currentChapter;
 
     private Transform enemyBulletContainer;
 
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     {
         currentChapter = startingChapter;
         LoadNewChapter(currentChapter);
+        OnReset?.Invoke();
     }
 
     private void LoadNewChapter(int currChapter)
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
         {
             enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
         }
-        OnReset?.Invoke();
+
     }
 
     public void OnAugmentPickup(int id) 

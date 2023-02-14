@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private PlayerData Data;
 
-	private Vector2 STARTPOSITION = new Vector2(-3.5f, 2f);
+	private Vector2 STARTPOSITION = new Vector2(-14.5f, 4f);
 
 	#region EVENTS
 	public UnityEvent onDash;

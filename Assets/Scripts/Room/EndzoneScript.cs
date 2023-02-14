@@ -7,9 +7,11 @@ public class EndzoneScript : MonoBehaviour
 {
     public static event Action EndzoneReached;
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.transform.tag == "Player") {
-            EndzoneReached?.Invoke();
-            GameObject.Destroy(gameObject);
-        }
+        Debug.Log("Exit reached");
+
+        // if (other.transform.tag == "Player") {
+        //     EndzoneReached?.Invoke();
+        //     GameObject.Destroy(gameObject);
+        // }
     }
 }
