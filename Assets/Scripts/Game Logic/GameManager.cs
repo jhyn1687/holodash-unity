@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     private int currentChapter;
 
+    public UpgradeShopUI uiShop;
+
     private Transform enemyBulletContainer;
 
     private static GameManager _instance;
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     void Start() {
         Reset();
+        uiShop.gameObject.SetActive(false);
     }
 
     private void OnEndzoneReached() {
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
             enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
         }
         OnReset?.Invoke();
+        
     }
     public void OnAugmentPickup(int id) 
     {
