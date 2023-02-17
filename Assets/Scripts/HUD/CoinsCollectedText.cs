@@ -5,7 +5,7 @@ using TMPro;
 
 public class CoinsCollectedText : MonoBehaviour, IDataPersistence
 {
-    private float coinsCollected = 0;
+    private float coinsCollected;
 
     private TextMeshProUGUI coinsCollectedText;
 

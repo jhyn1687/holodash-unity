@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2434135130777357094}
   - component: {fileID: 2434135130777357089}
   - component: {fileID: 5846134382029998997}
+  - component: {fileID: 6004906584777745733}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -70,6 +71,22 @@ MonoBehaviour:
   - {fileID: 8887387769187405157, guid: cfbdf9a0d1558e849947583a4222ac34, type: 3}
   - {fileID: 4891018322708378748, guid: fc8abdc1c0262f64289f960649c26677, type: 3}
   - {fileID: 5754568270666150326, guid: c5a6ca4343c8aa84e85eb5a7e4539475, type: 3}
+  - {fileID: 3691490908677307273, guid: 7e7b86411698ede45af1942b99905716, type: 3}
+  - {fileID: 8936203364616047231, guid: b3b199f84c555d649ac498b66f23c3ce, type: 3}
   enemies:
   - {fileID: 6713606312490413155, guid: 08f12444c4015fc4287cc65a2bae24b0, type: 3}
-  coin: {fileID: 0}
+  coin: {fileID: 9166757833457666934, guid: 0fe54eb122da8d5418366d5fd624579c, type: 3}
+--- !u!114 &6004906584777745733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434135130777357095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03fcda0a97c8c4ddd8b4d8cb1d13ccb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: data.json
+  useEncryption: 0
