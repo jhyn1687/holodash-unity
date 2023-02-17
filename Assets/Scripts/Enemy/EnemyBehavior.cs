@@ -42,14 +42,14 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     {
         Instantiate(coin, this.transform.position, this.transform.rotation);
         Destroy(this.gameObject);
-        Debug.Log("bossdied: " + gameObject.name);
+        Debug.Log("enemy died: " + gameObject.name);
         
         // if this enemy is a boss
         if (String.Equals(gameObject.name, "Boss"))
+        {
             BossDied?.Invoke();
             Debug.Log("Boss Died");
-        
-
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) 
