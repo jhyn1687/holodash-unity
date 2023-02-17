@@ -11,7 +11,7 @@ public class ShopTriggerCollider : MonoBehaviour
         if (other.transform.tag == "UpgradeBox") {
             Debug.Log("sphere collision");
             uiShop.gameObject.SetActive(true);
-            Time.timeScale = 0;
+            Time.timeScale = 1;
         }
         
     }
