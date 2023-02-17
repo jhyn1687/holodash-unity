@@ -5244,7 +5244,7 @@ MonoBehaviour:
   _wallCheckSize: {x: 0.23, y: 1}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 1032
 --- !u!114 &4229144723987542341
 MonoBehaviour:
   m_ObjectHideFlags: 0

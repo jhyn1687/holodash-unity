@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6897747348626527759}
   - component: {fileID: 3686140225023717518}
   - component: {fileID: 8856788466645484457}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: FallthroughPlatform
   m_TagString: OneWayPlatform
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1279
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
