@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Services.Analytics;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -24,7 +25,8 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
 
     public float Health { get; set; }
     private bool dead;
-
+    private Dictionary<string, object> deathData = new Dictionary<string, object>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +76,8 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         StartCoroutine(Die());
     }
     IEnumerator Die() {
+        deathData["timeSinceStartup"] = Time.realtimeSinceStartup;
+        AnalyticsService.Instance.CustomData("playerDeath", deathData);
         deathUI.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         deathUI.gameObject.SetActive(false);
