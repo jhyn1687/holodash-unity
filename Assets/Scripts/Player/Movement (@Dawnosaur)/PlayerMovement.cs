@@ -108,6 +108,9 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
+		if (PauseMenu.isPaused) {
+			return;
+		}
 		#region TIMERS
 		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
@@ -655,10 +658,13 @@ public class PlayerMovement : MonoBehaviour
 		RB.velocity = new Vector2(0, 0);
 	}
 
+	private void ResetPosition() {
+	}
+
 	private void OnEnable() {
 		GameManager.OnReset += Reset;
 		AugmentManager.OnAugmentPickup += OnAugmentPickup;
-	}
+    }
 
 	private void OnDisable() {
 		GameManager.OnReset -= Reset;

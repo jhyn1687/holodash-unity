@@ -33,7 +33,9 @@ public class ShootScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(PauseMenu.isPaused) {
+            return;
+        }
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = mousePos - (Vector2)this.transform.position;
         FaceMouse();

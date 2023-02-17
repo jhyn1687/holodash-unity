@@ -26,14 +26,14 @@ public class PauseMenu : MonoBehaviour
     
     public void TogglePause(){
         //when game is running
-        if(Time.timeScale > 0){
+        if(!isPaused){
             pauseMenu.SetActive(true);
             previousTimeScale = Time.timeScale;
             Time.timeScale = 0f;
             isPaused = true;
         }
         //when the game is already paused
-        else if(Time.timeScale == 0){
+        else{
             pauseMenu.SetActive(false);
             Time.timeScale = previousTimeScale;
             isPaused = false;
