@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
         currentChapter = startingChapter;
         LoadNewChapter(currentChapter);
         OnReset?.Invoke();
-        
     }
 
     private void LoadNewChapter(int currChapter)
