@@ -11,6 +11,8 @@ public class NPC : MonoBehaviour
     public string[] dialogue;
     private int index;
 
+    public UpgradeShopUI shop;
+
     public GameObject contButton;
 
     public float wordSpeed;
@@ -68,16 +70,16 @@ public class NPC : MonoBehaviour
     {
         contButton.SetActive(false);
 
-        if(index < dialogue.Length - 1)
-        {
-            index++;
-            dialogueText.text = "";
-            StartCoroutine(Typing());
-        }
-        else
-        {
-            zeroText();
-        }
+        //if(index < dialogue.Length - 1)
+        //{
+        //    index++;
+        //    dialogueText.text = "";
+        //    StartCoroutine(Typing());
+        //}
+        //else
+        //{
+        //    zeroText();
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -94,6 +96,7 @@ public class NPC : MonoBehaviour
         {
             playerIsClose = false;
             zeroText();
+            shop.gameObject.SetActive(false);
         }
     }
 }

@@ -17,7 +17,7 @@ public class Indicator : MonoBehaviour
         {
             indicatorPanel.SetActive(true);
         }
-        else
+        else if (Input.GetKeyDown(KeyCode.E) && indicatorPanel.activeInHierarchy)
         {
             indicatorPanel.SetActive(false);
         }
