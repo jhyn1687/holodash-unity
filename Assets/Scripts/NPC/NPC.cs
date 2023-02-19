@@ -11,8 +11,6 @@ public class NPC : MonoBehaviour
     public string[] dialogue;
     private int index;
 
-    public GameObject upgradeShop;
-
     public GameObject contButton;
 
     public float wordSpeed;
@@ -80,7 +78,6 @@ public class NPC : MonoBehaviour
         //{
         //    zeroText();
         //}
-        upgradeShop.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
