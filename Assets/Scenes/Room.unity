@@ -230,6 +230,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1229302037}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &93988300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2234,6 +2246,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4603135941451593459, guid: 217c064cd3f5d414aafbf572e320a8f0, type: 3}
   m_PrefabInstance: {fileID: 1737456105}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1737456107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4603135941451593457, guid: 217c064cd3f5d414aafbf572e320a8f0, type: 3}
+  m_PrefabInstance: {fileID: 1737456105}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737456106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2a1db1ddcbe6a47950aa470aafea25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1751514806 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1392454718503928744, guid: 225f668164b6fae44859ca78a38b9ceb, type: 3}
@@ -2301,6 +2324,7 @@ MonoBehaviour:
   dialogueText: {fileID: 480088407}
   dialogue:
   - I have something for you, they won't know
+  shop: {fileID: 1737456107}
   contButton: {fileID: 93988297}
   wordSpeed: 0.02
   playerIsClose: 0
