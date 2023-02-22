@@ -13,7 +13,6 @@ public class ShopTriggerCollider : MonoBehaviour
             uiShop.gameObject.SetActive(true);
             Time.timeScale = 0;
         }
-        
     }
 
     private void OnTriggerExit2D(Collider2D other) {

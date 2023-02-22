@@ -13,27 +13,43 @@ public class NPC : MonoBehaviour
 
     public UpgradeShopUI shop;
 
-    public GameObject contButton;
-
     public float wordSpeed;
-    public bool playerIsClose;
+    private bool playerIsClose;
+    private bool shopIsOpen;
 
     void Start()
     {
+        GameObject HUD = GameObject.Find("HUD");
+        if (HUD == null) {
+            Debug.LogError("HUD not found");
+        }
+        dialoguePanel = HUD.transform.Find("DialoguePanel").gameObject;
+        if (dialoguePanel == null) {
+            Debug.LogError("DialoguePanel not found");
+        }
+        dialoguePanel.SetActive(false);
+        dialogueText = dialoguePanel.transform.Find("DialogueText").GetComponent<TextMeshProUGUI>();
+        if (dialogueText == null) {
+            Debug.LogError("DialogueText not found");
+        }
+        shop = HUD.transform.Find("UpgradeShopUI").GetComponent<UpgradeShopUI>();
+        if (shop == null) {
+            Debug.LogError("UpgradeShopUI not found");
+        }
+        shop.gameObject.SetActive(false);
         dialogueText.text = "";
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerIsClose)
-        {
-            if(dialoguePanel.activeInHierarchy)
-            {
-                zeroText();
-            }
-            else
-            {
+        if (Input.GetButtonDown("Interact")) {
+            if (shopIsOpen) {
+                closeShop();
+            } else if (dialoguePanel.activeInHierarchy && playerIsClose) {
+                openShop();
+                clearText();
+            } else if (playerIsClose) {
                 dialoguePanel.SetActive(true);
                 StartCoroutine(Typing());
             }
@@ -41,18 +57,14 @@ public class NPC : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q) && dialoguePanel.activeInHierarchy)
         {
-            zeroText();
-        }
-
-        if (dialogueText.text == dialogue[index])
-        {
-            contButton.SetActive(true);
+            clearText();
         }
     }
 
-    public void zeroText()
+    public void clearText()
     {
         dialogueText.text = "";
+        StopAllCoroutines();
         index = 0;
         dialoguePanel.SetActive(false);
     }
@@ -66,22 +78,18 @@ public class NPC : MonoBehaviour
         }
     }
 
-    public void NextLine()
+    private void openShop() 
     {
-        contButton.SetActive(false);
-
-        //if(index < dialogue.Length - 1)
-        //{
-        //    index++;
-        //    dialogueText.text = "";
-        //    StartCoroutine(Typing());
-        //}
-        //else
-        //{
-        //    zeroText();
-        //}
+        shopIsOpen = true;
+        shop.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 
+    private void closeShop() {
+        shop.gameObject.SetActive(false);
+        shopIsOpen = false;
+        Time.timeScale = 1;
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -95,7 +103,7 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsClose = false;
-            zeroText();
+            clearText();
             shop.gameObject.SetActive(false);
         }
     }

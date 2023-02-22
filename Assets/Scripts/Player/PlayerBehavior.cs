@@ -43,7 +43,7 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     // Update is called once per frame
     void Update()
     {
-        if (dead) {
+        if (dead || Time.timeScale == 0) {
             return;
         }
         if (Health <= 0) {

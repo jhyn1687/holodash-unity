@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
-		if (PauseMenu.isPaused) {
+		if (Time.timeScale == 0) {
 			return;
 		}
 		#region TIMERS

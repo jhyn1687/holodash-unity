@@ -10,9 +10,21 @@ public class Indicator : MonoBehaviour
 
     public bool playerIsClose;
 
+    private void Start() {
+        GameObject HUD = GameObject.Find("HUD");
+        indicatorPanel = HUD.transform.Find("Indicator").gameObject;
+        if (indicatorPanel == null) {
+            Debug.LogError("IndicatorPanel not found");
+        }
+        indicatorPanel.SetActive(false);
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (!playerIsClose) {
+            indicatorPanel.SetActive(false);
+        }
         if (playerIsClose)
         {
             indicatorPanel.SetActive(true);
