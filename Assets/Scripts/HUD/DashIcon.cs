@@ -13,11 +13,17 @@ public class DashIcon : MonoBehaviour
         sr.sprite = offCD;
     }
     // Start is called before the first frame update
-    public void OnDash() {
-        sr.sprite = onCD;
+    public void OnDash()
+    {
+        if (sr != null) { 
+            sr.sprite = onCD;
+        }
     }
     public void OnDashRefilled() {
-        sr.sprite = offCD;
+        if(sr != null)
+        {
+            sr.sprite = offCD;
+        }
     }
 
     private void OnEnable() {
