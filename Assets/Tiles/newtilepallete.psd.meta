@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 33f4284425475bd48ba57ffb98691cbe
+guid: 4463b64a5f7db45fe9d9edd1c4b07bca
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,7 +105,70 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: holodash-tiles-v2_0
+      name: newtilepallete_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 800
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3536a123adc94791b98d9fe1ea4724e
+      internalID: 785322758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: newtilepallete_1
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 800
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 017e3cc3dd686471badb93aad863a854
+      internalID: 1193670423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: newtilepallete_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 800
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9a79b493ea0c4badb8b821a2e432fbe
+      internalID: -545532981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: newtilepallete_3
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a0147b722e0d44404b660c797a8b7737
-      internalID: -601335581
+      spriteID: 969c5d2cadc7a43789c5b520001883a3
+      internalID: -1811766113
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_1
+      name: newtilepallete_4
       rect:
         serializedVersion: 2
         x: 100
@@ -140,14 +203,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0644e646a444e4080911ce2159398a9a
-      internalID: 1147077663
+      spriteID: 452179fae072e4aef8f57112a5a746b2
+      internalID: -415299789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_2
+      name: newtilepallete_5
       rect:
         serializedVersion: 2
         x: 200
@@ -161,14 +224,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09f4def5bd0d84b5cb8cdea31b552b67
-      internalID: 1200271782
+      spriteID: e5a2c36d804334a07ba0e9a0d5b2c230
+      internalID: -455978992
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_3
+      name: newtilepallete_6
       rect:
         serializedVersion: 2
         x: 0
@@ -182,14 +245,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 092870b025e02442e9a9f2459a925b87
-      internalID: 905902365
+      spriteID: 65213d3d399fb4750808490cd56b9d68
+      internalID: 1592227720
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_4
+      name: newtilepallete_7
       rect:
         serializedVersion: 2
         x: 100
@@ -203,14 +266,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: daa7c11dcb2be4e4cba2571aabfd7f19
-      internalID: -848080941
+      spriteID: d1156f5d18359486ebcce452f3d0fc2d
+      internalID: -975156143
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_5
+      name: newtilepallete_8
       rect:
         serializedVersion: 2
         x: 200
@@ -224,14 +287,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e780b373ad9a484ea78041abbb77a9e
-      internalID: -1176718834
+      spriteID: 6f7e4849204ae4d4cafab5bb9fb0b265
+      internalID: -1659795047
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_6
+      name: newtilepallete_9
       rect:
         serializedVersion: 2
         x: 0
@@ -245,14 +308,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a98184830e77046c0b0ab95963965e97
-      internalID: -207719740
+      spriteID: d45faba4cf77448cfa86dd892b0b3bd1
+      internalID: 1939152916
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_7
+      name: newtilepallete_10
       rect:
         serializedVersion: 2
         x: 100
@@ -266,14 +329,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a23af50beb946477d90ecd0c15520138
-      internalID: 2079674476
+      spriteID: 200cb5ec7076942f2b03978c3971ce0d
+      internalID: -256412708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_8
+      name: newtilepallete_11
       rect:
         serializedVersion: 2
         x: 200
@@ -287,14 +350,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1edd12fc3bf544ecda9c189896172366
-      internalID: -1936849274
+      spriteID: 170986938f7204a968839541016c3221
+      internalID: 661103051
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_9
+      name: newtilepallete_12
       rect:
         serializedVersion: 2
         x: 0
@@ -308,14 +371,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 554237953135141688c9d193939b9d51
-      internalID: 2143220243
+      spriteID: b8714a4cfc5274dcc885238740223a40
+      internalID: -786585512
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_10
+      name: newtilepallete_13
       rect:
         serializedVersion: 2
         x: 100
@@ -329,14 +392,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5ded249c8d554ceca3dbc6539cb97e7
-      internalID: -961098747
+      spriteID: f1970a80cc7584d32891b20af0098af7
+      internalID: -85602414
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_11
+      name: newtilepallete_14
       rect:
         serializedVersion: 2
         x: 200
@@ -350,14 +413,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba0315c74974a49efa57f6a6a54f3487
-      internalID: 1341256266
+      spriteID: 1b365f748c3614470bfb750156e50e81
+      internalID: 1718758632
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_12
+      name: newtilepallete_15
       rect:
         serializedVersion: 2
         x: 0
@@ -371,14 +434,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8cf608535a2ea4557a833ef172833e2c
-      internalID: 492845713
+      spriteID: 23aefd7de1f6349c692d4d00ef09f86f
+      internalID: -581192172
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_13
+      name: newtilepallete_16
       rect:
         serializedVersion: 2
         x: 100
@@ -392,14 +455,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b89ff9b589690468fb703446e9ce3e2c
-      internalID: -681290342
+      spriteID: 0697534d223574d6ca7f43ed7ddb6273
+      internalID: 1328932393
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_14
+      name: newtilepallete_17
       rect:
         serializedVersion: 2
         x: 200
@@ -413,14 +476,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a084fe8fdba24c4ab84ae68069da3b4
-      internalID: 2145603280
+      spriteID: 641675564c6214752bd663752b5ec5c1
+      internalID: -336564222
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_15
+      name: newtilepallete_18
       rect:
         serializedVersion: 2
         x: 0
@@ -434,14 +497,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3db597c692e5047e9ac06cac8960b761
-      internalID: 841796731
+      spriteID: fb171975c38f645218ffec20a9ff344f
+      internalID: -1995788224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_16
+      name: newtilepallete_19
       rect:
         serializedVersion: 2
         x: 100
@@ -455,14 +518,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 497ee657dd24d4d8fa3454d5b73af12b
-      internalID: 1677787609
+      spriteID: 6a417cb069b1b419594652a59ba37606
+      internalID: -1073859440
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_17
+      name: newtilepallete_20
       rect:
         serializedVersion: 2
         x: 200
@@ -476,14 +539,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21a7ad16e4e0d4fe6afc3990c448f3db
-      internalID: -1524622074
+      spriteID: bc5bb3489ecad47108c6258bf964309c
+      internalID: 568412425
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_18
+      name: newtilepallete_21
       rect:
         serializedVersion: 2
         x: 0
@@ -497,14 +560,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 422e06d1555b94d67aafa6431da2ed59
-      internalID: 1184333683
+      spriteID: 131f048bb2f8241c89cc8d5f64a55d16
+      internalID: 2138019016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_19
+      name: newtilepallete_22
       rect:
         serializedVersion: 2
         x: 100
@@ -518,14 +581,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d7691ca974654e6d83b549ac13b7104
-      internalID: 1198571687
+      spriteID: 7de3f949b92994e988b8aa9ea20c8db9
+      internalID: -1795408014
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_20
+      name: newtilepallete_23
       rect:
         serializedVersion: 2
         x: 200
@@ -539,14 +602,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89e1a82d79ab348f290ebbc7069cadfe
-      internalID: -1979747491
+      spriteID: d90040959cde345739fb7902d3389e61
+      internalID: 2061544890
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_21
+      name: newtilepallete_24
       rect:
         serializedVersion: 2
         x: 0
@@ -560,14 +623,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e81c1d05a20fe47f1a6c7a0c630bf4c5
-      internalID: -73692193
+      spriteID: 01667215f0a8941a281f502665fb05c1
+      internalID: 708923083
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_22
+      name: newtilepallete_25
       rect:
         serializedVersion: 2
         x: 100
@@ -581,14 +644,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74a6eaa723ca04279bb2b3d97223d4b0
-      internalID: 1897944603
+      spriteID: c64ad42cbbb9d4f77b625ec4019b7f8d
+      internalID: -965642452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: holodash-tiles-v2_23
+      name: newtilepallete_26
       rect:
         serializedVersion: 2
         x: 200
@@ -602,8 +665,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f4f5b9526ca64415ac3325eb80da481
-      internalID: -263740869
+      spriteID: 812f32ae0a30f4c939e9301e67c7da32
+      internalID: -568517671
       vertices: []
       indices: 
       edges: []
@@ -612,37 +675,40 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      holodash-tiles-v2_14: 2145603280
-      holodash-tiles-v2_20: -1979747491
-      holodash-tiles-v2_5: -1176718834
-      holodash-tiles-v2_16: 1677787609
-      holodash-tiles-v2_11: 1341256266
-      holodash-tiles-v2_2: 1200271782
-      holodash-tiles-v2_7: 2079674476
-      holodash-tiles-v2_21: -73692193
-      holodash-tiles-v2_3: 905902365
-      holodash-tiles-v2_6: -207719740
-      holodash-tiles-v2_18: 1184333683
-      holodash-tiles-v2_17: -1524622074
-      holodash-tiles-v2_4: -848080941
-      holodash-tiles-v2_13: -681290342
-      holodash-tiles-v2_15: 841796731
-      holodash-tiles-v2_10: -961098747
-      holodash-tiles-v2_1: 1147077663
-      holodash-tiles-v2_23: -263740869
-      holodash-tiles-v2_9: 2143220243
-      holodash-tiles-v2_19: 1198571687
-      holodash-tiles-v2_8: -1936849274
-      holodash-tiles-v2_0: -601335581
-      holodash-tiles-v2_22: 1897944603
-      holodash-tiles-v2_12: 492845713
+      newtilepallete_2: -545532981
+      newtilepallete_9: 1939152916
+      newtilepallete_22: -1795408014
+      newtilepallete_19: -1073859440
+      newtilepallete_26: -568517671
+      newtilepallete_24: 708923083
+      newtilepallete_25: -965642452
+      newtilepallete_6: 1592227720
+      newtilepallete_13: -85602414
+      newtilepallete_8: -1659795047
+      newtilepallete_20: 568412425
+      newtilepallete_18: -1995788224
+      newtilepallete_5: -455978992
+      newtilepallete_1: 1193670423
+      newtilepallete_7: -975156143
+      newtilepallete_10: -256412708
+      newtilepallete_3: -1811766113
+      newtilepallete_21: 2138019016
+      newtilepallete_4: -415299789
+      newtilepallete_11: 661103051
+      newtilepallete_14: 1718758632
+      newtilepallete_15: -581192172
+      newtilepallete_17: -336564222
+      newtilepallete_0: 785322758
+      newtilepallete_12: -786585512
+      newtilepallete_16: 1328932393
+      newtilepallete_23: 2061544890
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 1
