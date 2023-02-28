@@ -399,8 +399,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6713606312490413155}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.0121, y: 0.0121, z: 0}
+  m_LocalScale: {x: 1.0157, y: 1.0157, z: 1.0157}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8336306690408654392}
@@ -451,7 +451,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a4d8c6dccf46f6a479938241b46573c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d86519c8b363147b6bacce64d6ca83e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -534,9 +534,9 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.04538122, y: 0.0018642545}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0.58}
-    pivot: {x: 0.5, y: 0.3425028}
-    oldSize: {x: 2, y: 2}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.6666666, y: 1.6666666}
     newSize: {x: 0.6, y: 1.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -602,8 +602,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7409667650632522523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: 0.3383, y: -0.0083, z: 0}
+  m_LocalScale: {x: 0.6619937, y: 0.6619937, z: 0.6619937}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4449681560682657124}
@@ -651,7 +651,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: b0d04b0d5ffac465e810a4284ed37158, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 18f313bf081db46e78f359b7afef0087, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -679,7 +679,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.11, y: 0.09}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.11, y: 0.09}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
