@@ -1134,30 +1134,6 @@ PrefabInstance:
       propertyPath: bulletContainer
       value: 
       objectReference: {fileID: 1140178019}
-    - target: {fileID: 3718101360021334375, guid: 975297f2886502447bb537f251876106, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.1381955
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718101360021334375, guid: 975297f2886502447bb537f251876106, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.2462884
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718101360021334375, guid: 975297f2886502447bb537f251876106, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718101360021334375, guid: 975297f2886502447bb537f251876106, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718101360021334376, guid: 975297f2886502447bb537f251876106, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718101360021334376, guid: 975297f2886502447bb537f251876106, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: e3861b3898d2b4fe1af4e76a2756ceb4, type: 3}
     - target: {fileID: 4229144723987542341, guid: 975297f2886502447bb537f251876106, type: 3}
       propertyPath: HPUI
       value: 
