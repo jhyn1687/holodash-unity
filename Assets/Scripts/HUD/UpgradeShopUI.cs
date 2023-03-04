@@ -29,37 +29,34 @@ public class UpgradeShopUI : MonoBehaviour
         
     // }
 
-    public void BuyStealth() {
-        if (cp.getCoin() >= 5) {
-            Debug.Log("item bought");
-            cp.withdraw(5);
+    public void BuyDamage() {
+        if (cp.getCoin() >= 50) {
+            Debug.Log("damage bought");
+            cp.withdraw(50);
         }
     }
 
 
     public void BuySpeed() {
-        if (cp.getCoin() >= 3) {
-            Debug.Log("item bought");
-            cp.withdraw(3);
+        if (cp.getCoin() >= 50) {
+            Debug.Log("speed bought");
+            cp.withdraw(50);
         }
     }
 
     public void BuyDash() {
-        if (cp.getCoin() >= 7) {
-            Debug.Log("item bought");
-            cp.withdraw(7);
+        if (cp.getCoin() >= 100) {
+            Debug.Log("dash bought");
+            cp.withdraw(100);
         }
     }
 
     public void BuyJump() {
-        if (cp.getCoin() >= 3) {
-            Debug.Log("item bought");
-            cp.withdraw(3);
+        if (cp.getCoin() >= 200) {
+            Debug.Log("double jump bought");
+            cp.withdraw(200);
         }
     }
-
-
-
     public void CloseShop() {
         this.gameObject.SetActive(false);
         Time.timeScale = 1;

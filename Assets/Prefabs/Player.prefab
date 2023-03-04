@@ -4893,7 +4893,6 @@ GameObject:
   - component: {fileID: 4229144723987542341}
   - component: {fileID: 7998192504759970100}
   - component: {fileID: 2584288324398040688}
-  - component: {fileID: 4511994593988222929}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -4960,7 +4959,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4731b8f99c47e430bb85921b7763d7a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 29941823fd2ff42769ab455d668df248, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4986,9 +4985,9 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.09}
   m_SpriteTilingProperty:
-    border: {x: 0.31, y: 0, z: 0.35, w: 0.13}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.39, y: 1.39}
+    oldSize: {x: 1.5384616, y: 1.5384616}
     newSize: {x: 0.6, y: 1.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -5207,6 +5206,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DashIcon, Assembly-CSharp
+        m_MethodName: OnDash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDashFinished:
     m_PersistentCalls:
       m_Calls:
@@ -5225,6 +5236,18 @@ MonoBehaviour:
   onDashRefill:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DashIcon, Assembly-CSharp
+        m_MethodName: OnDashRefilled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DashIcon, Assembly-CSharp
         m_MethodName: OnDashRefilled
@@ -5288,19 +5311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCollider: {fileID: 3718101359043949121}
---- !u!114 &4511994593988222929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3718101359043949178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a33a5b9cb544db24c9e89f478c32b768, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiShop: {fileID: 0}
 --- !u!1 &3718101359158142832
 GameObject:
   m_ObjectHideFlags: 0
@@ -5325,7 +5335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3718101359158142832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0441, y: 0.011, z: 0.25}
+  m_LocalPosition: {x: 0.457, y: 0.082, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5357,7 +5367,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3718101359934036325}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5382,7 +5392,7 @@ MonoBehaviour:
   bulletContainer: {fileID: 0}
   gunSprite: {fileID: 3718101360021334374}
   shootPoint: {fileID: 3718101359158142833}
-  fireRate: 4
+  fireRate: 2
   numShots: 1
 --- !u!1 &3718101360021334374
 GameObject:
@@ -5410,8 +5420,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3718101360021334374}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.45, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.1381955, y: 1.2462884, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3718101359158142833}
@@ -5459,7 +5469,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: b0d04b0d5ffac465e810a4284ed37158, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e3861b3898d2b4fe1af4e76a2756ceb4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5483,18 +5493,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.23366955, y: 0.02886568}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.11, y: 0.09}
+    border: {x: 0.37, y: 0.35999998, z: 0, w: 0}
+    pivot: {x: 0.46979508, y: 0.50000006}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.11, y: 0.09}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.11, y: 0.09}
+  m_Size: {x: 0.5637924, y: 0.22195938}
   m_EdgeRadius: 0
 --- !u!1 &3718101360106133173
 GameObject:

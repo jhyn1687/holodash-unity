@@ -18,6 +18,7 @@ public class EnemyShootScript : MonoBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private int numShots;
 
+    private Animator ani;
     private EnemyBehavior eb;
     private BoxCollider2D coll;
     private EnemyBulletScript bullet_bs;
@@ -44,8 +45,12 @@ public class EnemyShootScript : MonoBehaviour
             gunSprite.GetComponent<SpriteRenderer>().enabled = true;
         } else {
             gunSprite.GetComponent<SpriteRenderer>().enabled = false;
+            ReadyForNextShot = Time.time + 1 / fireRate;
         }
-        if (!inGround && eb.currentState == EnemyBehavior.EnemyState.Attack) {
+        if(ani.GetBool("Taking Damage"))
+        {
+            gunSprite.GetComponent<SpriteRenderer>().enabled = false;
+        } else if (!inGround && eb.currentState == EnemyBehavior.EnemyState.Attack) {
             if (Time.time > ReadyForNextShot) {
                 ReadyForNextShot = Time.time + 1/fireRate;
                 Shoot();
@@ -57,6 +62,7 @@ public class EnemyShootScript : MonoBehaviour
         sr = GetComponentInChildren<SpriteRenderer>();
         coll = GetComponentInChildren<BoxCollider2D>();
         eb = GetComponentInParent<EnemyBehavior>();
+        ani = GetComponentInParent<Animator>();
         bullet_sr = bullet.GetComponent<SpriteRenderer>();
         bullet_bs = bullet.GetComponent<EnemyBulletScript>();
         bullet_sr.sprite = bulletProps.bulletSprite;
