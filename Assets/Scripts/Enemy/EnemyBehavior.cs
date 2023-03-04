@@ -58,8 +58,6 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
             BossDied?.Invoke();
             Debug.Log("Boss Died");
         }
-
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision) 
@@ -73,7 +71,6 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
 
     public void Damage(float damage) 
     {
-
         Health = Mathf.Max(Health - damage, 0);
         damageAnimationTimer = 0.5f;
         ani.SetBool("Taking Damage", true);
