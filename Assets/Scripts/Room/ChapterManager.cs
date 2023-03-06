@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -22,8 +23,8 @@ TODO:
 
 
 */
-public class ChapterManager : MonoBehaviour
-{
+public class ChapterManager : MonoBehaviour {
+    public static event Action OnChapterStart;
     // using the singleton pattern for the ChapterManager
     private static ChapterManager _instance;
     public static ChapterManager Instance {
@@ -95,9 +96,10 @@ public class ChapterManager : MonoBehaviour
 
             // if prologue, place tutorial
             PlaceRoom(ch0, lastEndRoomPos);
+        } else {
+            GenerateRooms();
         }
 
-        GenerateRooms();
 
         //usedRooms = new HashSet<int>();
     }
@@ -123,28 +125,9 @@ public class ChapterManager : MonoBehaviour
     }
 
     private void OnPlayerDeath()
-    {   
-        Transform[] allRooms = GameObject.Find("Grid").transform.GetComponentsInChildren<Transform>();
-        for (int i = 0; i < allRooms.Length; i++)
-        {
-            if (String.Equals(allRooms[i].name, "Grid"))
-            {
-                continue;
-            }
-            Debug.Log("CM: destroying " + allRooms[i].name);
-            GameObject.Destroy(allRooms[i].gameObject);
-        }
-
-        Transform[] ftpsContainer = GameObject.Find("FtpsContainer").transform.GetComponentsInChildren<Transform>();
-        for (int i = 0; i < ftpsContainer.Length; i++)
-        {
-            if (String.Equals(ftpsContainer[i].name, "FtpsContainer"))
-            {
-                continue;
-            }
-            Debug.Log("CM: destroying " + ftpsContainer[i].name);
-            GameObject.Destroy(ftpsContainer[i].gameObject);
-        }
+    {
+        // moved to ClearLevel()
+        // was causing out of order generation (level was being removed after new level was generated)
     }
 
     // Modifies
@@ -153,8 +136,6 @@ public class ChapterManager : MonoBehaviour
     // TODO call this OnExitReached
     private void OnEndzoneReached()
     {
-
-
         if (sinceLastBoss == 3)
         {
             // boss room
@@ -289,8 +270,22 @@ public class ChapterManager : MonoBehaviour
     }
 
     void ClearLevel() {
-        foreach (Transform child in grid.transform) {
-            GameObject.Destroy(child.gameObject);
+        Transform[] allRooms = GameObject.Find("Grid").transform.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < allRooms.Length; i++) {
+            if (String.Equals(allRooms[i].name, "Grid")) {
+                continue;
+            }
+            Debug.Log("CM: destroying " + allRooms[i].name);
+            GameObject.Destroy(allRooms[i].gameObject);
+        }
+
+        Transform[] ftpsContainer = GameObject.Find("FtpsContainer").transform.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < ftpsContainer.Length; i++) {
+            if (String.Equals(ftpsContainer[i].name, "FtpsContainer")) {
+                continue;
+            }
+            Debug.Log("CM: destroying " + ftpsContainer[i].name);
+            GameObject.Destroy(ftpsContainer[i].gameObject);
         }
         if (enemiesContainer != null) { 
             foreach (Transform enemy in enemiesContainer) {

@@ -33,12 +33,12 @@ public class BulletScript : MonoBehaviour
             hit.DamageOverTime(bulletProps.DOTDamage * bulletProps.DOTDamageMultiplier, bulletProps.DOTTime * bulletProps.DOTTimeMultiplier);
             Object.Destroy(this.gameObject);
         } 
-        else if (collided.layer == LayerMask.NameToLayer("Ground") && !string.Equals(collided.tag, "OneWayPlatform"))
+        else if (collided.layer == LayerMask.NameToLayer("Ground"))
         {
             ricochetCounter++;
         } else if (collided.layer == LayerMask.NameToLayer("Enemy Projectile")) {
             Object.Destroy(collided.gameObject);
-            ricochetCounter++;
+            Object.Destroy(this.gameObject);
         }
     }
 
@@ -51,6 +51,6 @@ public class BulletScript : MonoBehaviour
     }
 
     void OnDisable() {
-        GameManager.OnReset += Reset;
+        GameManager.OnReset -= Reset;
     }
 }

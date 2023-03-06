@@ -6,8 +6,9 @@ MonoImporter:
   defaultReferences:
   - grid: {instanceID: 0}
   - startRoom: {fileID: 4262263799578425454, guid: 76cf5d3b871600643b57c82853460370, type: 3}
-  - endRoom: {fileID: 5324278072101807575, guid: 0db42b42292358149a3f7b37fc9f3216, type: 3}
+  - bossRoom: {fileID: 6713606312490413155, guid: 0ee47e49fd31bed4a8bc1d233a41236f, type: 3}
   - ch0: {fileID: 5412107753212336918, guid: e89d23739da9fb342bbe5f27b6acd4c9, type: 3}
+  - coin: {fileID: 9166757833457666934, guid: 0fe54eb122da8d5418366d5fd624579c, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

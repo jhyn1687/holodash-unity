@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Services.Analytics;
+using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     private Rigidbody2D rb;
@@ -10,17 +13,20 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     private TrailRenderer tr;
     private SpriteRenderer sr;
     private Animator ani;
-
+    
     public static event Action OnPlayerDeath;
+    
     [SerializeField] private float maxHP;
     [SerializeField] private float knockbackForce;
     [SerializeField] private TextMeshProUGUI deathUI;
     [SerializeField] private TextMeshProUGUI HPUI;
+    [SerializeField] private HPBehavior HPBar;
     [SerializeField] private ParticleSystem dashEffect;
 
     public float Health { get; set; }
     private bool dead;
-
+    private Dictionary<string, object> deathData = new Dictionary<string, object>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +43,7 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     // Update is called once per frame
     void Update()
     {
-        if (dead) {
+        if (dead || Time.timeScale == 0) {
             return;
         }
         if (Health <= 0) {
@@ -50,16 +56,19 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         
     }
 
-    //private void OnEndZoneReached() {
-    //    this.transform.position = new Vector2(2, 2);
-    //}
+    private void OnEndZoneReached() {
+        // reset player position
+        this.transform.position = new Vector2(-14.5f, 5f);
+    }
 
     private void OnReset() {
         // stop any dashes, and also reset everything that may have been changed in dash.
         StopAllCoroutines();
+        ani.SetBool("Taking Damage", false);
         dead = false;
         Health = maxHP;
-        HPUI.SetText("HP: " + maxHP);
+        HPBar.setHealth(Health, maxHP);
+        HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
     }
 
     void OnDeath() {
@@ -67,6 +76,8 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         StartCoroutine(Die());
     }
     IEnumerator Die() {
+        deathData["timeSinceStartup"] = Time.realtimeSinceStartup;
+        AnalyticsService.Instance.CustomData("playerDeath", deathData);
         deathUI.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         deathUI.gameObject.SetActive(false);
@@ -82,11 +93,17 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     }
 
     public void Damage(float damage) {
-        Health -= damage;
+        Health = Mathf.Max(Health - damage, 0);
         StartCoroutine(DamageAnimation());
-        HPUI.SetText("HP: " + Health.ToString("F0"));
+        HPBar.setHealth(Health, maxHP);
+        HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
     }
-
+    public void Heal(float healing) {
+        
+        Health = Mathf.Min(Health + healing, maxHP);
+        HPBar.setHealth(Health, maxHP);
+        HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
+    }
     public void DamageOverTime(float damage, float time) {
         StartCoroutine(DOT(damage, time));
     }
@@ -107,19 +124,21 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         switch (AugmentManager.GetName(id)) {
             case "Extra Health":
                 maxHP += 50;
+                Heal(50);
                 break;
             default:
                 break;
         }
     }
+    
     private void OnEnable() {
         GameManager.OnReset += OnReset;
-        //EndzoneScript.EndzoneReached += OnEndZoneReached;
+        EndChapterScript.EndChapterZoneReached += OnEndZoneReached;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
     private void OnDisable() {
         GameManager.OnReset -= OnReset;
-        //EndzoneScript.EndzoneReached -= OnEndZoneReached;
+        EndChapterScript.EndChapterZoneReached -= OnEndZoneReached;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
     }
 }

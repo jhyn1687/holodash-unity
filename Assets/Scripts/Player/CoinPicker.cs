@@ -2,17 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
-public class CoinPicker : MonoBehaviour
+public class CoinPicker : MonoBehaviour, IDataPersistence
 {
-    private float coin = 0;
+    private int coin = 0;
+    
+    public static event Action<int> OnCoinChange;
+    
+    public void LoadData(GameData data) {
+        coin = data.coinsCollected;
+    }
 
-    [SerializeField] private TextMeshProUGUI textCoins;
-
+    public void SaveData(GameData data) {
+        data.coinsCollected = coin;
+    }
+    public void withdraw(int amount) {
+        coin -= amount;
+        OnCoinChange?.Invoke(coin);
+    }
+    public int getCoin() {
+        return coin;
+    }
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.tag == "Coin") {
             coin++;
-            textCoins.SetText("Credits: " + coin);
+            OnCoinChange?.Invoke(coin);
             Destroy(other.gameObject);
         }
     }

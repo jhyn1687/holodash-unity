@@ -18,6 +18,7 @@ public class ShootScript : MonoBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private int numShots;
 
+    private Animator ani;
     private BoxCollider2D coll;
     private BulletScript bullet_bs;
     private SpriteRenderer bullet_sr;
@@ -33,7 +34,9 @@ public class ShootScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Time.timeScale == 0) {
+            return;
+        }
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = mousePos - (Vector2)this.transform.position;
         FaceMouse();
@@ -41,16 +44,27 @@ public class ShootScript : MonoBehaviour
         inGround = (raycastHit2D.collider != null);
         
         bool fire = Input.GetButton("Fire1");
-
-        if(!inGround && fire) {
-            if(Time.time > ReadyForNextShot) {
-                ReadyForNextShot = Time.time + 1/fireRate;
-                Shoot();
+        
+        if(ani.GetBool("Taking Damage"))
+        {
+            gunSprite.GetComponent<SpriteRenderer>().enabled = false;
+        } 
+        else {
+            gunSprite.GetComponent<SpriteRenderer>().enabled = true;
+            if (!inGround && fire)
+            {
+                if (Time.time > ReadyForNextShot)
+                {
+                    ReadyForNextShot = Time.time + 1 / fireRate;
+                    Shoot();
+                }
             }
         }
     }
 
-    void Reset() {
+    void Reset()
+    {
+        ani = GetComponentInParent<Animator>();
         coll = GetComponentInChildren<BoxCollider2D>();
         bullet_sr = bullet.GetComponent<SpriteRenderer>();
         bullet_bs = bullet.GetComponent<BulletScript>();
@@ -69,19 +83,16 @@ public class ShootScript : MonoBehaviour
 
     void FaceMouse()
     {
-        if (direction.x < 0) {
-            this.transform.right = direction;
-            sr.flipY = true;
-            shootPoint.localPosition = new Vector2(shootPoint.localPosition.x, Mathf.Abs(shootPoint.localPosition.y) * -1);
-        } else {
-            this.transform.right = direction;
-            sr.flipY = false;
-            shootPoint.localPosition = new Vector2(shootPoint.localPosition.x, Mathf.Abs(shootPoint.localPosition.y));
+        if (direction.x <= 0) {
+            this.transform.rotation = Quaternion.Euler(0, 180, Vector2.Angle(Vector2.down, direction) - 90);
+        } else
+        {
+            this.transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(Vector2.down, direction) - 90);
         }
     }
 
     void Shoot(float angle) {
-        GameObject BulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.Euler(0, 0, angle));
+        GameObject BulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, angle));
         BulletInstance.transform.SetParent(bulletContainer);
     }
     void Shoot()

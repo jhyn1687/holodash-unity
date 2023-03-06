@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Services.Analytics;
 using UnityEngine;
 using TMPro;
 
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _instance = this;
+        _instance = this; ;
     }
 
     void Start() 
@@ -36,6 +37,11 @@ public class GameManager : MonoBehaviour
 
     private void OnEndChapterZoneReached() 
     {
+        Dictionary<string, object> chapterData = new Dictionary<string, object>(){
+            {"chapter", currentChapter },
+            {"timeSinceStartup", Time.realtimeSinceStartup }
+        };
+        AnalyticsService.Instance.CustomData("chapterEndReached", chapterData);
         currentChapter += 1;
         LoadNewChapter(currentChapter);
     }
@@ -87,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable() {
         EndChapterScript.EndChapterZoneReached -= OnEndChapterZoneReached;
-        PlayerBehavior.OnPlayerDeath += Reset;
-        AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        PlayerBehavior.OnPlayerDeath -= Reset;
+        AugmentManager.OnAugmentPickup -= OnAugmentPickup;
     }
 }

@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private PlayerData Data;
 
-	private Vector2 STARTPOSITION = new Vector2(-14.5f, 4f);
+	private Vector2 STARTPOSITION = new Vector2(-14.5f, 5f);
 
 	#region EVENTS
 	public UnityEvent onDash;
@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 	#endregion
 
 	#region ENUMS
-	private enum MovementState { idle, running, jumping, falling }
+	private enum MovementState { idle, running, jumping, falling, hurt }
     #endregion
 
     #region STATE PARAMETERS
@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
 	public bool IsWallJumping { get; private set; }
 	public bool IsDashing { get; private set; }
 	public bool IsSliding { get; private set; }
+	
 
 	//Timers (also all fields, could be private and a method returning a bool could be used)
 	public float LastOnGroundTime { get; private set; }
@@ -67,6 +68,9 @@ public class PlayerMovement : MonoBehaviour
 	private bool _dashRefilling;
 	private Vector2 _lastDashDir;
 	private bool _isDashAttacking;
+
+	//Hurt
+	private bool isHurt = false;
 
 	#endregion
 
@@ -108,6 +112,9 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
+		if (Time.timeScale == 0) {
+			return;
+		}
 		#region TIMERS
 		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
@@ -169,6 +176,11 @@ public class PlayerMovement : MonoBehaviour
 		} else if (RB.velocity.y < -.1f) {
 			animationState = MovementState.falling;
 		}
+
+		//when player gets hit
+		if(isHurt == true){
+            animationState = MovementState.hurt;
+        }
 
 		ani.SetInteger("State", (int)animationState);
 		#endregion
@@ -653,17 +665,31 @@ public class PlayerMovement : MonoBehaviour
 		IsFacingRight = true;
 		this.transform.position = STARTPOSITION;
 		RB.velocity = new Vector2(0, 0);
+		isHurt = false;
+	}
+
+	private void ResetPosition() {
 	}
 
 	private void OnEnable() {
 		GameManager.OnReset += Reset;
 		AugmentManager.OnAugmentPickup += OnAugmentPickup;
-	}
+    }
 
 	private void OnDisable() {
 		GameManager.OnReset -= Reset;
 		AugmentManager.OnAugmentPickup -= OnAugmentPickup;
 	}
+		    //added same hurt behavior as enemey to player
+    IEnumerator TakeDamage() {
+        isHurt = true;
+        yield return new WaitForSeconds(0.5f);
+        isHurt = false;
+    }
+
+     public void OnDamageTaken() {
+        StartCoroutine(TakeDamage());
+    }
 	#endregion
 }
 
