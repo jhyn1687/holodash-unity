@@ -21,7 +21,7 @@ public class Door : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Exit collision: " + collision.gameObject.tag + " " + collision.gameObject.name);
+        // Debug.Log("Exit collision: " + collision.gameObject.tag + " " + collision.gameObject.name);
         curr = null;
     }
 
@@ -31,7 +31,7 @@ public class Door : MonoBehaviour
         // DoorEntered?.Invoke();
 
         GameObject gm = GameObject.Find("GameManager");
-        gm.GetComponent<ChapterManager>().InitDoorRoom(room);
+        gm.GetComponent<ChapterManager>().InitDoorRoom(room, this.transform.position);
     }
 
 }

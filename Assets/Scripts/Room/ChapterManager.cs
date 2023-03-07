@@ -61,7 +61,7 @@ public class ChapterManager : MonoBehaviour {
 
     // door stuff
     public int doorLevel; // current level of doors you're in
-    private GameObject currentDoorRoomInstance; // current room you're in
+    private GameObject currentRoomInstance; // current room you're in
     private Vector2 preDoorRespawnPosition;
 
     private Vector2 lastEndRoomPos;
@@ -88,13 +88,27 @@ public class ChapterManager : MonoBehaviour {
 
     }
 
-    public void InitGame()
+    // spawns player in tutorial. After tutorial's done, spawns in hub room.
+    public void InitFirstTimePlay()
     {
-        ClearLevel();
         lastEndRoomPos = Vector2.zero;
         GameObject startRoomInstance = PlaceRoom(startRoom, lastEndRoomPos);
 
+        // use door for respawn logic
+        InitDoorRoom(ch0, playerMovement.STARTPOSITION);
+        // preDoorRespawnPosition = playerMovement.STARTPOSITION;
 
+
+        // Vector2 initTutorialPos = startRoomInstance.transform.position + new Vector2(0f, 80f * doorLevel);
+        // currentRoomInstance = PlaceRoom(ch0, initTutorialPos);
+
+
+    }
+
+    public void InitGame()
+    {
+        lastEndRoomPos = Vector2.zero;
+        PlaceRoom(startRoom, lastEndRoomPos);
     }
 
     /**
@@ -129,31 +143,41 @@ public class ChapterManager : MonoBehaviour {
         //usedRooms = new HashSet<int>();
     }
 
-    public void InitDoorRoom(GameObject roomPrefab)
+    public void InitDoorRoom(GameObject roomPrefab, Vector2 doorPos)
     {
         // increment level
         doorLevel++;
-        Vector2 doorRoomOffset = new Vector2(0f, 80f * doorLevel);
+        Vector2 doorRoomPosition = doorPos + new Vector2(0f, 80f * doorLevel);
 
         // instance room above current room
-        // (this means room is spawned relative to player position)
-        currentDoorRoomInstance = PlaceRoom(roomPrefab, doorRoomOffset);
+        // (room is spawned relative to player position)
 
-        // save position at door
-        preDoorRespawnPosition = playerMovement.transform.position;
+        Vector2 pastCurrentRespawnPosition = currentRespawnPosition; // save current
 
-        // set current spawn position
-        // + offset, + player on top of platform offset
-        playerMovement.setRespawnPosition(currentRespawnPosition + doorRoomOffset + new Vector2(0f, 1f));
+        currentRoomInstance = PlaceRoom(roomPrefab, doorRoomPosition); // instance saved to destroy later
+        Debug.Log("[ChapterManager] placed doorRoom at: " + doorRoomPosition);
 
-        // spawn player in it
+        // save position at door for putting player back there later
+        preDoorRespawnPosition = doorPos + Vector2.up;
+
+        // check if current changed during PlaceRoom method, if it did, means it uses a StartMarker
+        if (pastCurrentRespawnPosition != currentRespawnPosition) {
+            playerMovement.setRespawnPosition(doorRoomPosition + currentRespawnPosition + new Vector2(1f, 1.5f));
+        } else {
+            // + player on top of platform offset
+            playerMovement.setRespawnPosition(doorRoomPosition + new Vector2(1f, 1.5f));
+        }
+
         playerMovement.respawn();
+        Debug.Log("[ChapterManager] spawned player at: " + playerMovement.getRespawnPositon());
     }
 
     public void DestroyDoorRoom()
     {
+        doorLevel--;
+
         // delete the room
-        GameObject.Destroy(currentDoorRoomInstance);
+        GameObject.Destroy(currentRoomInstance);
 
         // set current spawnpoint to pre door one
         currentRespawnPosition = preDoorRespawnPosition;
@@ -198,27 +222,37 @@ public class ChapterManager : MonoBehaviour {
     // TODO call this OnExitReached
     private void OnEndzoneReached()
     {
-        if (sinceLastBoss == 3)
+
+        if (doorLevel == 0) // if in no door rooms
         {
-            // boss room
-            sinceLastBoss = 0;
-            
-            PlaceRoom(bossRoom, lastEndRoomPos);
+            if (sinceLastBoss == 3)
+            {
+                // boss room
+                sinceLastBoss = 0;
+                
+                PlaceRoom(bossRoom, lastEndRoomPos);
 
-        } else {
-            sinceLastBoss++;
+            } else {
+                sinceLastBoss++;
 
-            // normal room
-            int randy = Random.Range(0, ch1.Count);
-            //while (usedRooms.Contains(randy))
-            //    randy = Random.Range(0, ch1.Count);
-            //usedRooms.Add(randy);
+                // normal room
+                int randy = Random.Range(0, ch1.Count);
+                //while (usedRooms.Contains(randy))
+                //    randy = Random.Range(0, ch1.Count);
+                //usedRooms.Add(randy);
 
-            Debug.Log("OnEndzone (exit) Reached");
-            GameObject randRoom = ch1[randy];
+                Debug.Log("OnEndzone (exit) Reached");
+                GameObject randRoom = ch1[randy];
 
-            PlaceRoom(randRoom, lastEndRoomPos);
+                PlaceRoom(randRoom, lastEndRoomPos);
+            }
+        } 
+        else
+        {
+            DestroyDoorRoom();
         }
+
+
     }
 
     // Initializes rooms for the prologue tutorial.
@@ -319,7 +353,7 @@ public class ChapterManager : MonoBehaviour {
                     break;
                 case "StartMarker":
                     currentRespawnPosition = new Vector2(tileLocalPos.x, tileLocalPos.y);
-                    Debug.Log("currentRespawnPosition: " + tileLocalPos.x + " " + tileLocalPos.y);
+                    Debug.Log("[ChapterManager] currentRespawnPosition: " + tileLocalPos.x + " " + tileLocalPos.y);
                     break;
             }
         }

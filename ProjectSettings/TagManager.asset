@@ -8,6 +8,7 @@ TagManager:
   - Augment
   - Coin
   - OneWayPlatform
+  - Door
   layers:
   - Default
   - TransparentFX

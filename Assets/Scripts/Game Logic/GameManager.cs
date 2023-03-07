@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviour
     void Start() 
     {
         if (firstTimePlay) {
-            ChapterManager.Instance.InitGame();
+            ChapterManager.Instance.InitFirstTimePlay();
         } else {
-            Reset();
+            ChapterManager.Instance.InitGame();
         }
     }
 
