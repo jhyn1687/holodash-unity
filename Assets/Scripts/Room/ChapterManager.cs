@@ -297,14 +297,14 @@ public class ChapterManager : MonoBehaviour {
     private void OnEnable()
     {
         //GameManager.OnReset += OnReset;
-        EndzoneScript.EndzoneReached += OnEndzoneReached;
+        EndzoneScript.EndChapterZoneReached += OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += OnPlayerDeath;
         EnemyBehavior.BossDied += OnBossDied;
     }
     private void OnDisable()
     {
         //GameManager.OnReset -= OnReset;
-        EndzoneScript.EndzoneReached -= OnEndzoneReached;
+        EndzoneScript.EndChapterZoneReached -= OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath -= OnPlayerDeath;
         EnemyBehavior.BossDied -= OnBossDied;
     }
