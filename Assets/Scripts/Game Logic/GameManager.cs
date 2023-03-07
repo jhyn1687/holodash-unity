@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static event Action OnReset;
     [SerializeField] private int startingChapter;
     [SerializeField] private TextMeshProUGUI AugmentPickupText;
+    [SerializeField] private bool firstTimePlay;
 
     public int currentChapter;
 
@@ -32,7 +33,11 @@ public class GameManager : MonoBehaviour
 
     void Start() 
     {
-        Reset();
+        if (firstTimePlay) {
+            ChapterManager.Instance.InitGame();
+        } else {
+            Reset();
+        }
     }
 
     private void OnEndChapterZoneReached() 
@@ -56,19 +61,9 @@ public class GameManager : MonoBehaviour
     private void LoadNewChapter(int currChapter)
     {
         ChapterManager.Instance.initChapter(currChapter);
-        if (enemyBulletContainer != null)
-        {
-            foreach (Transform child in enemyBulletContainer)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-        else if (GameObject.Find("Enemy Bullet Container") != null)
-        {
-            enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
-        }
-
+        ClearLevel();
     }
+
 
     public void OnAugmentPickup(int id) 
     {
@@ -83,6 +78,21 @@ public class GameManager : MonoBehaviour
         AugmentPickupText.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         AugmentPickupText.gameObject.SetActive(false);
+    }
+
+    private void ClearLevel()
+    {
+        if (enemyBulletContainer != null)
+        {
+            foreach (Transform child in enemyBulletContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        else if (GameObject.Find("Enemy Bullet Container") != null)
+        {
+            enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
+        }
     }
 
     private void OnEnable() {

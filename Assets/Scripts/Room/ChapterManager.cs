@@ -24,7 +24,7 @@ TODO:
 
 */
 public class ChapterManager : MonoBehaviour {
-    public static event Action OnChapterStart;
+    // public static event Action OnChapterStart;
     // using the singleton pattern for the ChapterManager
     private static ChapterManager _instance;
     public static ChapterManager Instance {
@@ -35,6 +35,9 @@ public class ChapterManager : MonoBehaviour {
             return _instance;
         }
     }
+
+    [SerializeField] private PlayerMovement playerMovement;
+
     // Number of total rooms between each boss.
     public const int NUMROOMS = 4; 
     // public const int NUMCHAPTERS = 8; 
@@ -54,6 +57,13 @@ public class ChapterManager : MonoBehaviour {
                             // ints correspond to their index in ch1
                             // removing one marks current index as "used". (no room repeats)
     
+    private Vector2 currentRespawnPosition;
+
+    // door stuff
+    public int doorLevel; // current level of doors you're in
+    private GameObject currentDoorRoomInstance; // current room you're in
+    private Vector2 preDoorRespawnPosition;
+
     private Vector2 lastEndRoomPos;
     private int sinceLastBoss; 
     //private List<Vector2> roomEndPositions; // or make it used room names? 
@@ -62,16 +72,31 @@ public class ChapterManager : MonoBehaviour {
     // we child GameObjects (enemies, coins, destructibles) in this Transform
     private Transform enemiesContainer;
     private Transform ftpsContainer;
+    private Transform doorsContainer;
 
     void Awake() {
         _instance = this;
         enemiesContainer = new GameObject("EnemiesContainer").transform;
         ftpsContainer = new GameObject("FtpsContainer").transform;
+        doorsContainer = new GameObject("DoorsContainer").transform;
+
+        GameObject p = GameObject.Find("Player");
+        playerMovement = p.GetComponent<PlayerMovement>();
     }
 
     void Start() {
 
     }
+
+    public void InitGame()
+    {
+        ClearLevel();
+        lastEndRoomPos = Vector2.zero;
+        GameObject startRoomInstance = PlaceRoom(startRoom, lastEndRoomPos);
+
+
+    }
+
     /**
     Initializes all rooms for the current chapter.    
 
@@ -102,6 +127,43 @@ public class ChapterManager : MonoBehaviour {
 
 
         //usedRooms = new HashSet<int>();
+    }
+
+    public void InitDoorRoom(GameObject roomPrefab)
+    {
+        // increment level
+        doorLevel++;
+        Vector2 doorRoomOffset = new Vector2(0f, 80f * doorLevel);
+
+        // instance room above current room
+        // (this means room is spawned relative to player position)
+        currentDoorRoomInstance = PlaceRoom(roomPrefab, doorRoomOffset);
+
+        // save position at door
+        preDoorRespawnPosition = playerMovement.transform.position;
+
+        // set current spawn position
+        // + offset, + player on top of platform offset
+        playerMovement.setRespawnPosition(currentRespawnPosition + doorRoomOffset + new Vector2(0f, 1f));
+
+        // spawn player in it
+        playerMovement.respawn();
+    }
+
+    public void DestroyDoorRoom()
+    {
+        // delete the room
+        GameObject.Destroy(currentDoorRoomInstance);
+
+        // set current spawnpoint to pre door one
+        currentRespawnPosition = preDoorRespawnPosition;
+
+        // set current spawn position
+        playerMovement.setRespawnPosition(currentRespawnPosition);
+
+        // spawn player in it
+        playerMovement.respawn();
+
     }
 
     private void GenerateRooms()
@@ -191,13 +253,19 @@ public class ChapterManager : MonoBehaviour {
 
         // find all children whose names are "FallthroughPlatform" in the room
         // and set their parent to the FallthroughPlatformsContainer
-        string ftp = "FallthroughPlatform";
+        const string ftp = "FallthroughPlatform";
+        const string d = "Door";
         Transform[] ftPlatforms = roomInstance.transform.GetComponentsInChildren<Transform>();
         for (int i = 0; i < ftPlatforms.Length; i++)
         {
-            if (ftPlatforms[i].name.Contains(ftp))
+            switch (ftPlatforms[i].name)
             {
-                ftPlatforms[i].SetParent(ftpsContainer);
+                case ftp:
+                    ftPlatforms[i].SetParent(ftpsContainer);
+                    break;
+                case d:
+                    ftPlatforms[i].SetParent(doorsContainer);
+                    break;
             }
         }
 
@@ -248,6 +316,10 @@ public class ChapterManager : MonoBehaviour {
                 case "EndMarker":
                     endPosition = lastEndRoomPos + new Vector2(tileLocalPos.x, tileLocalPos.y);
 
+                    break;
+                case "StartMarker":
+                    currentRespawnPosition = new Vector2(tileLocalPos.x, tileLocalPos.y);
+                    Debug.Log("currentRespawnPosition: " + tileLocalPos.x + " " + tileLocalPos.y);
                     break;
             }
         }

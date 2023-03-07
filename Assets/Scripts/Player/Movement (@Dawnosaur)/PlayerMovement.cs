@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 	private PlayerData Data;
 
 	private Vector2 STARTPOSITION = new Vector2(-14.5f, 5f);
+	private Vector2 currentRespawnPosition;
 
 	#region EVENTS
 	public UnityEvent onDash;
@@ -104,6 +105,8 @@ public class PlayerMovement : MonoBehaviour
 		ani = GetComponent<Animator>();
 		tr = GetComponent<TrailRenderer>();
 		sr = GetComponent<SpriteRenderer>();
+
+		currentRespawnPosition = STARTPOSITION;
 	}
 
 	private void Start() {
@@ -669,6 +672,26 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	private void ResetPosition() {
+	}
+
+	public void setRespawnPosition(Vector2 rp)
+	{
+		currentRespawnPosition = rp;
+	}
+
+	public Vector2 getRespawnPositon()
+	{
+		return currentRespawnPosition;
+	}
+
+	public void respawn()
+	{
+		respawn(currentRespawnPosition);
+	}
+
+	public void respawn(Vector2 respawnPosition)
+	{
+		this.transform.position = respawnPosition;
 	}
 
 	private void OnEnable() {
