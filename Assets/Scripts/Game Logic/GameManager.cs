@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     private Transform enemyBulletContainer;
 
+    public Upgrade upgrades;
+
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -85,15 +87,60 @@ public class GameManager : MonoBehaviour
         AugmentPickupText.gameObject.SetActive(false);
     }
 
+    private int damageUpgrade;
+    private int speedUpgrade;
+
+    private int dashUpgrade;
+
+    private int jumpUpgrade;
+
+    public void LoadData(GameData data) {
+        damageUpgrade = data.damageUpgrade;
+        speedUpgrade = data.speedUpgrade;
+        dashUpgrade = data.dashUpgrade;
+        jumpUpgrade = data.jumpUpgrade;
+    }
+
+    public void SaveData(GameData data) {
+        data.damageUpgrade = damageUpgrade;
+        data.speedUpgrade = speedUpgrade;
+        data.dashUpgrade = dashUpgrade;
+        data.jumpUpgrade = jumpUpgrade;
+    }
+
+    private void onDamageUp() {
+        damageUpgrade += 1;
+    }
+
+    private void onSpeedUp() {
+        speedUpgrade += 1;
+    }
+
+    private void onDashUp() {
+        dashUpgrade += 1;
+    }
+
+    private void onJumpUp() {
+        jumpUpgrade += 1;
+    }
+
     private void OnEnable() {
         EndChapterScript.EndChapterZoneReached += OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        UpgradeShopUI.onDamageUp += onDamageUp;
+        UpgradeShopUI.onSpeedUp += onSpeedUp;
+        UpgradeShopUI.onDashUp += onDashUp;
+        UpgradeShopUI.onJumpUp += onJumpUp;
     }
 
     private void OnDisable() {
         EndChapterScript.EndChapterZoneReached -= OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath -= Reset;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
+        UpgradeShopUI.onDamageUp -= onDamageUp;
+        UpgradeShopUI.onSpeedUp -= onSpeedUp;
+        UpgradeShopUI.onDashUp -= onDashUp;
+        UpgradeShopUI.onJumpUp -= onJumpUp;
     }
 }
