@@ -45,7 +45,6 @@ public class UpgradeShopUI : MonoBehaviour
         }
     }
 
-
     public void BuySpeed() {
         if (cp.getCoin() >= 50) {
             Debug.Log("speed bought");
@@ -69,6 +68,7 @@ public class UpgradeShopUI : MonoBehaviour
             cp.withdraw(200);
         }
     }
+    
     public void CloseShop() {
         this.gameObject.SetActive(false);
         Time.timeScale = 1;

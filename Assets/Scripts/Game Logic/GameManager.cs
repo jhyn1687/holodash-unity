@@ -94,11 +94,14 @@ public class GameManager : MonoBehaviour
 
     private int jumpUpgrade;
 
+    public bool tutorialFinished;
+
     public void LoadData(GameData data) {
         damageUpgrade = data.damageUpgrade;
         speedUpgrade = data.speedUpgrade;
         dashUpgrade = data.dashUpgrade;
         jumpUpgrade = data.jumpUpgrade;
+        tutorialFinished = data.tutorialFinished;
     }
 
     public void SaveData(GameData data) {
@@ -106,41 +109,48 @@ public class GameManager : MonoBehaviour
         data.speedUpgrade = speedUpgrade;
         data.dashUpgrade = dashUpgrade;
         data.jumpUpgrade = jumpUpgrade;
+        data.tutorialFinished = tutorialFinished;
     }
 
-    private void onDamageUp() {
+    private void OnBuyDamage() {
         damageUpgrade += 1;
     }
 
-    private void onSpeedUp() {
+    private void OnBuySpeed() {
         speedUpgrade += 1;
     }
 
-    private void onDashUp() {
+    private void OnBuyDash() {
         dashUpgrade += 1;
     }
 
-    private void onJumpUp() {
+    private void OnBuyJump() {
         jumpUpgrade += 1;
+    }
+
+    private void OnTutorialFinished() {
+        tutorialFinished = true;
     }
 
     private void OnEnable() {
         EndChapterScript.EndChapterZoneReached += OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
-        UpgradeShopUI.onDamageUp += onDamageUp;
-        UpgradeShopUI.onSpeedUp += onSpeedUp;
-        UpgradeShopUI.onDashUp += onDashUp;
-        UpgradeShopUI.onJumpUp += onJumpUp;
+        UpgradeShopUI.OnBuyDamage += OnBuyDamage;
+        UpgradeShopUI.OnBuySpeed += OnBuySpeed;
+        UpgradeShopUI.OnBuyDash += OnBuyDash;
+        UpgradeShopUI.OnBuyJump += OnBuyJump;
+        EndzoneScript.OnTutorialFinished += OnTutorialFinished;
     }
 
     private void OnDisable() {
         EndChapterScript.EndChapterZoneReached -= OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath -= Reset;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
-        UpgradeShopUI.onDamageUp -= onDamageUp;
-        UpgradeShopUI.onSpeedUp -= onSpeedUp;
-        UpgradeShopUI.onDashUp -= onDashUp;
-        UpgradeShopUI.onJumpUp -= onJumpUp;
+        UpgradeShopUI.OnBuyDamage -= OnBuyDamage;
+        UpgradeShopUI.OnBuySpeed -= OnBuySpeed;
+        UpgradeShopUI.OnBuyDash -= OnBuyDash;
+        UpgradeShopUI.OnBuyJump -= OnBuyJump;
+        EndzoneScript.OnTutorialFinished -= OnTutorialFinished;
     }
 }
