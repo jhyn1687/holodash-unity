@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class EnemyAI : MonoBehaviour {
     protected static string[] layerNames = new string[] { "Ground", "Player" };
     protected Transform player;
+    protected bool inProx;
     [SerializeField] protected GameObject enemy;
     protected SpriteRenderer sr;
     protected EnemyBehavior eb;
@@ -40,13 +41,13 @@ public abstract class EnemyAI : MonoBehaviour {
         GameObject collided = collision.gameObject;
         if (collided.CompareTag("Player")) {
             player = collision.gameObject.transform;
+            inProx = true;
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision) {
         GameObject collided = collision.gameObject;
         if (collision.CompareTag("Player")) {
-            player = null;
+            inProx = false;
         }
     }
 

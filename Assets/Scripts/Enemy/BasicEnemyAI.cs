@@ -53,6 +53,9 @@ public class BasicEnemyAI : EnemyAI {
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")) {
                 Debug.DrawRay(transform.position, dir.normalized * hit.distance, Color.yellow);
                 eb.currentState = EnemyBehavior.EnemyState.Alert;
+                if(!inProx) {
+                    player = null;
+                }
             } else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")) {
                 Debug.DrawRay(transform.position, dir.normalized * hit.distance, Color.red);
                 if (dir.x < 0f) {

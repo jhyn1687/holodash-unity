@@ -17,6 +17,7 @@ public class ShootScript : MonoBehaviour
     [SerializeField] private Transform shootPoint;
     [SerializeField] private float fireRate;
     [SerializeField] private int numShots;
+    [SerializeField] private int burstFire = 0;
 
     private Animator ani;
     private BoxCollider2D coll;
@@ -76,6 +77,8 @@ public class ShootScript : MonoBehaviour
             GameObject bulletContainer = GameObject.Find("Bullet Container");
         }
         numShots = 1;
+        fireRate = 2;
+        burstFire = 0;
         foreach (Transform child in bulletContainer) {
             Destroy(child.gameObject);
         }
@@ -91,6 +94,12 @@ public class ShootScript : MonoBehaviour
         }
     }
 
+    IEnumerator BurstFire(float angle) {
+        for (int i = 0; i < burstFire; i++) {
+            yield return new WaitForSeconds(0.1f/burstFire);
+            Shoot(angle);
+        }
+    }
     void Shoot(float angle) {
         GameObject BulletInstance = Instantiate(bullet, shootPoint.position, Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, angle));
         BulletInstance.transform.SetParent(bulletContainer);
@@ -100,24 +109,73 @@ public class ShootScript : MonoBehaviour
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         direction = mousePos - (Vector2)shootPoint.position;
         float currentAim = shootPoint.rotation.eulerAngles.z;
-        float minAim = currentAim + (1.5f * numShots);
-
+        float minAim = currentAim + Mathf.Min((1.5f * (numShots - 1)), 15f);
+        float maxAim = currentAim - Mathf.Min((1.5f * (numShots - 1)), 15f);
         for (int i = 0; i < numShots; i++)
         {
-            Shoot(((minAim - (i * 3f)) + 360) % 360);
+            Shoot(((minAim - (i * (minAim - maxAim) / numShots)) + 360) % 360);
         }
+        StartCoroutine(BurstFire(currentAim));
     }
     void OnAugmentPickup(int id) {
         switch (AugmentManager.GetName(id)) {
-            case "Double Shot":
+            case "Splinter Shot":
                 numShots += 1;
-                bullet_bs.bulletProps.DOTDamageMultiplier /= 2;
+                bullet_bs.bulletProps.DamageMultiplier *= .8f;
+                bullet_bs.bulletProps.DOTDamageMultiplier *= .5f;
                 break;
             case "Ricochet":
                 bullet_bs.bulletProps.ricochets += 1;
+                bullet_bs.bulletProps.lifetime += 1;
                 break;
             case "Fire Bullets":
                 bullet_bs.bulletProps.DOTDamage += 5;
+                break;
+            case "Electric Bullets":
+                bullet_bs.bulletProps.DOTDamage += 1;
+                bullet_bs.bulletProps.DOTDamageMultiplier += .2f;
+                break;
+            case "Infused Bullets":
+                bullet_bs.bulletProps.damage += 4;
+                break;
+            case "Quick Trigger":
+                fireRate += 1;
+                break;
+            case "Velocity Boost":
+                bullet_bs.bulletProps.bulletSpeed += 5;
+                break;
+            case "Burst Fire":
+                burstFire += 1;
+                break;
+            case "Sawed Off":
+                numShots = 15;
+                fireRate = .5f;
+                bullet_bs.bulletProps.LifetimeMultiplier = .5f;
+                break;
+            case "Symbiosis":
+                bullet_bs.bulletProps.lifesteal += 1;
+                bullet_bs.bulletProps.lifestealChance += .05f;
+                break;
+            case "One Shot One Kill":
+                bullet_bs.bulletProps.DamageMultiplier = 3f;
+                fireRate = .5f;
+                numShots = 1;
+                break;
+            case "Rapid Toxin":
+                bullet_bs.bulletProps.DOTTimeMultiplier *= .9f;
+                break;
+            case "Toxic Shock":
+                bullet_bs.bulletProps.DOTTime -= 1f;
+                break;
+            case "Penetrating Rounds":
+                bullet_bs.bulletProps.damage += 2;
+                break;
+            case "Everlasting Rounds":
+                bullet_bs.bulletProps.lifetime += .5f;
+                break;
+            case "Glass Cannon":
+                bullet_bs.bulletProps.DamageMultiplier += .5f;
+                bullet_bs.bulletProps.DOTDamageMultiplier += .25f;
                 break;
             default:
                 break;

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df66ccc36a7823a43be03589332eeb49, type: 3}
+  m_Name: Rapid Toxin
+  m_EditorClassIdentifier: 
+  ID: 16
+  augmentName: Rapid Toxin
+  description: DOT effects ticks faster
+  sprite: {fileID: 21300000, guid: 5b15dacbd4c01f54cb1a51e9e315e95f, type: 3}
+  repeatable: 1

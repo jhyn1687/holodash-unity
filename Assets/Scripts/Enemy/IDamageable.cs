@@ -6,5 +6,5 @@ public interface IDamageable
 {
     float Health { get; set; }
     void Damage(float damage);
-    void DamageOverTime(float damage, float time);
+    void DamageOverTime(float damage, float time, float timeMultiplier);
 }

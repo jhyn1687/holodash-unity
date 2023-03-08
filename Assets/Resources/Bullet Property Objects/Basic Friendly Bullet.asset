@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: Basic Friendly Bullet
   m_EditorClassIdentifier: 
   bulletSprite: {fileID: 21300000, guid: 5b4170b67e50246e5b20787f7ec335c0, type: 3}
+  lifetime: 2
+  LifetimeMultiplier: 1
   damage: 10
+  DamageMultiplier: 1
   DOTDamage: 0
   DOTDamageMultiplier: 1
   DOTTime: 5
   DOTTimeMultiplier: 1
   bulletSpeed: 60
   ricochets: 0
+  pierce: 0
+  pierceDecayPercentage: 0.75
+  lifesteal: 1
+  lifestealChance: 0.05
