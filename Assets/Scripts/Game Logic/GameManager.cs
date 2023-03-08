@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private Transform enemyBulletContainer;
 
-    public Upgrade upgrades;
+    public Upgrades upgrades;
 
     private static GameManager _instance;
     public static GameManager Instance {
@@ -97,19 +97,19 @@ public class GameManager : MonoBehaviour
     public bool tutorialFinished;
 
     public void LoadData(GameData data) {
-        damageUpgrade = data.damageUpgrade;
-        speedUpgrade = data.speedUpgrade;
-        dashUpgrade = data.dashUpgrade;
-        jumpUpgrade = data.jumpUpgrade;
-        tutorialFinished = data.tutorialFinished;
+        damageUpgrade = data.upgrades.damageUpgrade;
+        speedUpgrade = data.upgrades.speedUpgrade;
+        dashUpgrade = data.upgrades.dashUpgrade;
+        jumpUpgrade = data.upgrades.jumpUpgrade;
+        tutorialFinished = data.tutorialdata.tutorialFinished;
     }
 
     public void SaveData(GameData data) {
-        data.damageUpgrade = damageUpgrade;
-        data.speedUpgrade = speedUpgrade;
-        data.dashUpgrade = dashUpgrade;
-        data.jumpUpgrade = jumpUpgrade;
-        data.tutorialFinished = tutorialFinished;
+        data.upgrades.damageUpgrade = damageUpgrade;
+        data.upgrades.speedUpgrade = speedUpgrade;
+        data.upgrades.dashUpgrade = dashUpgrade;
+        data.upgrades.jumpUpgrade = jumpUpgrade;
+        data.tutorialdata.tutorialFinished = tutorialFinished;
     }
 
     private void OnBuyDamage() {
