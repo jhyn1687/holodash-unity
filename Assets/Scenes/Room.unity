@@ -270,6 +270,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2434135130777357089, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+      propertyPath: startingChapter
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2434135130777357089, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: AugmentPickupText
       value: 
       objectReference: {fileID: 1031942255}
@@ -325,6 +329,10 @@ PrefabInstance:
       propertyPath: grid
       value: 
       objectReference: {fileID: 1342072002}
+    - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
+      propertyPath: trailer
+      value: 
+      objectReference: {fileID: 5412107753212336918, guid: 4afba3216ca234142a0ad20a61a1ecc9, type: 3}
     - target: {fileID: 5846134382029998997, guid: 97a3048278cc3e141aa11b1b27511f5d, type: 3}
       propertyPath: startRoom
       value: 

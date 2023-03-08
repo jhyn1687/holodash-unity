@@ -17,6 +17,10 @@ public class CoinPicker : MonoBehaviour, IDataPersistence
     public void SaveData(GameData data) {
         data.coinsCollected = coin;
     }
+    public void deposit(int amount) {
+        coin += amount;
+        OnCoinChange?.Invoke(coin);
+    }
     public void withdraw(int amount) {
         coin -= amount;
         OnCoinChange?.Invoke(coin);
@@ -26,8 +30,12 @@ public class CoinPicker : MonoBehaviour, IDataPersistence
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.tag == "Coin") {
-            coin++;
-            OnCoinChange?.Invoke(coin);
+            CoinScript coinScript;
+            other.TryGetComponent<CoinScript>(out coinScript);
+            if(coinScript != null && coinScript.tryCollect()) {
+                coin += coinScript.value();
+                OnCoinChange?.Invoke(coin);
+            }
             Destroy(other.gameObject);
         }
     }

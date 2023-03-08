@@ -22,6 +22,7 @@ public class EnemyShootScript : MonoBehaviour
     private BoxCollider2D coll;
     private EnemyBulletScript bullet_bs;
     private SpriteRenderer bullet_sr;
+    private Animator ani;
     Vector2 direction;
     float ReadyForNextShot;
 
@@ -36,11 +37,15 @@ public class EnemyShootScript : MonoBehaviour
     {
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y), 0f, direction, 0f, LayerMask.GetMask("Ground"));
         inGround = (raycastHit2D.collider != null);
-        if (eb.currentState == EnemyBehavior.EnemyState.Attack) {
+        if (ani.GetBool("Taking Damage")) {
+            gunSprite.GetComponent<SpriteRenderer>().enabled = false;
+        } else if (eb.currentState == EnemyBehavior.EnemyState.Attack) {
             gunSprite.GetComponent<SpriteRenderer>().enabled = true;
             direction = eb.playerLastLocation - (Vector2)this.transform.position;
             FacePlayer();
-        } else if (eb.currentState == EnemyBehavior.EnemyState.Alert) { 
+        } else if (eb.currentState == EnemyBehavior.EnemyState.Alert) {
+            gunSprite.GetComponent<SpriteRenderer>().enabled = true;
+        } else if (eb.currentState == EnemyBehavior.EnemyState.Idle) {
             gunSprite.GetComponent<SpriteRenderer>().enabled = true;
         } else {
             gunSprite.GetComponent<SpriteRenderer>().enabled = false;
@@ -54,6 +59,7 @@ public class EnemyShootScript : MonoBehaviour
     }
 
     void Reset() {
+        ani = GetComponentInParent<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
         coll = GetComponentInChildren<BoxCollider2D>();
         eb = GetComponentInParent<EnemyBehavior>();

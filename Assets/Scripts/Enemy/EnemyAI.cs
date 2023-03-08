@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour {
     }
     void FixedUpdate()
     {
-        if (eb.currentState == EnemyBehavior.EnemyState.Patrol || eb.currentState == EnemyBehavior.EnemyState.Idle) {
+        if (eb.currentState == EnemyBehavior.EnemyState.Patrol) {
             if (frontGroundInfo.collider == null && backGroundInfo.collider == null) {
                 // can't patrol
                 canPatrol = false;

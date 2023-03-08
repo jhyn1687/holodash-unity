@@ -338,7 +338,7 @@ MonoBehaviour:
   _backCheckPoint: {fileID: 5305672405302372011}
   _wallCheckPoint: {fileID: 5317268461988268735}
   _checkSize: {x: 0.2, y: 0.2}
-  defaultState: 1
+  defaultState: 0
 --- !u!1 &6222388538802751585
 GameObject:
   m_ObjectHideFlags: 0

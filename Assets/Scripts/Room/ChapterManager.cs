@@ -44,6 +44,7 @@ public class ChapterManager : MonoBehaviour {
 
     [SerializeField] private GameObject startRoom;
     [SerializeField] private GameObject bossRoom;
+    [SerializeField] private GameObject trailer;
     [SerializeField] private GameObject ch0;
     [SerializeField] private List<GameObject> ch1;
 
@@ -89,7 +90,13 @@ public class ChapterManager : MonoBehaviour {
 
         GameObject startRoomInstance = PlaceRoom(startRoom, new Vector2(0f, 0f));
 
-        if (chapter == 0) 
+        if (chapter == 100) { //for trailer only
+            // delete StartRoom endzone
+            GameObject.Destroy(startRoomInstance.transform.GetChild(1).gameObject);
+            PlaceRoom(trailer, lastEndRoomPos);
+
+        } 
+        else if (chapter == 0) 
         {
             // delete StartRoom endzone
             GameObject.Destroy(startRoomInstance.transform.GetChild(1).gameObject);

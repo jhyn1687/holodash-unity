@@ -28,7 +28,7 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     private Dictionary<string, object> deathData = new Dictionary<string, object>();
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();

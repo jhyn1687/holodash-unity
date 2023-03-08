@@ -37,7 +37,7 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
         if (Health <= 0) {
             OnDeath();
         }
-        if (damageAnimationTimer < 0) {
+        if (damageAnimationTimer < 0 && ani != null) {
             ani.SetBool("Taking Damage", false);
         } else {
             damageAnimationTimer -= Time.deltaTime;
@@ -76,7 +76,10 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
 
         Health = Mathf.Max(Health - damage, 0);
         damageAnimationTimer = 0.5f;
-        ani.SetBool("Taking Damage", true);
+        if (ani != null) {
+            ani.SetBool("Taking Damage", true);
+        }
+        
         HPBar.setHealth(Health, maxHealth);
     }
 

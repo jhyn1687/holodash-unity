@@ -20,8 +20,10 @@ public class DashAnimation : MonoBehaviour
         
     }
     public void OnDashFinished() {
-        tr.emitting = false;
-        em.rateOverTime = 0;
+        if(tr != null) {
+            tr.emitting = false;
+            em.rateOverTime = 0;
+        }
     }
 
     private void OnEnable() {
