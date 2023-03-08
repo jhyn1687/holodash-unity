@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public static event Action OnReset;
     [SerializeField] private int startingChapter;
     [SerializeField] private TextMeshProUGUI AugmentPickupText;
-    [SerializeField] private bool firstTimePlay;
 
     public int currentChapter;
 
@@ -28,15 +27,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _instance = this; ;
+        _instance = this;
     }
 
     void Start() 
     {
-        if (firstTimePlay) {
-            ChapterManager.Instance.InitFirstTimePlay();
-        } else {
+        if (DataPersistenceManager.gameManager.tutorialFinished) {
             ChapterManager.Instance.InitGame();
+        } else {
+            ChapterManager.Instance.InitFirstTimePlay();
         }
     }
 

@@ -24,7 +24,7 @@ TODO:
 
 */
 public class ChapterManager : MonoBehaviour {
-    // public static event Action OnChapterStart;
+    public static event Action OnChapterStart;
     // using the singleton pattern for the ChapterManager
     private static ChapterManager _instance;
     public static ChapterManager Instance {
@@ -36,7 +36,7 @@ public class ChapterManager : MonoBehaviour {
         }
     }
 
-    [SerializeField] private PlayerMovement playerMovement;
+    private PlayerMovement playerMovement;
 
     // Number of total rooms between each boss.
     public const int NUMROOMS = 4; 
@@ -407,6 +407,7 @@ public class ChapterManager : MonoBehaviour {
         PlayerBehavior.OnPlayerDeath += OnPlayerDeath;
         EnemyBehavior.BossDied += OnBossDied;
     }
+    
     private void OnDisable()
     {
         //GameManager.OnReset -= OnReset;

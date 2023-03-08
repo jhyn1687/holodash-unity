@@ -31,6 +31,11 @@ public class DataPersistenceManager : MonoBehaviour
         LoadGame();
     }
 
+    public bool GetTutorialFinished()
+    {
+        return gameData.tutorialFinished;
+    }
+
     public void NewGame() 
     {
         this.gameData = new GameData();
