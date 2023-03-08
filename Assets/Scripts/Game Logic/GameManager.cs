@@ -15,6 +15,17 @@ public class GameManager : MonoBehaviour
 
     private Transform enemyBulletContainer;
 
+    public Upgrades upgrades;
+
+    private int damageUpgrade;
+    private int speedUpgrade;
+
+    private int dashUpgrade;
+
+    private int jumpUpgrade;
+
+    public bool tutorialFinished;
+
     private static GameManager _instance;
     public static GameManager Instance {
         get {
@@ -32,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     void Start() 
     {
-        if (DataPersistenceManager.gameManager.tutorialFinished) {
+        if (tutorialFinished) {
             ChapterManager.Instance.InitGame();
         } else {
             ChapterManager.Instance.InitFirstTimePlay();
@@ -94,15 +105,61 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LoadData(GameData data) {
+        damageUpgrade = data.upgrades.damageUpgrade;
+        speedUpgrade = data.upgrades.speedUpgrade;
+        dashUpgrade = data.upgrades.dashUpgrade;
+        jumpUpgrade = data.upgrades.jumpUpgrade;
+        tutorialFinished = data.tutorialdata.tutorialFinished;
+    }
+
+    public void SaveData(GameData data) {
+        data.upgrades.damageUpgrade = damageUpgrade;
+        data.upgrades.speedUpgrade = speedUpgrade;
+        data.upgrades.dashUpgrade = dashUpgrade;
+        data.upgrades.jumpUpgrade = jumpUpgrade;
+        data.tutorialdata.tutorialFinished = tutorialFinished;
+    }
+
+    private void OnBuyDamage() {
+        damageUpgrade += 1;
+    }
+
+    private void OnBuySpeed() {
+        speedUpgrade += 1;
+    }
+
+    private void OnBuyDash() {
+        dashUpgrade += 1;
+    }
+
+    private void OnBuyJump() {
+        jumpUpgrade += 1;
+    }
+
+    private void OnTutorialFinished() {
+        tutorialFinished = true;
+    }
+
     private void OnEnable() {
         EndChapterScript.EndChapterZoneReached += OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        UpgradeShopUI.OnBuyDamage += OnBuyDamage;
+        UpgradeShopUI.OnBuySpeed += OnBuySpeed;
+        UpgradeShopUI.OnBuyDash += OnBuyDash;
+        UpgradeShopUI.OnBuyJump += OnBuyJump;
+        EndzoneScript.OnTutorialFinished += OnTutorialFinished;
     }
 
     private void OnDisable() {
         EndChapterScript.EndChapterZoneReached -= OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath -= Reset;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
+        UpgradeShopUI.OnBuyDamage -= OnBuyDamage;
+        UpgradeShopUI.OnBuySpeed -= OnBuySpeed;
+        UpgradeShopUI.OnBuyDash -= OnBuyDash;
+        UpgradeShopUI.OnBuyJump -= OnBuyJump;
+        EndzoneScript.OnTutorialFinished -= OnTutorialFinished;
     }
 }

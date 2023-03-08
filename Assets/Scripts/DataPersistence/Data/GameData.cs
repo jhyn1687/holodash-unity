@@ -6,6 +6,9 @@ using UnityEngine;
 public class GameData
 {
     public int coinsCollected;
+    public Upgrades upgrades;
+
+    public TutorialData tutorialdata;
 
     public bool tutorialFinished;
 
@@ -14,6 +17,7 @@ public class GameData
     public GameData() 
     {
         coinsCollected = 0;
-        tutorialFinished = false;
+        upgrades = new Upgrades();
+        tutorialdata = new TutorialData();
     }
 }

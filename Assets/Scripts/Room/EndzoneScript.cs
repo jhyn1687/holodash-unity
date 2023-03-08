@@ -3,31 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndzoneScript : MonoBehaviour, IDataPersistence
+public class EndzoneScript : MonoBehaviour
 {
     public static event Action EndzoneReached;
+    public static event Action OnTutorialFinished;
 
-    private bool endReached = false;
-
-    public void LoadData(GameData data)
-    {
-        endReached = data.tutorialFinished;
-        Debug.Log(endReached);
-    }
-
-    public void SaveData(GameData data)
-    {
-        data.tutorialFinished = endReached;
-        Debug.Log(endReached);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.tag == "Player")
-        {
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.transform.tag == "Player") {
+            Debug.Log("Exit reached");
             EndzoneReached?.Invoke();
-            endReached = true;
-            Debug.Log(endReached);
+            OnTutorialFinished?.Invoke();
             GameObject.Destroy(gameObject);
         }
     }
