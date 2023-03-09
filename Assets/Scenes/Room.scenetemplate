@@ -263,9 +263,11 @@ MonoBehaviour:
     instantiationMode: 1
   - dependency: {fileID: 2800000, guid: 564bdd51db48f4b81a1598dc733564b2, type: 3}
     instantiationMode: 0
-  - dependency: {fileID: 2800000, guid: 50409d8b7caff445faa8e00e6be7cc92, type: 3}
+  - dependency: {fileID: 2800000, guid: b4ba06f742db34a248c10225f87f03c5, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 2800000, guid: 166186f631565412bb17c9e39ac0ee86, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 50409d8b7caff445faa8e00e6be7cc92, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 2800000, guid: ee148e281f3c41c5b4ff5f8a5afe5a6c, type: 3}
     instantiationMode: 1
@@ -298,6 +300,8 @@ MonoBehaviour:
   - dependency: {fileID: 7400000, guid: 33b59789860df47d18a8323763cfaeed, type: 2}
     instantiationMode: 1
   - dependency: {fileID: 2800000, guid: 891b504432ab14a96b3703fb3dca367e, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 99b908230ee0042e5862e340733f1b60, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 1855912281601737031, guid: 49654767f2527404f959a95935585dd6, type: 3}
     instantiationMode: 0
@@ -345,6 +349,8 @@ MonoBehaviour:
     instantiationMode: 1
   - dependency: {fileID: 2800000, guid: c8b137c58367ff14ab00a2b149642798, type: 3}
     instantiationMode: 0
+  - dependency: {fileID: 24100000, guid: 1d4e3fae35e884d0ca5d670a700facab, type: 2}
+    instantiationMode: 0
   - dependency: {fileID: 5169520296300502564, guid: 19471f57e2dd9544593f1e25710f0c49, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 2800000, guid: db93b22ba72b1af4f841fe10fd09616f, type: 3}
@@ -366,6 +372,8 @@ MonoBehaviour:
   - dependency: {fileID: 2800000, guid: 277eb21369ef74673ada478fc1cfe51c, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 2800000, guid: 29941823fd2ff42769ab455d668df248, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 8a3390e31a5a74199bcdab29d4b257f8, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 11400000, guid: 60ff26e040e56fa44abe68ee9d5f5c73, type: 2}
     instantiationMode: 1
