@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df66ccc36a7823a43be03589332eeb49, type: 3}
-  m_Name: Double Shot
+  m_Name: Everlasting Rounds
   m_EditorClassIdentifier: 
-  ID: 2
-  augmentName: Double Shot
-  description: Shoot twice the bullets
-  sprite: {fileID: 21300000, guid: 105c88e9d95a26d40926fb2d84359c08, type: 3}
+  ID: 19
+  augmentName: Everlasting Rounds
+  description: Bullet Duration +.5
+  sprite: {fileID: 21300000, guid: 4cf20fb253de3d545a26e6f5ddf8ec0d, type: 3}
+  repeatable: 1

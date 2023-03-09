@@ -5281,7 +5281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  knockbackForce: 10
+  knockbackForce: 30
   deathUI: {fileID: 0}
   HPUI: {fileID: 0}
   HPBar: {fileID: 0}
@@ -5392,8 +5392,9 @@ MonoBehaviour:
   bulletContainer: {fileID: 0}
   gunSprite: {fileID: 3718101360021334374}
   shootPoint: {fileID: 3718101359158142833}
-  fireRate: 2
+  fireRate: 1
   numShots: 1
+  burstFire: 0
 --- !u!1 &3718101360021334374
 GameObject:
   m_ObjectHideFlags: 0

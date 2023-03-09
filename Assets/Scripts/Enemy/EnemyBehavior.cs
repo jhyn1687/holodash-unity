@@ -72,24 +72,24 @@ public class EnemyBehavior : MonoBehaviour, IDamageable
     public void Damage(float damage) 
     {
         Health = Mathf.Max(Health - damage, 0);
-        damageAnimationTimer = 0.5f;
+        damageAnimationTimer = 0.2f;
         ani.SetBool("Taking Damage", true);
         HPBar.setHealth(Health, maxHealth);
     }
 
-    public void DamageOverTime(float damage, float time) 
+    public void DamageOverTime(float damage, float time, float timeMultiplier) 
     {
-        StartCoroutine(DOT(damage, time));
+        StartCoroutine(DOT(damage, time * timeMultiplier, timeMultiplier));
     }
 
-    IEnumerator DOT(float damage, float time) 
+    IEnumerator DOT(float damage, float time, float timeMultiplier) 
     {
         float damageTaken = 0;
         while (damageTaken < damage) 
         {
             Damage(damage / time);
             damageTaken += damage / time;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f * timeMultiplier);
         }
     }
 }

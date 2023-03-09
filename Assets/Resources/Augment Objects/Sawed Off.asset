@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df66ccc36a7823a43be03589332eeb49, type: 3}
+  m_Name: Sawed Off
+  m_EditorClassIdentifier: 
+  ID: 11
+  augmentName: Sawed Off
+  description: Bullet count = 15, Fire rate = 0.5, Bullet duration -50%
+  sprite: {fileID: 21300000, guid: 21a5a93c5ff20a043a4d16e5fdbd0275, type: 3}
+  repeatable: 0

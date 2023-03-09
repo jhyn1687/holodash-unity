@@ -8,6 +8,16 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 public class PlayerBehavior : MonoBehaviour , PlayerHealth {
+    private static PlayerBehavior _instance;
+    public static PlayerBehavior Instance {
+        get {
+            if (_instance == null) {
+                Debug.Log("Player Behavior is null");
+            }
+            return _instance;
+        }
+    }
+    
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private TrailRenderer tr;
@@ -23,10 +33,17 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     [SerializeField] private HPBehavior HPBar;
     [SerializeField] private ParticleSystem dashEffect;
 
+    private float damageTaken = 1f;
+    private float iframes = 0.5f;
+    private float lastDamageTime;
+
     public float Health { get; set; }
     private bool dead;
     private Dictionary<string, object> deathData = new Dictionary<string, object>();
-    
+
+    void Awake() {
+        _instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +53,7 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         sr = GetComponent<SpriteRenderer>();
         ani = GetComponent<Animator>();
         dead = false;
+        lastDamageTime = 0;
         Health = maxHP;
         HPUI.SetText("HP: " + maxHP);
     }
@@ -46,6 +64,7 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         if (dead || Time.timeScale == 0) {
             return;
         }
+        lastDamageTime -= Time.deltaTime;
         if (Health <= 0) {
             OnDeath();
         }
@@ -61,7 +80,9 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         StopAllCoroutines();
         ani.SetBool("Taking Damage", false);
         dead = false;
+        maxHP = 50;
         Health = maxHP;
+        damageTaken = 1f;
         HPBar.setHealth(Health, maxHP);
         HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
     }
@@ -82,16 +103,22 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject collided = collision.gameObject;
         if (collided.CompareTag("Enemy")) {
-            Vector2 dir = (this.transform.position - collided.transform.position).normalized;
+            Vector2 dir = this.transform.position - collided.transform.position;
+            dir.Set(dir.x > 0 ? dir.x + 2 : dir.x - 2, dir.y);
+            dir = dir.normalized;
             rb.AddForce(dir * knockbackForce, ForceMode2D.Impulse);
         }
     }
 
     public void Damage(float damage) {
-        Health = Mathf.Max(Health - damage, 0);
-        StartCoroutine(DamageAnimation());
-        HPBar.setHealth(Health, maxHP);
-        HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
+        if(lastDamageTime < 0) {
+            damage = damage * damageTaken;
+            Health = Mathf.Max(Health - damage, 0);
+            StartCoroutine(DamageAnimation());
+            HPBar.setHealth(Health, maxHP);
+            HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
+            lastDamageTime = iframes;
+        }
     }
     public void Heal(float healing) {
         
@@ -117,9 +144,27 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     }
     void OnAugmentPickup(int id) {
         switch (AugmentManager.GetName(id)) {
-            case "Extra Health":
-                maxHP += 50;
+            case "Small Health Boost":
+                maxHP += 10;
+                Heal(15);
+                break;
+            case "Health Boost":
+                maxHP += 25;
+                Heal(30);
+                break;
+            case "Neuro Carapace":
+                damageTaken *= 0.95f;
+                Heal(10);
+                break;
+            case "Neuro Stim":
                 Heal(50);
+                break;
+            case "Glass Cannon":
+                damageTaken += .25f;
+                break;
+            case "Infused Bullets":
+                maxHP -= 20;
+                Heal(0);
                 break;
             default:
                 break;

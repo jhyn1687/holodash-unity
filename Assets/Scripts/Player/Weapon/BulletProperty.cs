@@ -6,7 +6,12 @@ using UnityEngine;
 public class BulletProperty : ScriptableObject {
 	[Header("Bullet Properties")]
 	public Sprite bulletSprite;
+	public float lifetime;
+	[Range(0f, 2f)]
+	public float LifetimeMultiplier;
 	public float damage;
+	[Range(0f, 2f)]
+	public float DamageMultiplier;
 	public float DOTDamage;
     [Range(0f, 2f)]
 	public float DOTDamageMultiplier;
@@ -15,4 +20,7 @@ public class BulletProperty : ScriptableObject {
 	public float DOTTimeMultiplier;
 	public float bulletSpeed;
     public int ricochets;
+	public float lifesteal;
+	[Range(0f, 1f)]
+	public float lifestealChance;
 }

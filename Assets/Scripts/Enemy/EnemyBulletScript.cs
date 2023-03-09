@@ -7,20 +7,25 @@ public class EnemyBulletScript : MonoBehaviour
     public BulletProperty bulletProps;
     private Rigidbody2D rb;
     private int ricochetCounter;
+    private float lifetimeCounter;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         ricochetCounter = 0;
+        lifetimeCounter = 0;
 
         rb.AddForce(this.transform.right * bulletProps.bulletSpeed);
     }
 
-    private void Update()
-    {
+    private void Update() {
+        lifetimeCounter += Time.deltaTime;
         if (ricochetCounter > bulletProps.ricochets)
         {
+            Object.Destroy(this.gameObject);
+        }
+        if (lifetimeCounter > bulletProps.lifetime * bulletProps.LifetimeMultiplier) {
             Object.Destroy(this.gameObject);
         }
     }

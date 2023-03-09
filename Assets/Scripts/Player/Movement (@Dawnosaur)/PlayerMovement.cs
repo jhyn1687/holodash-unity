@@ -532,7 +532,7 @@ public class PlayerMovement : MonoBehaviour
 		_isDashAttacking = true;
 
 		// Dash through enemies?
-		// Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
 		// Dash through enemy bullets?
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy Projectile"), true);
@@ -552,7 +552,7 @@ public class PlayerMovement : MonoBehaviour
 		_isDashAttacking = false;
 
 		// Dash through enemies?
-		// Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 		
 		// Dash through enemy bullets?
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy Projectile"), false);

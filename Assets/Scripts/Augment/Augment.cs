@@ -10,4 +10,5 @@ public class Augment : ScriptableObject
 	public string augmentName;
 	public string description;
 	public Sprite sprite;
+	public bool repeatable;
 }
