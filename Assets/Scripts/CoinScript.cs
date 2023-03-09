@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class CoinScript : MonoBehaviour {
+    [SerializeField] private int coinValue = 1;
+    private bool isCollected = false;
+    public bool tryCollect() {
+        if (!isCollected) {
+            isCollected = true;
+            return true;
+        }
+        return !isCollected;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public int value() {
+        return coinValue;
     }
 }
