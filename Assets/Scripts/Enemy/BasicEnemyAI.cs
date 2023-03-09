@@ -50,21 +50,23 @@ public class BasicEnemyAI : EnemyAI {
             Vector2 dir = player.position - transform.position;
             
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Vector2.Distance(transform.position, player.position), layerMask);
-            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")) {
-                Debug.DrawRay(transform.position, dir.normalized * hit.distance, Color.yellow);
-                eb.currentState = EnemyBehavior.EnemyState.Alert;
-                if(!inProx) {
-                    player = null;
+            if (hit.collider != null) {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")) {
+                    Debug.DrawRay(transform.position, dir.normalized * hit.distance, Color.yellow);
+                    eb.currentState = EnemyBehavior.EnemyState.Alert;
+                    if (!inProx) {
+                        player = null;
+                    }
+                } else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")) {
+                    Debug.DrawRay(transform.position, dir.normalized * hit.distance, Color.red);
+                    if (dir.x < 0f) {
+                        enemy.transform.eulerAngles = new Vector3(0, 0, 0);
+                    } else {
+                        enemy.transform.eulerAngles = new Vector3(0, -180, 0);
+                    }
+                    eb.currentState = EnemyBehavior.EnemyState.Attack;
+                    eb.playerLastLocation = player.position;
                 }
-            } else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")) {
-                Debug.DrawRay(transform.position, dir.normalized * hit.distance, Color.red);
-                if (dir.x < 0f) {
-                    enemy.transform.eulerAngles = new Vector3(0, 0, 0);
-                } else {
-                    enemy.transform.eulerAngles = new Vector3(0, -180, 0);
-                }
-                eb.currentState = EnemyBehavior.EnemyState.Attack;
-                eb.playerLastLocation = player.position;
             }
         } else {
             eb.currentState = canPatrol ? defaultState : EnemyBehavior.EnemyState.Idle;

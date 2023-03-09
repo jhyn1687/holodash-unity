@@ -70,11 +70,6 @@ public class GameManager : MonoBehaviour, IDataPersistence
         // LoadNewChapter(currentChapter);
         StartCoroutine(StartLoading());
         OnReset?.Invoke();
-        if (tutorialFinished) {
-            ChapterManager.Instance.InitGame();
-        } else {
-            ChapterManager.Instance.InitFirstTimePlay();
-        }
         StartCoroutine(DoneLoading());
     }
 

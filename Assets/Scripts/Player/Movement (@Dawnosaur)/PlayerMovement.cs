@@ -700,7 +700,7 @@ public class PlayerMovement : MonoBehaviour
 		ani.SetBool("Taking Damage", false);
 		sr.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
 		IsFacingRight = true;
-		this.transform.position = STARTPOSITION;
+		respawn();
 		RB.velocity = new Vector2(0, 0);
 		isHurt = false;
 	}

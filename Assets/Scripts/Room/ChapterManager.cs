@@ -125,8 +125,6 @@ public class ChapterManager : MonoBehaviour {
 
         // Vector2 initTutorialPos = startRoomInstance.transform.position + new Vector2(0f, 80f * doorLevel);
         // currentRoomInstance = PlaceRoom(ch0, initTutorialPos);
-
-
     }
 
     public void InitGame()

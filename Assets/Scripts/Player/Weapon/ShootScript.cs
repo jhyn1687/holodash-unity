@@ -192,9 +192,11 @@ public class ShootScript : MonoBehaviour
     }
 
     void OnDataLoaded() {
-        bullet_bs.bulletProps = Instantiate(this.bulletProps);
-        bullet_bs.bulletProps.bulletSpeed += 5 * GameManager.Instance.speedUpgrade;
-        bullet_bs.bulletProps.damage += 2 * GameManager.Instance.speedUpgrade;
+        if(bullet_bs != null) {
+            bullet_bs.bulletProps = Instantiate(this.bulletProps);
+            bullet_bs.bulletProps.bulletSpeed += 5 * GameManager.Instance.speedUpgrade;
+            bullet_bs.bulletProps.damage += 2 * GameManager.Instance.speedUpgrade;
+        }
     }
 
 
