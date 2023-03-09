@@ -32183,8 +32183,8 @@ Tilemap:
   - first: {x: 57, y: 6, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
+      m_TileIndex: 2
+      m_TileSpriteIndex: 5
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -40966,11 +40966,11 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 5299725c0313afd49954d6a574013002, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 5a651a392ac134bdca6019acb6847d2f, type: 2}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 1bfb06adefa0240e5839e4acee32c1cd, type: 2}
   - m_RefCount: 2146
     m_Data: {fileID: 11400000, guid: c34ae0b33f72e4a41b789a03d40adf62, type: 2}
-  - m_RefCount: 18
+  - m_RefCount: 17
     m_Data: {fileID: 11400000, guid: 5536aba77faca7e48a530f4eb9a7b3ab, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 122658d095b6640588a7fc18b4e234a1, type: 2}
@@ -40991,10 +40991,10 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 166186f631565412bb17c9e39ac0ee86, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300000, guid: cd6ec11c2c4f2fc4f816c2a47ea3a5e5, type: 3}
-  - m_RefCount: 18
+  - m_RefCount: 17
     m_Data: {fileID: 21300000, guid: 4000d201596617241b7fc5035e4d57f6, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 492845713, guid: 33f4284425475bd48ba57ffb98691cbe, type: 3}
   - m_RefCount: 22
     m_Data: {fileID: 21300000, guid: 2a66cf851682d27448200f514abf8cdd, type: 3}
   - m_RefCount: 53
@@ -41189,14 +41189,6 @@ CompositeCollider2D:
         Y: 20000000
       - X: 50000000
         Y: 20000000
-    - - X: 370000000
-        Y: 40000000
-      - X: 340000000
-        Y: 40000000
-      - X: 340000000
-        Y: 30000000
-      - X: 370000000
-        Y: 30000000
     - - X: 580000000
         Y: 40000000
       - X: 450000000
@@ -41225,6 +41217,14 @@ CompositeCollider2D:
         Y: -230000000
       - X: 580000000
         Y: -230000000
+    - - X: 370000000
+        Y: 40000000
+      - X: 340000000
+        Y: 40000000
+      - X: 340000000
+        Y: 30000000
+      - X: 370000000
+        Y: 30000000
   m_CompositePaths:
     m_Paths:
     - - {x: 4.999971, y: 2}
