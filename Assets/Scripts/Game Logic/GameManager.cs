@@ -63,8 +63,8 @@ public class GameManager : MonoBehaviour
 
     private void Reset() 
     {
-        currentChapter = startingChapter;
-        LoadNewChapter(currentChapter);
+        // currentChapter = startingChapter;
+        // LoadNewChapter(currentChapter);
         OnReset?.Invoke();
     }
 
