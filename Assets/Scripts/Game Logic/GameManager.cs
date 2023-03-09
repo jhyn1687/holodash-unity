@@ -8,6 +8,7 @@ using TMPro;
 public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static event Action OnReset;
+    public static event Action OnDataLoaded;
     [SerializeField] private int startingChapter;
     [SerializeField] private TextMeshProUGUI AugmentPickupText;
 
@@ -15,10 +16,10 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     private Transform enemyBulletContainer;
 
-    private int damageUpgrade;
-    private int speedUpgrade;
-    private int hpUpgrade;
-    private int jumpUpgrade;
+    public int damageUpgrade;
+    public int speedUpgrade;
+    public int hpUpgrade;
+    public int jumpUpgrade;
 
     public bool tutorialFinished;
 
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         hpUpgrade = data.hpUpgrade;
         jumpUpgrade = data.jumpUpgrade;
         tutorialFinished = data.tutorialFinished;
+        OnDataLoaded?.Invoke();
         if (tutorialFinished) {
             ChapterManager.Instance.InitGame();
         } else {
@@ -136,18 +138,22 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     private void OnBuyDamage() {
         damageUpgrade += 1;
+        OnDataLoaded?.Invoke();
     }
 
     private void OnBuySpeed() {
         speedUpgrade += 1;
+        OnDataLoaded?.Invoke();
     }
 
     private void OnBuyHP() {
         hpUpgrade += 1;
+        OnDataLoaded?.Invoke();
     }
 
     private void OnBuyJump() {
         jumpUpgrade += 1;
+        OnDataLoaded?.Invoke();
     }
 
     private void OnTutorialFinished() {

@@ -49,7 +49,7 @@ MonoBehaviour:
   bulletProps: {fileID: 11400000, guid: b2e74830a62e9ae49b5ec37095595b93, type: 2}
   gunSprite: {fileID: 7409667650632522523}
   shootPoint: {fileID: 4449681560682657124}
-  fireRate: 2
+  fireRate: 1.5
   numShots: 1
 --- !u!1 &1875777775794489310
 GameObject:

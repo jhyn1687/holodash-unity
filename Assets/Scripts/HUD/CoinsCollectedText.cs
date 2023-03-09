@@ -17,7 +17,7 @@ public class CoinsCollectedText : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data) 
     {
         coinsCollected = data.coinsCollected;
-        coinsCollectedText.text = "Credits: " + coinsCollected;
+        coinsCollectedText.text = "" + coinsCollected;
     }
 
     public void SaveData(GameData data)
@@ -28,12 +28,12 @@ public class CoinsCollectedText : MonoBehaviour, IDataPersistence
     private void OnCoinChange(int newBalance) 
     {
         coinsCollected = newBalance;
-        coinsCollectedText.text = "Credits: " + coinsCollected;
+        coinsCollectedText.text = "" + coinsCollected;
     }
 
     private void Update() 
     {
-        coinsCollectedText.text = "Credits: " + coinsCollected;
+        coinsCollectedText.text = "" + coinsCollected;
     }
     
     private void OnEnable() {

@@ -80,7 +80,15 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         StopAllCoroutines();
         ani.SetBool("Taking Damage", false);
         dead = false;
-        maxHP = 50;
+        maxHP = 50 + 10 * GameManager.Instance.hpUpgrade;
+        Health = maxHP;
+        damageTaken = 1f;
+        HPBar.setHealth(Health, maxHP);
+        HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
+    }
+
+    private void OnAugmentReset() {
+        maxHP = 50 + 10 * GameManager.Instance.hpUpgrade;
         Health = maxHP;
         damageTaken = 1f;
         HPBar.setHealth(Health, maxHP);
@@ -120,8 +128,13 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
             lastDamageTime = iframes;
         }
     }
+    public void RecalculateMaxHP() {
+        maxHP = 50 + 10 * GameManager.Instance.hpUpgrade;
+        Health = maxHP;
+        HPBar.setHealth(Health, maxHP);
+        HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
+    }
     public void Heal(float healing) {
-        
         Health = Mathf.Min(Health + healing, maxHP);
         HPBar.setHealth(Health, maxHP);
         HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
@@ -170,15 +183,22 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
                 break;
         }
     }
-    
+
+    void OnDataLoaded() {
+        RecalculateMaxHP();
+    }
+
+
     private void OnEnable() {
         GameManager.OnReset += OnReset;
+        GameManager.OnDataLoaded += OnDataLoaded;
         PlayerMovement.OnRespawn += OnReset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
     private void OnDisable() {
         GameManager.OnReset -= OnReset;
-        PlayerMovement.OnRespawn += OnReset;
+        GameManager.OnDataLoaded -= OnDataLoaded;
+        PlayerMovement.OnRespawn -= OnReset;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
     }
 }

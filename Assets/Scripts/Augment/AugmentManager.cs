@@ -6,6 +6,7 @@ using UnityEngine;
 public class AugmentManager : MonoBehaviour
 {
     public static event Action<int> OnAugmentPickup;
+    public static event Action OnAugmentReset;
     private static AugmentManager _instance;
 
     public static List<Augment> allAugments;
@@ -43,5 +44,11 @@ public class AugmentManager : MonoBehaviour
     }
     public static Augment GetAugment(int code) {
         return allAugments.Find(aug => aug.ID == code);
+    }
+
+    public void AugmentReset() {
+        repeatableAugments = allAugments.FindAll(aug => aug.repeatable);
+        augmentPool = allAugments.FindAll(aug => true);
+        OnAugmentReset?.Invoke();
     }
 }

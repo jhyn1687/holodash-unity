@@ -182,13 +182,33 @@ public class ShootScript : MonoBehaviour
         }
     }
 
+    void OnAugmentReset() {
+        bullet_bs.bulletProps = Instantiate(this.bulletProps);
+        bullet_bs.bulletProps.bulletSpeed += 5 * GameManager.Instance.speedUpgrade;
+        bullet_bs.bulletProps.damage += 2 * GameManager.Instance.speedUpgrade;
+        numShots = 1;
+        fireRate = 2;
+        burstFire = 0;
+    }
+
+    void OnDataLoaded() {
+        bullet_bs.bulletProps = Instantiate(this.bulletProps);
+        bullet_bs.bulletProps.bulletSpeed += 5 * GameManager.Instance.speedUpgrade;
+        bullet_bs.bulletProps.damage += 2 * GameManager.Instance.speedUpgrade;
+    }
+
+
     void OnEnable() {
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        AugmentManager.OnAugmentReset += OnAugmentReset;
+        GameManager.OnDataLoaded += OnDataLoaded;
         GameManager.OnReset += Reset;
     }
 
     void OnDisable() {
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
+        AugmentManager.OnAugmentReset -= OnAugmentReset;
+        GameManager.OnDataLoaded -= OnDataLoaded;
         GameManager.OnReset -= Reset;
     }
 }

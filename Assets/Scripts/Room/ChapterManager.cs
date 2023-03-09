@@ -172,8 +172,8 @@ public class ChapterManager : MonoBehaviour {
     }
 
     // MODIFIES lastEndRoomPos !!!!
-    public void InitDoorRoom(GameObject roomPrefab, Vector2 doorPos)
-    {
+    public void InitDoorRoom(GameObject roomPrefab, Vector2 doorPos) {
+        StartCoroutine(StartLoading());
         // check if roomPrefab is a tutorial, to change the roomStatus
         if (roomPrefab.name.Contains("Tutorial"))
         {
@@ -205,6 +205,7 @@ public class ChapterManager : MonoBehaviour {
 
         playerMovement.respawn();
         Debug.Log("[ChapterManager] spawned player at: " + playerMovement.getRespawnPositon());
+        StartCoroutine(DoneLoading());
     }
 
     public void DestroyDoorRoom()
@@ -224,6 +225,7 @@ public class ChapterManager : MonoBehaviour {
         // spawn player in it
         playerMovement.respawn();
         lastEndRoomPos = lastDoorEndRoomPos;
+        AugmentManager.Instance.AugmentReset();
         StartCoroutine(DoneLoading());
     }
 
@@ -339,17 +341,14 @@ public class ChapterManager : MonoBehaviour {
         // and set their parent to the FallthroughPlatformsContainer
         const string ftp = "FallthroughPlatform";
         const string d = "Door";
-        Transform[] ftPlatforms = roomInstance.transform.GetComponentsInChildren<Transform>();
-        for (int i = 0; i < ftPlatforms.Length; i++)
+        Transform[] roomObjects = roomInstance.transform.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < roomObjects.Length; i++)
         {
-            switch (ftPlatforms[i].name)
-            {
-                case ftp:
-                    ftPlatforms[i].SetParent(ftpsContainer);
-                    break;
-                case d:
-                    ftPlatforms[i].SetParent(doorsContainer);
-                    break;
+            if (roomObjects[i].name.Contains(ftp)) {
+                roomObjects[i].SetParent(ftpsContainer);
+            }
+            if (roomObjects[i].name.Contains(d)) {
+                roomObjects[i].SetParent(doorsContainer);
             }
         }
 

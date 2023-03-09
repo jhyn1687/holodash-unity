@@ -76,10 +76,12 @@ public class PlayerMovement : MonoBehaviour
 	//Hurt
 	private bool isHurt = false;
 
-	#endregion
+    //Double Jump
+    private int DoubleJumpCount = 0;
+    #endregion
 
-	#region INPUT PARAMETERS
-	private Vector2 _moveInput;
+    #region INPUT PARAMETERS
+    private Vector2 _moveInput;
 
 	public float LastPressedJumpTime { get; private set; }
 	public float LastPressedDashTime { get; private set; }
@@ -240,8 +242,8 @@ public class PlayerMovement : MonoBehaviour
 		if (!IsDashing)
 		{
 			//Jump
-			if (CanJump() && LastPressedJumpTime > 0)
-			{
+			if (CanJump() && LastPressedJumpTime > 0) {
+				DoubleJumpCount = 0;
 				IsJumping = true;
 				IsWallJumping = false;
 				_isJumpCut = false;
@@ -260,6 +262,13 @@ public class PlayerMovement : MonoBehaviour
 				_lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
 
 				WallJump(_lastWallJumpDir);
+			} else if (CanDoubleJump() && LastPressedJumpTime > 0) {
+				IsJumping = true;
+				IsWallJumping = false;
+				DoubleJumpCount = 1;
+				_isJumpCut = false;
+				_isJumpFalling = false;
+				DoubleJump();
 			}
 		}
 		#endregion
@@ -514,6 +523,23 @@ public class PlayerMovement : MonoBehaviour
 		RB.AddForce(force, ForceMode2D.Impulse);
 		#endregion
 	}
+
+	private void DoubleJump() {
+		//Ensures we can't call DoubleJump multiple times from one press
+		LastPressedJumpTime = 0;
+		LastOnGroundTime = 0;
+
+		#region Perform DoubleJump
+		//We increase the force applied if we are falling
+		//This means we'll always feel like we jump the same amount 
+		//(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
+		float force = Data.jumpForce;
+		if (RB.velocity.y < 0)
+			force -= RB.velocity.y;
+
+		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+		#endregion
+	}
 	#endregion
 
 	#region DASH METHODS
@@ -614,6 +640,10 @@ public class PlayerMovement : MonoBehaviour
     {
 		return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
 			 (LastOnWallRightTime > 0 && _lastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && _lastWallJumpDir == -1));
+	}
+
+	private bool CanDoubleJump() {
+		return (IsJumping || _isJumpFalling) && GameManager.Instance.jumpUpgrade == 1 && DoubleJumpCount < 1;
 	}
 
 	private bool CanJumpCut()
