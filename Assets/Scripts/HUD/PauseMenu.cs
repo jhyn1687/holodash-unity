@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
     
     //for canvas 
     [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject optionsMenu;
     private void Start() {
         Reset();
     }
@@ -28,6 +29,7 @@ public class PauseMenu : MonoBehaviour
         //when game is running
         if(!isPaused){
             pauseMenu.SetActive(true);
+            optionsMenu.SetActive(false);
             previousTimeScale = Time.timeScale;
             Time.timeScale = 0f;
             isPaused = true;
@@ -35,12 +37,14 @@ public class PauseMenu : MonoBehaviour
         //when the game is already paused
         else{
             pauseMenu.SetActive(false);
+            optionsMenu.SetActive(false);
             Time.timeScale = previousTimeScale;
             isPaused = false;
         }
     }
     private void Reset() {
         pauseMenu.SetActive(false);
+        optionsMenu.SetActive(false);
         Time.timeScale = 1;
         isPaused = false;
     }

@@ -38,10 +38,6 @@ public class GameManager : MonoBehaviour, IDataPersistence
     void Awake()
     {
         _instance = this;
-    }
-
-    void Start() 
-    {
         GameObject HUD = GameObject.Find("HUD");
         if (HUD == null) {
             Debug.LogError("HUD not found");
@@ -50,6 +46,11 @@ public class GameManager : MonoBehaviour, IDataPersistence
         if (Loading == null) {
             Debug.LogError("Loading not found");
         }
+    }
+
+    void Start() 
+    {
+        
     }
 
     private void OnEndChapterZoneReached() 

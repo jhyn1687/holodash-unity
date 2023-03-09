@@ -7,42 +7,25 @@ using UnityEngine.UI;
 
 public class AudioSlider : MonoBehaviour
 {
-    public AudioMixer audioMixer;   
-    
-    public void SetVolume (float volume){
-        audioMixer.SetFloat("volume", Mathf.Log10(volume) * 20); 
+    public float volume;
+    public AudioMixer audioMixer;
+    public Slider slider;
+
+    void Awake() {
+        slider.value = PlayerPrefs.GetFloat("Slider value", 0.75f);
+        volume = PlayerPrefs.GetFloat("Slider value", 0.75f);
+        audioMixer.SetFloat("volume", Mathf.Log10(volume) * 20);
     }
-    /* public Slider xslider;
- 
- 
-     void Start()
-     {
-        xslider.value = PlayerPrefs.GetFloat("volume");
-        xslider.SetLevel(PlayerPrefs.GetFloat("volume"));
- 
-     }
- 
-     void Update()
-     {
-         PlayerPrefs.SetFloat("volume", xslider.value);
-     
- 
-     } */
-   
-    /* void Awake ()
-    {
-        musicSlider.value = PlayerPrefs.GetFloat ("volume");
-        audioMixer.SetFloat("volume", musicSlider.value);
+    void Update() {
+        slider.value = PlayerPrefs.GetFloat("Slider value", 0.75f);
+        volume = PlayerPrefs.GetFloat("Slider value", 0.75f);
+        audioMixer.SetFloat("volume", Mathf.Log10(volume) * 20);
     }
-    public void SetMusicVolume (float musicVolume)
-    {
-        audioMixer.SetFloat("volume", musicVolume);
-        PlayerPrefs.SetFloat ("volume", musicVolume);
-    }  */
-        
-/*     private void OnDisable () {
-         PlayerPrefs.Save();
-     } 
- */  
+    public void OnSliderChange(float newValue) {
+        PlayerPrefs.SetFloat("Slider value", newValue);
+    }
     
+    public void SaveVolume() {
+        PlayerPrefs.Save();
+    }
 }

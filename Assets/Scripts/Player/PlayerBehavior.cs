@@ -78,7 +78,9 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     private void OnReset() {
         // stop any dashes, and also reset everything that may have been changed in dash.
         StopAllCoroutines();
-        ani.SetBool("Taking Damage", false);
+        if(ani != null) {
+            ani.SetBool("Taking Damage", false);
+        }
         dead = false;
         maxHP = 50 + 10 * GameManager.Instance.hpUpgrade;
         Health = maxHP;
