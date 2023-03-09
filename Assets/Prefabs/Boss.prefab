@@ -475,7 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageToPlayer: 20
-  coin: {fileID: 9166757833457666934, guid: 0fe54eb122da8d5418366d5fd624579c, type: 3}
+  coin: {fileID: 1472299192819509408, guid: 6849767fd0924d243ac1109607e414c7, type: 3}
   maxHealth: 500
   HPBar: {fileID: 6001789722534880477}
 --- !u!60 &5372861233135549134

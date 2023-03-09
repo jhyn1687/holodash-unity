@@ -55,7 +55,7 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         dead = false;
         lastDamageTime = 0;
         Health = maxHP;
-        HPUI.SetText("HP: " + maxHP);
+        HPUI.SetText(Health.ToString("F0") + " / " + maxHP.ToString("F0"));
     }
 
     // Update is called once per frame

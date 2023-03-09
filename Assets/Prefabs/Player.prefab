@@ -5179,6 +5179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialData: {fileID: 11400000, guid: aa03a24c371f01b42bfb623b318ecfd9, type: 2}
+  STARTPOSITION: {x: -14.5, y: 5}
   onDash:
     m_PersistentCalls:
       m_Calls:
@@ -5280,7 +5281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566e231e505cbaf4dbb71dbdca35631b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
+  maxHP: 50
   knockbackForce: 30
   deathUI: {fileID: 0}
   HPUI: {fileID: 0}

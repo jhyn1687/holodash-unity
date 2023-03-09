@@ -12,6 +12,9 @@ public class AugmentBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (aug == null) {
+            aug = AugmentManager.Instance.GetRandomAugment();
+        }
         coll = GetComponent<BoxCollider2D>();
         SpriteRenderer sr = iconObject.GetComponent<SpriteRenderer>();
         sr.sprite = aug.sprite;

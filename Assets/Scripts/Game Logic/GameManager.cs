@@ -81,8 +81,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         ChapterManager.Instance.initChapter(currChapter);
         ClearLevel();
     }
-
-
+    
     public void OnAugmentPickup(int id) 
     {
         Augment aug = AugmentManager.GetAugment(id);
