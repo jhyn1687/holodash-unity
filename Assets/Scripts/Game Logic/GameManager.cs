@@ -5,7 +5,7 @@ using Unity.Services.Analytics;
 using UnityEngine;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static event Action OnReset;
     [SerializeField] private int startingChapter;
@@ -14,6 +14,15 @@ public class GameManager : MonoBehaviour
     public int currentChapter;
 
     private Transform enemyBulletContainer;
+
+    private int damageUpgrade;
+    private int speedUpgrade;
+    private int hpUpgrade;
+    private int jumpUpgrade;
+
+    public bool tutorialFinished;
+
+    public GameObject Loading;
 
     private static GameManager _instance;
     public static GameManager Instance {
@@ -32,7 +41,14 @@ public class GameManager : MonoBehaviour
 
     void Start() 
     {
-        Reset();
+        GameObject HUD = GameObject.Find("HUD");
+        if (HUD == null) {
+            Debug.LogError("HUD not found");
+        }
+        Loading = HUD.transform.Find("Loading").gameObject;
+        if (Loading == null) {
+            Debug.LogError("Loading not found");
+        }
     }
 
     private void OnEndChapterZoneReached() 
@@ -48,27 +64,24 @@ public class GameManager : MonoBehaviour
 
     private void Reset() 
     {
-        currentChapter = startingChapter;
-        LoadNewChapter(currentChapter);
+        // currentChapter = startingChapter;
+        // LoadNewChapter(currentChapter);
+        StartCoroutine(StartLoading());
         OnReset?.Invoke();
+        if (tutorialFinished) {
+            ChapterManager.Instance.InitGame();
+        } else {
+            ChapterManager.Instance.InitFirstTimePlay();
+        }
+        StartCoroutine(DoneLoading());
     }
 
     private void LoadNewChapter(int currChapter)
     {
         ChapterManager.Instance.initChapter(currChapter);
-        if (enemyBulletContainer != null)
-        {
-            foreach (Transform child in enemyBulletContainer)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-        else if (GameObject.Find("Enemy Bullet Container") != null)
-        {
-            enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
-        }
-
+        ClearLevel();
     }
+
 
     public void OnAugmentPickup(int id) 
     {
@@ -85,15 +98,91 @@ public class GameManager : MonoBehaviour
         AugmentPickupText.gameObject.SetActive(false);
     }
 
+    private void ClearLevel()
+    {
+        if (enemyBulletContainer != null)
+        {
+            foreach (Transform child in enemyBulletContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        else if (GameObject.Find("Enemy Bullet Container") != null)
+        {
+            enemyBulletContainer = GameObject.Find("Enemy Bullet Container").transform;
+        }
+    }
+
+    public void LoadData(GameData data) {
+        damageUpgrade = data.damageUpgrade;
+        speedUpgrade = data.speedUpgrade;
+        hpUpgrade = data.hpUpgrade;
+        jumpUpgrade = data.jumpUpgrade;
+        tutorialFinished = data.tutorialFinished;
+        if (tutorialFinished) {
+            ChapterManager.Instance.InitGame();
+        } else {
+            ChapterManager.Instance.InitFirstTimePlay();
+        }
+        StartCoroutine(DoneLoading());
+    }
+
+    public void SaveData(GameData data) {
+        data.damageUpgrade = damageUpgrade;
+        data.speedUpgrade = speedUpgrade;
+        data.hpUpgrade = hpUpgrade;
+        data.jumpUpgrade = jumpUpgrade;
+        data.tutorialFinished = tutorialFinished;
+    }
+
+    private void OnBuyDamage() {
+        damageUpgrade += 1;
+    }
+
+    private void OnBuySpeed() {
+        speedUpgrade += 1;
+    }
+
+    private void OnBuyHP() {
+        hpUpgrade += 1;
+    }
+
+    private void OnBuyJump() {
+        jumpUpgrade += 1;
+    }
+
+    private void OnTutorialFinished() {
+        tutorialFinished = true;
+    }
+    IEnumerator StartLoading() {
+        Loading.SetActive(true);
+        yield return null;
+    }
+
+    IEnumerator DoneLoading() {
+        yield return new WaitForSeconds(1.5f);
+        Loading.SetActive(false);
+    }
+
     private void OnEnable() {
         EndChapterScript.EndChapterZoneReached += OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath += Reset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
+        UpgradeShopUI.OnBuyDamage += OnBuyDamage;
+        UpgradeShopUI.OnBuySpeed += OnBuySpeed;
+        UpgradeShopUI.OnBuyHP += OnBuyHP;
+        UpgradeShopUI.OnBuyJump += OnBuyJump;
+        EndzoneScript.OnTutorialFinished += OnTutorialFinished;
     }
 
     private void OnDisable() {
         EndChapterScript.EndChapterZoneReached -= OnEndChapterZoneReached;
         PlayerBehavior.OnPlayerDeath -= Reset;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
+        UpgradeShopUI.OnBuyDamage -= OnBuyDamage;
+        UpgradeShopUI.OnBuySpeed -= OnBuySpeed;
+        UpgradeShopUI.OnBuyHP -= OnBuyHP;
+        UpgradeShopUI.OnBuyJump -= OnBuyJump;
+        EndzoneScript.OnTutorialFinished -= OnTutorialFinished;
     }
 }

@@ -24,6 +24,9 @@ TODO:
 
 */
 public class ChapterManager : MonoBehaviour {
+
+    public static event Action StartRun;
+
     public static event Action OnChapterStart;
     // using the singleton pattern for the ChapterManager
     private static ChapterManager _instance;
@@ -35,6 +38,11 @@ public class ChapterManager : MonoBehaviour {
             return _instance;
         }
     }
+
+    private PlayerMovement playerMovement;
+
+    private bool tutorialFinished;
+
     // Number of total rooms between each boss.
     public const int NUMROOMS = 4; 
     // public const int NUMCHAPTERS = 8; 
@@ -54,7 +62,26 @@ public class ChapterManager : MonoBehaviour {
                             // ints correspond to their index in ch1
                             // removing one marks current index as "used". (no room repeats)
     
+    private Vector2 currentRespawnPosition;
+
+    // door stuff
+    public int doorLevel; // current level of doors you're in
+    private GameObject currentRoomInstance; // current room you're in (used for doors)
+    private List<GameObject> gennedRoomInstances;
+
+    public RoomState roomStatus;
+
+    public enum RoomState
+    {
+        TUTORIAL,
+        HUB,
+        RUN
+    }
+
+    private Vector2 preDoorRespawnPosition;
+
     private Vector2 lastEndRoomPos;
+    private Vector2 lastDoorEndRoomPos;
     private int sinceLastBoss; 
     //private List<Vector2> roomEndPositions; // or make it used room names? 
 
@@ -62,17 +89,57 @@ public class ChapterManager : MonoBehaviour {
     // we child GameObjects (enemies, coins, destructibles) in this Transform
     private Transform enemiesContainer;
     private Transform ftpsContainer;
+    private Transform doorsContainer;
 
     void Awake() {
         _instance = this;
         enemiesContainer = new GameObject("EnemiesContainer").transform;
         ftpsContainer = new GameObject("FtpsContainer").transform;
+        doorsContainer = new GameObject("DoorsContainer").transform;
+
+        GameObject p = GameObject.Find("Player");
+        playerMovement = p.GetComponent<PlayerMovement>();
     }
 
     void Start() {
+        gennedRoomInstances = new List<GameObject>();
 
     }
+
+    // spawns player in tutorial. After tutorial's done, spawns in hub room.
+    public void InitFirstTimePlay()
+    {
+        lastEndRoomPos = Vector2.zero;
+        GameObject startRoomInstance = PlaceRoom(startRoom, lastEndRoomPos);
+
+        // save this cuz InitDoorRoom modifies it
+        Vector2 savestartroompos = lastEndRoomPos;
+
+        roomStatus = RoomState.TUTORIAL;
+
+        // use doorroom for respawn logic
+        InitDoorRoom(ch0, playerMovement.STARTPOSITION);
+        // preDoorRespawnPosition = playerMovement.STARTPOSITION;
+
+        lastEndRoomPos = savestartroompos;
+
+        // Vector2 initTutorialPos = startRoomInstance.transform.position + new Vector2(0f, 80f * doorLevel);
+        // currentRoomInstance = PlaceRoom(ch0, initTutorialPos);
+
+
+    }
+
+    public void InitGame()
+    {
+        ClearLevel();
+        lastEndRoomPos = Vector2.zero;
+        PlaceRoom(startRoom, lastEndRoomPos);
+
+        roomStatus = RoomState.HUB;
+    }
+
     /**
+    TODO: UNUSED
     Initializes all rooms for the current chapter.    
 
     @Parameters
@@ -104,6 +171,62 @@ public class ChapterManager : MonoBehaviour {
         //usedRooms = new HashSet<int>();
     }
 
+    // MODIFIES lastEndRoomPos !!!!
+    public void InitDoorRoom(GameObject roomPrefab, Vector2 doorPos)
+    {
+        // check if roomPrefab is a tutorial, to change the roomStatus
+        if (roomPrefab.name.Contains("Tutorial"))
+        {
+            roomStatus = RoomState.TUTORIAL;
+        }
+        lastDoorEndRoomPos = lastEndRoomPos;
+        // increment level
+        doorLevel++;
+        Vector2 doorRoomPosition = doorPos + new Vector2(0f, 80f * doorLevel);
+
+        // instance room above current room
+        // (room is spawned relative to player position)
+
+        Vector2 pastCurrentRespawnPosition = currentRespawnPosition; // save current
+
+        currentRoomInstance = PlaceRoom(roomPrefab, doorRoomPosition); // instance saved to destroy later
+        Debug.Log("[ChapterManager] placed doorRoom at: " + doorRoomPosition);
+
+        // save position at door for putting player back there later
+        preDoorRespawnPosition = doorPos + Vector2.up;
+
+        // check if current changed during PlaceRoom method, if it did, means it uses a StartMarker
+        if (pastCurrentRespawnPosition != currentRespawnPosition) {
+            playerMovement.setRespawnPosition(doorRoomPosition + currentRespawnPosition + new Vector2(1f, 1.5f));
+        } else {
+            // + player on top of platform offset
+            playerMovement.setRespawnPosition(doorRoomPosition + new Vector2(1f, 1.5f));
+        }
+
+        playerMovement.respawn();
+        Debug.Log("[ChapterManager] spawned player at: " + playerMovement.getRespawnPositon());
+    }
+
+    public void DestroyDoorRoom()
+    {
+        StartCoroutine(StartLoading());
+        doorLevel--;
+
+        // delete the room
+        GameObject.Destroy(currentRoomInstance);
+
+        // set current spawnpoint to pre door one
+        currentRespawnPosition = preDoorRespawnPosition;
+
+        // set current spawn position
+        playerMovement.setRespawnPosition(currentRespawnPosition);
+
+        // spawn player in it
+        playerMovement.respawn();
+        lastEndRoomPos = lastDoorEndRoomPos;
+        StartCoroutine(DoneLoading());
+    }
+
     private void GenerateRooms()
     {
         for (int i = 0; i < NUMROOMS; i++)
@@ -112,11 +235,13 @@ public class ChapterManager : MonoBehaviour {
 
             GameObject randRoom = ch1[randy];
 
-            PlaceRoom(randRoom, lastEndRoomPos);
+            gennedRoomInstances.Add(PlaceRoom(randRoom, lastEndRoomPos));
         }
 
-        PlaceRoom(bossRoom, lastEndRoomPos);
+        gennedRoomInstances.Add(PlaceRoom(bossRoom, lastEndRoomPos));
     }
+
+    
 
     // check if boss died
     private void OnBossDied()
@@ -136,27 +261,48 @@ public class ChapterManager : MonoBehaviour {
     // TODO call this OnExitReached
     private void OnEndzoneReached()
     {
-        if (sinceLastBoss == 3)
+
+        if (doorLevel == 0) // if in no door rooms
         {
-            // boss room
-            sinceLastBoss = 0;
-            
-            PlaceRoom(bossRoom, lastEndRoomPos);
+            if (roomStatus == RoomState.HUB)
+            {
+                roomStatus = RoomState.RUN;
+                StartRun?.Invoke();
+                GenerateRooms();
+            }
 
-        } else {
-            sinceLastBoss++;
+            // if (sinceLastBoss == 3)
+            // {
+            //     // boss room
+            //     sinceLastBoss = 0;
+                
+            //     PlaceRoom(bossRoom, lastEndRoomPos);
 
-            // normal room
-            int randy = Random.Range(0, ch1.Count);
-            //while (usedRooms.Contains(randy))
-            //    randy = Random.Range(0, ch1.Count);
-            //usedRooms.Add(randy);
+            // } else {
+            //     sinceLastBoss++;
 
-            Debug.Log("OnEndzone (exit) Reached");
-            GameObject randRoom = ch1[randy];
+            //     // normal room
+            //     int randy = Random.Range(0, ch1.Count);
+            //     //while (usedRooms.Contains(randy))
+            //     //    randy = Random.Range(0, ch1.Count);
+            //     //usedRooms.Add(randy);
 
-            PlaceRoom(randRoom, lastEndRoomPos);
+            //     Debug.Log("OnEndzone (exit) Reached");
+            //     GameObject randRoom = ch1[randy];
+
+            //     PlaceRoom(randRoom, lastEndRoomPos);
+            // }
+        } 
+        else
+        {
+            if (roomStatus == RoomState.TUTORIAL)
+            {
+                roomStatus = RoomState.HUB;
+            }
+            DestroyDoorRoom();
         }
+
+
     }
 
     // Initializes rooms for the prologue tutorial.
@@ -191,13 +337,19 @@ public class ChapterManager : MonoBehaviour {
 
         // find all children whose names are "FallthroughPlatform" in the room
         // and set their parent to the FallthroughPlatformsContainer
-        string ftp = "FallthroughPlatform";
+        const string ftp = "FallthroughPlatform";
+        const string d = "Door";
         Transform[] ftPlatforms = roomInstance.transform.GetComponentsInChildren<Transform>();
         for (int i = 0; i < ftPlatforms.Length; i++)
         {
-            if (ftPlatforms[i].name.Contains(ftp))
+            switch (ftPlatforms[i].name)
             {
-                ftPlatforms[i].SetParent(ftpsContainer);
+                case ftp:
+                    ftPlatforms[i].SetParent(ftpsContainer);
+                    break;
+                case d:
+                    ftPlatforms[i].SetParent(doorsContainer);
+                    break;
             }
         }
 
@@ -231,9 +383,17 @@ public class ChapterManager : MonoBehaviour {
             switch (t.name)
             {
                 case "coin_0":
-                    // instantiate at position
-                    GameObject c = InstanceSpawnable(coin, tileLocalPos, room);
-                    c.transform.SetParent(enemiesContainer);
+                    // CHECK if room.name is tutorial and tutorial is finished already
+                    if (room.name.Contains("Tutorial") && GameManager.Instance.tutorialFinished)
+                    {
+                        Debug.Log(room.name + "has tutorial" + room.name.Contains("Tutorial") + " finished: " + GameManager.Instance.tutorialFinished);
+                        
+                    } else {
+                        Debug.Log("coin spawned");
+                        // instantiate at position
+                        GameObject c = InstanceSpawnable(coin, tileLocalPos, room);
+                        c.transform.SetParent(enemiesContainer);
+                    }
 
                     break;
                 case "enemy":
@@ -248,6 +408,10 @@ public class ChapterManager : MonoBehaviour {
                 case "EndMarker":
                     endPosition = lastEndRoomPos + new Vector2(tileLocalPos.x, tileLocalPos.y);
 
+                    break;
+                case "StartMarker":
+                    currentRespawnPosition = new Vector2(tileLocalPos.x, tileLocalPos.y);
+                    Debug.Log("[ChapterManager] currentRespawnPosition: " + tileLocalPos.x + " " + tileLocalPos.y);
                     break;
             }
         }
@@ -269,10 +433,11 @@ public class ChapterManager : MonoBehaviour {
         return Instantiate(prefab, finalPosition, Quaternion.identity) as GameObject;
     }
 
+    // clears enemies, platforms in the rooms, and also the rooms themselves using gennedRoomInstances
     void ClearLevel() {
         Transform[] allRooms = GameObject.Find("Grid").transform.GetComponentsInChildren<Transform>();
         for (int i = 0; i < allRooms.Length; i++) {
-            if (String.Equals(allRooms[i].name, "Grid")) {
+            if (String.Equals(allRooms[i].name, "Grid") || String.Equals(allRooms[i].name, "StartRoom(Clone)")) {
                 continue;
             }
             Debug.Log("CM: destroying " + allRooms[i].name);
@@ -292,20 +457,41 @@ public class ChapterManager : MonoBehaviour {
                 GameObject.Destroy(enemy.gameObject);
             }
         }
+
+        // foreach (room in gennedRoomInstances)
+        // {
+        //     GameObject.Destroy(room);
+        // }
+    }
+
+    private void OnTutorialFinished()
+    {
+        tutorialFinished = true;
+    }
+
+    IEnumerator StartLoading() {
+        GameManager.Instance.Loading.SetActive(true);
+        yield return null;
+    }
+
+    IEnumerator DoneLoading() {
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.Loading.SetActive(false);
     }
 
     private void OnEnable()
     {
-        //GameManager.OnReset += OnReset;
         EndzoneScript.EndzoneReached += OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += OnPlayerDeath;
         EnemyBehavior.BossDied += OnBossDied;
+        EndzoneScript.OnTutorialFinished += OnTutorialFinished;
     }
+    
     private void OnDisable()
     {
-        //GameManager.OnReset -= OnReset;
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath -= OnPlayerDeath;
         EnemyBehavior.BossDied -= OnBossDied;
+        EndzoneScript.OnTutorialFinished -= OnTutorialFinished;
     }
 }

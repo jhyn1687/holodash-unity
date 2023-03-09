@@ -75,11 +75,6 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
         
     }
 
-    private void OnEndZoneReached() {
-        // reset player position
-        this.transform.position = new Vector2(-14.5f, 5f);
-    }
-
     private void OnReset() {
         // stop any dashes, and also reset everything that may have been changed in dash.
         StopAllCoroutines();
@@ -178,12 +173,12 @@ public class PlayerBehavior : MonoBehaviour , PlayerHealth {
     
     private void OnEnable() {
         GameManager.OnReset += OnReset;
-        EndChapterScript.EndChapterZoneReached += OnEndZoneReached;
+        PlayerMovement.OnRespawn += OnReset;
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
     }
     private void OnDisable() {
         GameManager.OnReset -= OnReset;
-        EndChapterScript.EndChapterZoneReached -= OnEndZoneReached;
+        PlayerMovement.OnRespawn += OnReset;
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
     }
 }

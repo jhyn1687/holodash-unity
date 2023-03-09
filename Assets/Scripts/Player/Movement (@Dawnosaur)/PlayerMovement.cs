@@ -9,6 +9,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,9 +17,12 @@ public class PlayerMovement : MonoBehaviour
 	//just paste in all the parameters, though you will need to manuly change all references in this script
 	public PlayerData InitialData;
 
+	public static event Action OnRespawn;
+
 	private PlayerData Data;
 
-	private Vector2 STARTPOSITION = new Vector2(-14.5f, 5f);
+	public Vector2 STARTPOSITION = new Vector2(-14.5f, 5f);
+	private Vector2 currentRespawnPosition;
 
 	#region EVENTS
 	public UnityEvent onDash;
@@ -104,6 +108,8 @@ public class PlayerMovement : MonoBehaviour
 		ani = GetComponent<Animator>();
 		tr = GetComponent<TrailRenderer>();
 		sr = GetComponent<SpriteRenderer>();
+
+		currentRespawnPosition = STARTPOSITION;
 	}
 
 	private void Start() {
@@ -661,6 +667,7 @@ public class PlayerMovement : MonoBehaviour
 	private void Reset() {
 		Data = InitialData;
 		SetGravityScale(Data.gravityScale);
+		ani.SetBool("Taking Damage", false);
 		sr.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
 		IsFacingRight = true;
 		this.transform.position = STARTPOSITION;
@@ -669,6 +676,27 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	private void ResetPosition() {
+	}
+
+	public void setRespawnPosition(Vector2 rp)
+	{
+		currentRespawnPosition = rp;
+	}
+
+	public Vector2 getRespawnPositon()
+	{
+		return currentRespawnPosition;
+	}
+
+	public void respawn()
+	{
+		respawn(currentRespawnPosition);
+		OnRespawn?.Invoke();
+	}
+
+	public void respawn(Vector2 respawnPosition)
+	{
+		this.transform.position = respawnPosition;
 	}
 
 	private void OnEnable() {
