@@ -28,17 +28,13 @@ public class DataPersistenceManager : MonoBehaviour
     {
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        this.gameData = new GameData();
         LoadGame();
     }
 
     public bool GetTutorialFinished()
     {
         return gameData.tutorialFinished;
-    }
-
-    public void NewGame() 
-    {
-        this.gameData = new GameData();
     }
 
     public void LoadGame()
@@ -50,7 +46,6 @@ public class DataPersistenceManager : MonoBehaviour
         if (this.gameData == null) 
         {
             Debug.Log("No data was found. Initializing data to defaults.");
-            NewGame();
         }
 
         // push the loaded data to all other scripts that need it

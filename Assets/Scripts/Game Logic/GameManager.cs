@@ -5,7 +5,7 @@ using Unity.Services.Analytics;
 using UnityEngine;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDataPersistence
 {
     public static event Action OnReset;
     [SerializeField] private int startingChapter;
@@ -15,16 +15,14 @@ public class GameManager : MonoBehaviour
 
     private Transform enemyBulletContainer;
 
-    public Upgrades upgrades;
-
     private int damageUpgrade;
     private int speedUpgrade;
-
-    private int dashUpgrade;
-
+    private int hpUpgrade;
     private int jumpUpgrade;
 
     public bool tutorialFinished;
+
+    public GameObject Loading;
 
     private static GameManager _instance;
     public static GameManager Instance {
@@ -43,10 +41,13 @@ public class GameManager : MonoBehaviour
 
     void Start() 
     {
-        if (tutorialFinished) {
-            ChapterManager.Instance.InitGame();
-        } else {
-            ChapterManager.Instance.InitFirstTimePlay();
+        GameObject HUD = GameObject.Find("HUD");
+        if (HUD == null) {
+            Debug.LogError("HUD not found");
+        }
+        Loading = HUD.transform.Find("Loading").gameObject;
+        if (Loading == null) {
+            Debug.LogError("Loading not found");
         }
     }
 
@@ -65,7 +66,14 @@ public class GameManager : MonoBehaviour
     {
         // currentChapter = startingChapter;
         // LoadNewChapter(currentChapter);
+        StartCoroutine(StartLoading());
         OnReset?.Invoke();
+        if (tutorialFinished) {
+            ChapterManager.Instance.InitGame();
+        } else {
+            ChapterManager.Instance.InitFirstTimePlay();
+        }
+        StartCoroutine(DoneLoading());
     }
 
     private void LoadNewChapter(int currChapter)
@@ -106,19 +114,25 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadData(GameData data) {
-        damageUpgrade = data.upgrades.damageUpgrade;
-        speedUpgrade = data.upgrades.speedUpgrade;
-        dashUpgrade = data.upgrades.dashUpgrade;
-        jumpUpgrade = data.upgrades.jumpUpgrade;
-        tutorialFinished = data.tutorialdata.tutorialFinished;
+        damageUpgrade = data.damageUpgrade;
+        speedUpgrade = data.speedUpgrade;
+        hpUpgrade = data.hpUpgrade;
+        jumpUpgrade = data.jumpUpgrade;
+        tutorialFinished = data.tutorialFinished;
+        if (tutorialFinished) {
+            ChapterManager.Instance.InitGame();
+        } else {
+            ChapterManager.Instance.InitFirstTimePlay();
+        }
+        StartCoroutine(DoneLoading());
     }
 
     public void SaveData(GameData data) {
-        data.upgrades.damageUpgrade = damageUpgrade;
-        data.upgrades.speedUpgrade = speedUpgrade;
-        data.upgrades.dashUpgrade = dashUpgrade;
-        data.upgrades.jumpUpgrade = jumpUpgrade;
-        data.tutorialdata.tutorialFinished = tutorialFinished;
+        data.damageUpgrade = damageUpgrade;
+        data.speedUpgrade = speedUpgrade;
+        data.hpUpgrade = hpUpgrade;
+        data.jumpUpgrade = jumpUpgrade;
+        data.tutorialFinished = tutorialFinished;
     }
 
     private void OnBuyDamage() {
@@ -129,8 +143,8 @@ public class GameManager : MonoBehaviour
         speedUpgrade += 1;
     }
 
-    private void OnBuyDash() {
-        dashUpgrade += 1;
+    private void OnBuyHP() {
+        hpUpgrade += 1;
     }
 
     private void OnBuyJump() {
@@ -140,6 +154,15 @@ public class GameManager : MonoBehaviour
     private void OnTutorialFinished() {
         tutorialFinished = true;
     }
+    IEnumerator StartLoading() {
+        Loading.SetActive(true);
+        yield return null;
+    }
+
+    IEnumerator DoneLoading() {
+        yield return new WaitForSeconds(1.5f);
+        Loading.SetActive(false);
+    }
 
     private void OnEnable() {
         EndChapterScript.EndChapterZoneReached += OnEndChapterZoneReached;
@@ -147,7 +170,7 @@ public class GameManager : MonoBehaviour
         AugmentManager.OnAugmentPickup += OnAugmentPickup;
         UpgradeShopUI.OnBuyDamage += OnBuyDamage;
         UpgradeShopUI.OnBuySpeed += OnBuySpeed;
-        UpgradeShopUI.OnBuyDash += OnBuyDash;
+        UpgradeShopUI.OnBuyHP += OnBuyHP;
         UpgradeShopUI.OnBuyJump += OnBuyJump;
         EndzoneScript.OnTutorialFinished += OnTutorialFinished;
     }
@@ -158,7 +181,7 @@ public class GameManager : MonoBehaviour
         AugmentManager.OnAugmentPickup -= OnAugmentPickup;
         UpgradeShopUI.OnBuyDamage -= OnBuyDamage;
         UpgradeShopUI.OnBuySpeed -= OnBuySpeed;
-        UpgradeShopUI.OnBuyDash -= OnBuyDash;
+        UpgradeShopUI.OnBuyHP -= OnBuyHP;
         UpgradeShopUI.OnBuyJump -= OnBuyJump;
         EndzoneScript.OnTutorialFinished -= OnTutorialFinished;
     }

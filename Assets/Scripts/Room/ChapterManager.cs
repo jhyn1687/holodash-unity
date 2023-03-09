@@ -81,6 +81,7 @@ public class ChapterManager : MonoBehaviour {
     private Vector2 preDoorRespawnPosition;
 
     private Vector2 lastEndRoomPos;
+    private Vector2 lastDoorEndRoomPos;
     private int sinceLastBoss; 
     //private List<Vector2> roomEndPositions; // or make it used room names? 
 
@@ -102,6 +103,7 @@ public class ChapterManager : MonoBehaviour {
 
     void Start() {
         gennedRoomInstances = new List<GameObject>();
+
     }
 
     // spawns player in tutorial. After tutorial's done, spawns in hub room.
@@ -177,7 +179,7 @@ public class ChapterManager : MonoBehaviour {
         {
             roomStatus = RoomState.TUTORIAL;
         }
-
+        lastDoorEndRoomPos = lastEndRoomPos;
         // increment level
         doorLevel++;
         Vector2 doorRoomPosition = doorPos + new Vector2(0f, 80f * doorLevel);
@@ -207,6 +209,7 @@ public class ChapterManager : MonoBehaviour {
 
     public void DestroyDoorRoom()
     {
+        StartCoroutine(StartLoading());
         doorLevel--;
 
         // delete the room
@@ -220,7 +223,8 @@ public class ChapterManager : MonoBehaviour {
 
         // spawn player in it
         playerMovement.respawn();
-
+        lastEndRoomPos = lastDoorEndRoomPos;
+        StartCoroutine(DoneLoading());
     }
 
     private void GenerateRooms()
@@ -380,9 +384,9 @@ public class ChapterManager : MonoBehaviour {
             {
                 case "coin_0":
                     // CHECK if room.name is tutorial and tutorial is finished already
-                    if (room.name.Contains("Tutorial") && tutorialFinished)
+                    if (room.name.Contains("Tutorial") && GameManager.Instance.tutorialFinished)
                     {
-                        Debug.Log(room.name + "has tutorial" + room.name.Contains("Tutorial") + " finished: " + tutorialFinished);
+                        Debug.Log(room.name + "has tutorial" + room.name.Contains("Tutorial") + " finished: " + GameManager.Instance.tutorialFinished);
                         
                     } else {
                         Debug.Log("coin spawned");
@@ -460,19 +464,23 @@ public class ChapterManager : MonoBehaviour {
         // }
     }
 
-    private void OnReset()
-    {
-        InitGame();
-    }
-
     private void OnTutorialFinished()
     {
         tutorialFinished = true;
     }
 
+    IEnumerator StartLoading() {
+        GameManager.Instance.Loading.SetActive(true);
+        yield return null;
+    }
+
+    IEnumerator DoneLoading() {
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.Loading.SetActive(false);
+    }
+
     private void OnEnable()
     {
-        GameManager.OnReset += OnReset;
         EndzoneScript.EndzoneReached += OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath += OnPlayerDeath;
         EnemyBehavior.BossDied += OnBossDied;
@@ -481,7 +489,6 @@ public class ChapterManager : MonoBehaviour {
     
     private void OnDisable()
     {
-        GameManager.OnReset -= OnReset;
         EndzoneScript.EndzoneReached -= OnEndzoneReached;
         PlayerBehavior.OnPlayerDeath -= OnPlayerDeath;
         EnemyBehavior.BossDied -= OnBossDied;

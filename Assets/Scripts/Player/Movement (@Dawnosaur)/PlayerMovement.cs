@@ -9,12 +9,15 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
 	//Scriptable object which holds all the player's movement parameters. If you don't want to use it
 	//just paste in all the parameters, though you will need to manuly change all references in this script
 	public PlayerData InitialData;
+
+	public static event Action OnRespawn;
 
 	private PlayerData Data;
 
@@ -664,6 +667,7 @@ public class PlayerMovement : MonoBehaviour
 	private void Reset() {
 		Data = InitialData;
 		SetGravityScale(Data.gravityScale);
+		ani.SetBool("Taking Damage", false);
 		sr.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
 		IsFacingRight = true;
 		this.transform.position = STARTPOSITION;
@@ -687,6 +691,7 @@ public class PlayerMovement : MonoBehaviour
 	public void respawn()
 	{
 		respawn(currentRespawnPosition);
+		OnRespawn?.Invoke();
 	}
 
 	public void respawn(Vector2 respawnPosition)

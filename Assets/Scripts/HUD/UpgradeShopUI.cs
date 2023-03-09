@@ -11,7 +11,7 @@ public class UpgradeShopUI : MonoBehaviour
 
     public static event Action OnBuySpeed;
 
-    public static event Action OnBuyDash;
+    public static event Action OnBuyHP;
 
     public static event Action OnBuyJump;
 
@@ -54,10 +54,10 @@ public class UpgradeShopUI : MonoBehaviour
         }
     }
 
-    public void BuyDash() {
+    public void BuyHP() {
         if (cp.getCoin() >= 100) {
-            Debug.Log("dash bought");
-            OnBuyDash?.Invoke();
+            Debug.Log("hp bought");
+            OnBuyHP?.Invoke();
             cp.withdraw(100);
         }
     }
